@@ -1,0 +1,16 @@
+{
+  "extends": "@tsconfig/node20/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist"
+    // "module": "ESNext",
+    // "moduleResolution": "Node"
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node",
+    // "compilerOptions": {
+    //   "module": "ESNext",
+    //   "moduleResolution": "Node"
+    // }
+  }
+}
