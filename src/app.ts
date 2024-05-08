@@ -27,7 +27,7 @@ program
     '-t, --terminology-server <url>',
     'terminology server to use for expanding value sets (set to x to disable)',
     'https://tx.fhir.org/r5/'
-)
+  )
   .option(
     '--value-set-limit <number>',
     'maximum number of values to include in value set lookups',
@@ -142,6 +142,7 @@ async function main() {
     logger.warn(`${key} (${value.length} instances)${details}`);
   }
 
+  voc.saveCache();
   logger.info('Complete');
 }
   

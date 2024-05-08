@@ -56,6 +56,7 @@ While the converter runs, progress will be displayed on the console. Additionall
 
 - `[IG]-SD.sch` - The generated Schematron file
 - `Bindings.json` - A report of all value set bindings along with XPath for their location
+- `ValueSet-expansions.json` - Cached response to TX server's $expand calls - saves network calls between runs
 - `Results.json` (coming soon) - Summarization of conversion results
 
 ## Validating the Validator

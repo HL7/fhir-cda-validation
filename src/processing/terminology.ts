@@ -1,6 +1,6 @@
 import { Type } from "fhir-package-loader";
 import { defs } from "../utils/definitions";
-import { get, post } from "axios";
+import { AxiosResponse, get, post } from "axios";
 import { logger } from "../utils/logger";
 import { create, fragment } from "xmlbuilder2";
 import { ns } from "../model";
@@ -25,7 +25,7 @@ interface BindingLocation {
   oid?: string,
 }
 
-const configFilePath = path.join(__dirname, 'config', 'terminology.json');
+const configFilePath = path.join('output', 'ValueSet-expansions.json');
 
 class TerminologyPool {
   private serverUrl: string | undefined;
@@ -39,7 +39,7 @@ class TerminologyPool {
 
   private bindingLocations: BindingLocation[] = [];
 
-  private apiCache: Record<string, object> = {};
+  private apiCache: Record<string, AxiosResponse['data']> = {};
 
   constructor() {
     try {
@@ -187,9 +187,12 @@ class TerminologyPool {
     if (vs.expansion?.contains) {
       return this.saveValueSetToCache(vs, valueSetId);
     }
+    if (this.apiCache[valueSetId]) {
+      return this.saveValueSetToCache(this.apiCache[valueSetId], valueSetId);
+    }
     if (!this.serverUrl) {
       throw this.unsupportedError(valueSetId, `Value Set ${valueSetId} is not expanded and no terminology server was specified.`);
-    };
+    }
     
     logger.info(`Expanding ${valueSetId} from ${this.serverUrl}`);
 
@@ -212,6 +215,7 @@ class TerminologyPool {
         if (!Array.isArray(contains)) {
           throw this.unsupportedError(valueSetId, `Response from ${this.serverUrl} did not contain any codes in its expansion.`);
         }
+        this.apiCache[valueSetId] = response.data;
         return await this.saveValueSetToCache(response.data, valueSetId);
       } else {
         logger.warn(`Did not receive a value set response from ${this.serverUrl} for ${valueSetId}`);
