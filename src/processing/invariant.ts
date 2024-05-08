@@ -1,7 +1,7 @@
 import { Assert } from "../model/assert"
 import { StructureDefinition } from "./structureDefinition";
 import { logger } from "../utils/logger";
-import { deunionizeContains, getErrorMessage, removeDoubleBrackets, unwrapParens } from "../utils/helpers";
+import { getErrorMessage } from "../utils/helpers";
 import { cdaTypeToFilter, ofType, sdFromCdaType, templateIdContextFromProfile, typeFilter, xmlNameFromDefs } from "../utils/cdaUtil";
 import { UnsupportedInvariantError, UnsupportedValueSetError } from "../utils/errors";
 import { voc } from "./terminology";
@@ -449,3 +449,56 @@ function extractParenthetical(input: string, startingFrom = 0): string {
 
   throw new Error('mismatched parentheses in expression: ' + input);
 }
+
+/**
+ * If a string starts and ends with parentheses, remove them
+ * @param input 
+ * @returns 
+ */
+export const unwrapParens = (input: string): string => input.startsWith('(') && input.endsWith(')') ? unwrapParens(input.slice(1, -1)) : input;
+
+/**
+ * Remove double-brackets from an expression.
+ * (Lazy fix for weird cases that are doing things like cda:observation[[templateId.... and other stuff]])
+ * Removes the extra [[ ]] but only if opening and closing are both double-brackets.
+ * @param input
+ * @returns 
+ */
+export const removeDoubleBrackets = (input: string): string => {
+  let start = input.indexOf('[[');
+  if (start < 0) return input;
+  let depth = 2;
+  
+  for (let i = start+2; i < input.length; i++) {
+    const char = input[i];
+    if (char === '[') {
+      depth++;
+    }
+    if (char === ']') {
+      depth--;
+      if (depth === 1 && i < input.length-1 && input[i+1] === ']') {
+        return removeDoubleBrackets(input.slice(0, start) + input.slice(start + 1, i) + input.slice(i + 1));
+      }
+      if (depth === 0) {
+        throw new Error(`mismatched [[ in expression ${input} (opening double-bracket should have an equivalent closing double-bracket)`);
+      }
+    }
+  }
+  throw new Error(`mismatched [[ in expression ${input}`);
+}
+
+/**
+ * Converts something like:
+ * 
+ * not((contains((('8287-5' | '8302-2' | '8306-3' | '9843-4')), cda:code/@code))) or cda:value/@unit = 'cm'
+ * into
+ * not((contains((('8287-5 8302-2 8306-3 9843-4')), cda:code/@code))) or cda:value/@unit = 'cm'
+ * 
+ * (at least until we find a better way to disambiguate unions from code lists)
+ * @returns 
+ */
+export const deunionizeContains = (input: string): string => {
+  return input.replace(/(contains\(+)(\'[^' |)]+\'(?:\s+\|\s+\'[^' |)]+\')+)\)/, (match, start, list) => `${start}${list.replace(/\'\s+\|\s+\'/g, ' ')})`);
+}
+
+
