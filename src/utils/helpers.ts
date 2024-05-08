@@ -76,6 +76,20 @@ export const removeDoubleBrackets = (input: string): string => {
   throw new Error(`mismatched [[ in expression ${input}`);
 }
 
+/**
+ * Converts something like:
+ * 
+ * not((contains((('8287-5' | '8302-2' | '8306-3' | '9843-4')), cda:code/@code))) or cda:value/@unit = 'cm'
+ * into
+ * not((contains((('8287-5 8302-2 8306-3 9843-4')), cda:code/@code))) or cda:value/@unit = 'cm'
+ * 
+ * (at least until we find a better way to disambiguate unions from code lists)
+ * @returns 
+ */
+export const deunionizeContains = (input: string): string => {
+  return input.replace(/(contains\(+)(\'[^' |)]+\'(?:\s+\|\s+\'[^' |)]+\')+)\)/, (match, start, list) => `${start}${list.replace(/\'\s+\|\s+\'/g, ' ')})`);
+}
+
 
 /**
  * Flatten a ValueSet expansion, turning all .contains lists into a single array of concepts

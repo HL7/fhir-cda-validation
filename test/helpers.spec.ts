@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { flattenConcepts, removeDoubleBrackets, unwrapParens } from "../src/utils/helpers";
+import { deunionizeContains, flattenConcepts, removeDoubleBrackets, unwrapParens } from "../src/utils/helpers";
 
 describe('Helper tests', () => {
   describe('flattenConcepts', () => {
@@ -111,6 +111,38 @@ describe('Helper tests', () => {
 
     it('should throw if brackets do not match', () => {
       expect(() => removeDoubleBrackets('something[[is not right]')).to.throw();
+    });
+  });
+
+  describe('deunionizeContains', () => {
+    it('should leave normal expressions alone', () => {
+      for (const expression of [
+        'wut',
+        'contains(a, b)',
+        "not(((cda:delimiter | cda:family | cda:given | cda:prefix | cda:suffix))[@qualifier[self::node() = 'LS']])"
+      ]) expect(deunionizeContains(expression)).to.eql(expression);
+    });
+
+    it('should deunionize two elements, regardless of number of parens or spacing', () => {
+      expect(deunionizeContains("contains('a' | 'b')")).to.eql("contains('a b')");
+      expect(deunionizeContains("contains(('a' | 'b'))")).to.eql("contains(('a b'))");
+      expect(deunionizeContains("contains((('a' | 'b')))")).to.eql("contains((('a b')))");
+      expect(deunionizeContains("contains((('a' |  'b')))")).to.eql("contains((('a b')))");
+      expect(deunionizeContains("contains((('a'  | 'b')))")).to.eql("contains((('a b')))");
+    });
+
+    it('should deunionize three elements, regardless of number of parens or spacing', () => {
+      expect(deunionizeContains("contains('a' | 'b' | 'c')")).to.eql("contains('a b c')");
+      expect(deunionizeContains("contains(('a' | 'b' | 'c'))")).to.eql("contains(('a b c'))");
+      expect(deunionizeContains("contains((('a' | 'b' | 'c')))")).to.eql("contains((('a b c')))");
+      expect(deunionizeContains("contains((('a'  | 'b' |  'c')))")).to.eql("contains((('a b c')))");
+      expect(deunionizeContains("contains((('a'    |   'b' |  'c')))")).to.eql("contains((('a b c')))");
+    });
+
+    it('should deunionize an actual output from C-CDA', () => {
+      const input = "not((contains((('8287-5' | '8302-2' | '8306-3' | '9843-4')), cda:code/@code))) or cda:value/@unit = 'cm'";
+      const output = "not((contains((('8287-5 8302-2 8306-3 9843-4')), cda:code/@code))) or cda:value/@unit = 'cm'";
+      expect(deunionizeContains(input)).to.eql(output);
     });
   });
 });

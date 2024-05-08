@@ -1,7 +1,7 @@
 import { Assert } from "../model/assert"
 import { StructureDefinition } from "./structureDefinition";
 import { logger } from "../utils/logger";
-import { getErrorMessage, removeDoubleBrackets, unwrapParens } from "../utils/helpers";
+import { deunionizeContains, getErrorMessage, removeDoubleBrackets, unwrapParens } from "../utils/helpers";
 import { cdaTypeToFilter, ofType, sdFromCdaType, templateIdContextFromProfile, typeFilter, xmlNameFromDefs } from "../utils/cdaUtil";
 import { UnsupportedInvariantError, UnsupportedValueSetError } from "../utils/errors";
 import { voc } from "./terminology";
@@ -204,7 +204,17 @@ export const convertExpression = (originalExpression: string, originalSd: Struct
       return '(' + resetTokens(expression.split('|').map(ex => convertSubExpression(ex, subContext)).join(' | ')) + ')';
     }
 
-    // Whitespace check (should be taken care of by now)
+    // In / Contains (todo)
+    if (expression.includes(' in ')) {
+      const parts = expression.split(' in ');
+      if (parts.length !== 2) {
+        throw new Error(`More than two operands found for operator 'in' (${expression})`);
+      }
+      // contains(x, y) means that y is contained within the list x .... silly XPath
+      return resetTokens(`contains(${convertSubExpression(parts[1], subContext)}, ${convertSubExpression(parts[0], subContext)})`);
+    }
+
+    // Whitespace check (should be taken care of by now; anything that remains probably means we missed a FHIRPath feature)
     if (expression.includes(' ')) {
       throw new Error(`Unexpected space in expression ${expression}`);
     }
@@ -414,7 +424,7 @@ export const convertExpression = (originalExpression: string, originalSd: Struct
     }
   }
 
-  return removeDoubleBrackets(convertSubExpression(originalExpression));
+  return deunionizeContains(removeDoubleBrackets(convertSubExpression(originalExpression)));
 }
 
 
