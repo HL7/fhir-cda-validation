@@ -1,7 +1,7 @@
 import { Assert } from "../model/assert"
 import { StructureDefinition } from "./structureDefinition";
 import { logger } from "../utils/logger";
-import { getErrorMessage } from "../utils/helpers";
+import { getErrorMessage, pipe } from "../utils/helpers";
 import { cdaTypeToFilter, ofType, sdFromCdaType, templateIdContextFromProfile, typeFilter, xmlNameFromDefs } from "../utils/cdaUtil";
 import { UnsupportedInvariantError, UnsupportedValueSetError } from "../utils/errors";
 import { voc } from "./terminology";
@@ -251,7 +251,6 @@ export const convertExpression = (originalExpression: string, originalSd: Struct
     }
 
     // Straight function comparisons
-    // TODO: Length will need to be handled differently for times.... annoying FHIR
     const replFun = expression.match(/^(.*\s+)?(\S+)\.(count|length|empty|not|first)\(\)\.?(.*)$/);
     if (replFun) {
       // If there's something before the function
@@ -424,7 +423,13 @@ export const convertExpression = (originalExpression: string, originalSd: Struct
     }
   }
 
-  return deunionizeContains(removeDoubleBrackets(convertSubExpression(originalExpression)));
+  // Run the conversion, then run some post-processing functions to clean up weird leftovers
+  return pipe(...[
+    convertSubExpression,
+    removeDoubleBrackets,
+    deunionizeContains,
+    adjustLengths,
+  ])(originalExpression);
 }
 
 
@@ -498,7 +503,22 @@ export const removeDoubleBrackets = (input: string): string => {
  * @returns 
  */
 export const deunionizeContains = (input: string): string => {
+  // 1st group: contains(((
+  // 2nd group: 'value' | 'value' | 'value'
+  // followed by )
   return input.replace(/(contains\(+)(\'[^' |)]+\'(?:\s+\|\s+\'[^' |)]+\')+)\)/, (match, start, list) => `${start}${list.replace(/\'\s+\|\s+\'/g, ' ')})`);
 }
 
-
+/**
+ * Make adjustments for FHIR vs CDA time lengths
+ * Note - this just assumes @value and string-length is only used for time elements
+ * It also only seems that we use "10" in C-CDA, so that's all I adjust, but if 
+ * some invariant were written like "precise to at least the month", then we'd have 
+ * look for 7 (YYYY-MM) and convert that to 6 (YYYYMM). Handling 10 by itself is just easier.
+ * 
+ * @param input 
+ * @returns 
+ */
+export const adjustLengths = (input: string): string => {
+  return input.replace(/(string-length\(@value\) (?:&gt;|>)?=?) 10/, '$1 8');
+}

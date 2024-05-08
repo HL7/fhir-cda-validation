@@ -2,6 +2,10 @@ import { AxiosError } from "axios";
 import { randomUUID } from "crypto";
 import { omit } from "lodash";
 
+// Allow piping the output of one function to the next
+export const pipe = <T>(fn1: (a: T) => T, ...fns: Array<(a: T) => T>) =>
+  fns.reduce((prevFn, nextFn) => value => nextFn(prevFn(value)), fn1); 
+
 /**
  * Wrapper to get a string from any error thrown
  * If Error is from a FHIR operation containing an OperationResponse, will output the details or text of the issue

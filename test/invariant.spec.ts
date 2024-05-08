@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { convertExpression, deunionizeContains, removeDoubleBrackets, unwrapParens } from '../src/processing/invariant';
+import { adjustLengths, convertExpression, deunionizeContains, removeDoubleBrackets, unwrapParens } from '../src/processing/invariant';
 import { StructureDefinition } from '../src/processing/structureDefinition';
 import { afterEach } from 'node:test';
 
@@ -275,6 +275,37 @@ describe('Invariant helpers', () => {
       const input = "not((contains((('8287-5' | '8302-2' | '8306-3' | '9843-4')), cda:code/@code))) or cda:value/@unit = 'cm'";
       const output = "not((contains((('8287-5 8302-2 8306-3 9843-4')), cda:code/@code))) or cda:value/@unit = 'cm'";
       expect(deunionizeContains(input)).to.eql(output);
+    });
+  });
+
+  describe('adjustLengths', () => {
+    it('should convert > 10', () => {
+      expect(adjustLengths('not(@value) or string-length(@value) &gt; 10'))
+        .to.eql('not(@value) or string-length(@value) &gt; 8');
+      expect(adjustLengths('not(@value) or string-length(@value) > 10'))
+        .to.eql('not(@value) or string-length(@value) > 8');
+    });
+
+    it('should convert >= 10', () => {
+      expect(adjustLengths('not(@value) or string-length(@value) &gt;= 10'))
+        .to.eql('not(@value) or string-length(@value) &gt;= 8');
+      expect(adjustLengths('not(@value) or string-length(@value) >= 10'))
+        .to.eql('not(@value) or string-length(@value) >= 8');
+    });
+
+    it('should convert = 10', () => {
+      expect(adjustLengths('not(@value) or string-length(@value) = 10'))
+        .to.eql('not(@value) or string-length(@value) = 8');
+    });
+
+    it('should not convert other string-lengths', () => {
+      for (const expression of [
+        'string-length(@code &gt; 10)',
+        'string-length(@value &gt; 4)',
+        'string-length(normalize-space()) = 10'
+      ]) {
+        expect(adjustLengths(expression)).to.eql(expression);
+      }
     });
   });
 
