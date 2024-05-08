@@ -99,11 +99,12 @@ async function main() {
   const subProfiles: fhir5.StructureDefinition[] = [];
   const subProfileContexts: Record<string, string[]> = {};
 
-  await Promise.all(profiles.map(async (sd) => {
+  // Note - not doing promise.all, since the only async thing is TX requests, and we want those done in series
+  for (const sd of profiles) {
     const processingResult = await new StructureDefinition(sd).process();
     if (processingResult.isSubTemplate) {
       subProfiles.push(sd);
-      return;
+      continue;
     }
     if (processingResult.errorPattern) schematron.addErrorPattern(processingResult.errorPattern);
     if (processingResult.warningPattern) schematron.addWarningPattern(processingResult.warningPattern);
@@ -111,12 +112,12 @@ async function main() {
     mergeWith(subProfileContexts, processingResult.subProfileContexts, (o, s) => Array.isArray(o) ? o.concat(s) : o);
     errors.push(...processingResult.errors);
     notices.push(...processingResult.notices);
-  }));
+  };
 
-  // re-process sub-profiles
-  await Promise.all(subProfiles.map(async (sd) => {
+  logger.info('Processing sub-profiles');
+  for (const sd of subProfiles) {
     const context = subProfileContexts[sd.url];
-    if (!context) return;  // Profiled to something we don't recognize (or to something like a datatype)
+    if (!context) continue;  // Profiled to something we don't recognize (or to something like a datatype)
 
     const processingResult = await new StructureDefinition(sd).processSubTemplate(context.join(' | '));
     if (processingResult.errorPattern) schematron.addErrorPattern(processingResult.errorPattern);
@@ -124,7 +125,7 @@ async function main() {
     merge(unhandledInvariants, processingResult.unhandledInvariants);
     errors.push(...processingResult.errors);
     notices.push(...processingResult.notices);
-  }));
+  };
 
 
   errors.map(logger.error);

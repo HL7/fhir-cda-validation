@@ -99,12 +99,12 @@ export class StructureDefinition {
       warningPattern: templateWarningPattern,
     }
 
-    sd.differential!.element.map(async diffDef => {
-      if (!diffDef.id) return; 
+    for (const diffDef of sd.differential!.element) {
+      if (!diffDef.id) continue; 
       const snapDef = this.elementDefAtId(diffDef.id);
       if (!snapDef) {
         logger.warn(`No corresponding snapshot definition for differential ${diffDef.id}. Skipping...`);
-        return;
+        continue;
       }
       try {
         const message = await this.processElementDefinition(snapDef, results);
@@ -112,7 +112,7 @@ export class StructureDefinition {
       } catch (e) { 
         results.errors.push(`${sd.name}: ${getErrorMessage(e)}`);
       }
-    });
+    };
 
     // TODO - sub-template contexts aren't working
     // templateErrorPattern.rules = [...new Map(Object.values(this.errorRules).map(v => [v.context, v])).values()];
@@ -162,12 +162,12 @@ export class StructureDefinition {
       warningPattern: templateWarningPattern
     }
 
-    await Promise.all(sd.differential!.element.map(async diffDef => {
-      if (!diffDef.id) return; 
+    for (const diffDef of sd.differential!.element) {
+      if (!diffDef.id) continue; 
       const snapDef = this.elementDefAtId(diffDef.id);
       if (!snapDef) {
         logger.warn(`No corresponding snapshot definition for differential ${diffDef.id}. Skipping...`);
-        return;
+        continue;
       }
       try {
         const message = await this.processElementDefinition(snapDef, results);
@@ -175,7 +175,7 @@ export class StructureDefinition {
       } catch (e) { 
         results.errors.push(`${sd.name}: ${getErrorMessage(e)}`);
       }
-    }));
+    };
 
     templateErrorPattern.rules = [...new Map(Object.values(this.errorRules).map(v => [v.context, v])).values()];
     templateWarningPattern.rules = [...new Map(Object.values(this.warningRules).map(v => [v.context, v])).values()];
