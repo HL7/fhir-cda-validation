@@ -54,10 +54,10 @@ By default, the converter will load and convert the current build of C-CDA R3.0,
 ## Output
 While the converter runs, progress will be displayed on the console. Additionally, an `/output` folder will be created with the following artifacts generated:
 
-- `[IG]-SD.sch` - The generated Schematron file
-- `Bindings.json` - A report of all value set bindings along with XPath for their location
+- `[IG].sch` - The generated Schematron file (where [IG] is the name of the IG, like `CCDA`)
+- `[IG]-Bindings.json` - A report of all value set bindings along with XPath for their location
 - `ValueSet-expansions.json` - Cached response to TX server's $expand calls - saves network calls between runs
-- `Results.json` (coming soon) - Summarization of conversion results
+- `[IG]-Results.json` (coming soon) - Summarization of conversion results
 
 ## Validating the Validator
 The converter has its own internal test suite to verify conversion functions, but the generated `.sch` file should be examined for validity and appropriateness, as well. It should be run against known CDA samples to ensure it properly identifies errors and does not throw false-positives for valid examples. 
