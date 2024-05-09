@@ -7,7 +7,7 @@ import { mkdir, writeFile } from "fs/promises";
 import { merge, mergeWith } from "lodash";
 import { voc } from "./processing/terminology";
 import { InvalidOptionArgumentError, program } from "commander";
-import { config, updateConfigFromOptions } from "./processing/config";
+import { updateConfigFromOptions } from "./processing/config";
 
 let inputIg: string = '';
 
@@ -29,7 +29,7 @@ program
     'https://tx.fhir.org/r5/'
   )
   .option(
-    '--value-set-limit <number>',
+    '-l, --value-set-limit <number>',
     'maximum number of values to include in value set lookups',
     (value) => {
       const parsedInt = parseInt(value, 10);
@@ -42,7 +42,7 @@ program
   )
   .option(
     '-p --profile <string>',
-    'Process only a single profile (useful for testing)'
+    'process only a single profile (useful for testing)'
   )
   .action(arg => inputIg = arg)
   .parse();
@@ -61,6 +61,7 @@ if (!inputIg) {
     'hl7.fhir.us.core#current'
   ]
 }
+inputIg = inputIg.replace('@', '#');  // either works for loadDeps; but only # works for finding the IGs
 
 if (!Array.isArray(options.dependency)) {
   options.dependency = [];
@@ -81,6 +82,8 @@ const printFailingInvariants = false;
 const dependencies = [inputIg, ...options.dependency];
 async function main() {
   const deps = await loadDefs(dependencies);
+
+  const ig: fhir5.ImplementationGuide = deps.allImplementationGuides(inputIg)[0];
 
   const errors: string[] = [];
   const notices: string[] = [];
@@ -133,8 +136,7 @@ async function main() {
 
   logger.info('Writing output files...');
   await mkdir('./output', {}).catch(e => { if (e.code !== 'EEXIST') throw e; });
-  await writeFile('./output/CCDA-SD.sch', schematron.toString(), 'utf-8');
-  await writeFile('./output/CCDA-SD-voc.xml', voc.toXml(), 'utf-8');
+  await writeFile(`./output/${ig.name}.sch`, schematron.toString(), 'utf-8');
   await writeFile('./output/Bindings.json', voc.bindings(), 'utf-8');
 
   for (const [key, value] of Object.entries(unhandledInvariants)) {

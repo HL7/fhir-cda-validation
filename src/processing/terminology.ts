@@ -252,6 +252,10 @@ class TerminologyPool {
     return letFragments;
   }
 
+  /**
+   * Not actually used yet; we're not loading code system OID's yet,
+   * and single-value lists in the .sch file seem more useful
+   */
   public toXml = () => {
     const vocXml = create({
       encoding: 'UTF-8',
