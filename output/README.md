@@ -1,0 +1,2 @@
+> [!WARNING]
+> The output directory stores the output of the converter. Files are only included here to track changes during development, and they will be overwritten on subsequent runs of the converter.
