@@ -84,8 +84,8 @@ export class StructureDefinition {
     const sd = this.sd;
     this.updateRoot();
 
-    const templateErrorPattern = new Pattern(`${sd.name}-errors`, sd.name);
-    const templateWarningPattern = new Pattern(`${sd.name}-warnings`, sd.name);
+    const templateErrorPattern = new Pattern(`${sd.name}-errors`, this.templateUri);
+    const templateWarningPattern = new Pattern(`${sd.name}-warnings`, this.templateUri);
 
     this.contextsToXpath['.'] = `(${xPathContext})`;
     this.errorRules['.'] = new Rule(`${sd.name}-errors-root`, xPathContext);
@@ -144,13 +144,13 @@ export class StructureDefinition {
       throw new Error(`Unable to determine context for ${sd.name}`);
     }
 
-    const templateErrorPattern = new Pattern(`${templateId}-errors`, sd.name);
-    const templateWarningPattern = new Pattern(`${templateId}-warnings`, sd.name);
+    const templateErrorPattern = new Pattern(`${sd.name}-errors`, templateId);
+    const templateWarningPattern = new Pattern(`${sd.name}-warnings`, templateId);
 
     this.contextsToXpath['.'] = `${templateRoot}[${templateIdContextExp}]`;
 
-    this.errorRules['.'] = new Rule(`${templateId}-errors-root`, `${templateRoot}[${templateIdContextExp}]`);
-    this.warningRules['.'] = new Rule(`${templateId}-warnings-root`, `${templateRoot}[${templateIdContextExp}]`);
+    this.errorRules['.'] = new Rule(`${sd.name}-errors-root`, `${templateRoot}[${templateIdContextExp}]`);
+    this.warningRules['.'] = new Rule(`${sd.name}-warnings-root`, `${templateRoot}[${templateIdContextExp}]`);
 
     // TODO - functionalize
     const results: ProcessingResult = {
@@ -320,8 +320,8 @@ export class StructureDefinition {
     const newXpath = this.contextsToXpath[parentContext] + '/' + nodeName;
     this.contextsToXpath[thisContext] = newXpath;
 
-    this.errorRules[thisContext] = new Rule(`${this.templateUri}-errors-${thisContext}`, newXpath);
-    this.warningRules[thisContext] = new Rule(`${this.templateUri}-warnings-${thisContext}`, newXpath);
+    this.errorRules[thisContext] = new Rule(`${this.sd.name}-errors-${thisContext}`, newXpath);
+    this.warningRules[thisContext] = new Rule(`${this.sd.name}-warnings-${thisContext}`, newXpath);
 
     // Need to generate contexts for full path, but currently we're looking for the context of path-1
     if (pathSegments.length === 1) {

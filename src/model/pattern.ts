@@ -6,11 +6,11 @@ import { normalizeNCName } from "../utils/helpers";
 export class Pattern {
   public id: string;
   public rules: Rule[] = [];
-  public name: string;
+  public comment?: string;
 
-  constructor(id: string, name: string) {
+  constructor(id: string, comment?: string) {
     this.id = normalizeNCName(id, true)!;
-    this.name = name;
+    this.comment = comment;
   }
 
   public isEmpty = () => !this.rules.find(r => !r.isEmpty());
@@ -19,8 +19,8 @@ export class Pattern {
     const fragments = this.rules.map(r => r.toXml()).filter(Boolean);
     if (fragments.length === 0) return fragment();  //TODO
     const patternXml = fragment()
-      .ele(ns.sch, 'pattern', { id: this.id })
-      .com(this.name);
+      .ele(ns.sch, 'pattern', { id: this.id });
+    if (this.comment) patternXml.com(this.comment);
     for (const fragment of fragments) {
       patternXml.import(fragment!);
     }
