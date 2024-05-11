@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="CDA.xsl"?>
 <!--
-CCD with known errors - can diff with CCDHeader to see changes
+CCD with known errors - can diff with CCD-full.xml to see changes
 
 E: @code SHALL = '34133-9'
 
