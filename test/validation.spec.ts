@@ -65,7 +65,7 @@ describe('Validate the generated schematron', () => {
           if (expected.warnings.length > 0) {
             const missingWarnings = differenceWith(expected.warnings, results.warnings, (expected, actual) => actual.description.includes(expected));
             it(`should find ${expected.warnings.length} expected warnings`, () => {
-              expect(missingWarnings, missingWarnings.join('\n')).to.be.empty;
+              expect(missingWarnings, JSON.stringify({missingWarnings, existingWarnings: results.warnings.map(w => w.description)}, null, 2)).to.be.empty;
             });
           }
         });
