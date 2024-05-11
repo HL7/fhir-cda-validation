@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="CDA.xsl"?>
 <!--
-CCD with known errors
+CCD with known errors - can diff with CCDHeader to see changes
 
 E: @code SHALL = '34133-9'
 
@@ -43,6 +43,8 @@ E: @code SHALL = '34133-9'
                 <state>Maryland</state>
                 <!-- e: postalCode element is required -->
                 <postalCode>210</postalCode>
+                <!-- e: **SHALL NOT** have mixed content except for white space -->
+                MIXED!
                 <country>US</country>
                 <!-- US is "United States" from ISO 3166-1 Country Codes: 1.0.3166.1 -->
             </addr>
@@ -50,9 +52,13 @@ E: @code SHALL = '34133-9'
             <!-- HP is "primary home" from HL7 AddressUse 2.16.840.1.113883.5.1119 -->
             <patient>
                 <name use="L">
-                    <given>Eve</given>
+                    <!-- e: No PN name part may have a qualifier of LS -->
+                    <given qualifier="LS">Eve</given>
                     <!-- The "SP" is "Spouse" from HL7 Code System EntityNamePartQualifier 2.16.840.1.113883.5.43 -->
                     <family qualifier="SP">Betterhalf</family>
+                    <!-- e: There may be at most one suffix -->
+                    <suffix>one</suffix>
+                    <suffix>two</suffix>
                 </name>
                 <administrativeGenderCode code="F" displayName="Female"
                     codeSystem="2.16.840.1.113883.5.1" codeSystemName="AdministrativeGender"/>
@@ -63,9 +69,8 @@ E: @code SHALL = '34133-9'
                 <religiousAffiliationCode code="1013"
                     displayName="Christian (non-Catholic, non-specific)"
                     codeSystem="2.16.840.1.113883.5.1076" codeSystemName="HL7 Religious Affiliation"/>
-                <!-- CDC Race and Ethnicity code set contains the five minimum race and ethnicity 
-					categories defined by OMB Standards -->
-                <raceCode code="2076-8" displayName="Native Hawaiian or Other Pacific Islander"
+                <!-- e: SHALL be selected from ValueSet RaceCategoryExcludingNulls -->
+                <raceCode code="xx" displayName="Native Hawaiian or Other Pacific Islander"
                     codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC"/>
                 <sdtc:raceCode code="2079-2" displayName="Native Hawaiian"
                     codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC"/>
@@ -133,7 +138,8 @@ E: @code SHALL = '34133-9'
     <!-- The author represents the person who provides the content in the document   -->
     <author>
         <templateId root="2.16.840.1.113883.10.20.22.5.6" extension="2019-10-01"/>
-        <time value="20230501114559-0500"/>
+        <!-- e: **SHALL** be precise to at least the day -->
+        <time value="2023"/>
         <assignedAuthor>
             <id extension="5555555555" root="2.16.840.1.113883.4.6"/>
             <code code="207QA0505X" displayName="Adult Medicine Physician"
@@ -570,12 +576,12 @@ E: @code SHALL = '34133-9'
         </serviceEvent>
     </documentationOf>
     <component>
-        <!-- All sections are set to nullFlavor / text = No information, 
-            as this is a header example, not a complete body example -->
         <structuredBody>
-            <!-- ******************** ENCOUNTERS ************************ -->
+            <!-- ******************** ENCOUNTERS ************************ 
+                e: SHALL contain at least one Encounter Activity
+            -->
             <component>
-                <section nullFlavor="NI">
+                <section>
                     <!-- *** Encounters section (entries required) (V3) *** -->
                     <templateId root="2.16.840.1.113883.10.20.22.2.22.1" extension="2015-08-01"/>
                     <code code="46240-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
@@ -586,7 +592,7 @@ E: @code SHALL = '34133-9'
             </component>
             <!-- ******************* SOCIAL HISTORY ********************* -->
             <component>
-                <section nullFlavor="NI">
+                <section>
                     <!--  ** Social History Section (V3) ** -->
                     <templateId root="2.16.840.1.113883.10.20.22.2.17" extension="2015-08-01"/>
                     <code code="29762-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
@@ -595,9 +601,11 @@ E: @code SHALL = '34133-9'
                     <text>No information</text>
                 </section>
             </component>
-            <!-- ******************** ALLERGIES ************************ -->
+            <!-- ******************** ALLERGIES ************************ 
+                e: SHALL contain at least one Allergy Concern Act
+            -->
             <component>
-                <section nullFlavor="NI">
+                <section>
                     <!-- *** Allergies and Intolerances Section (entries required) (V3) *** -->
                     <templateId root="2.16.840.1.113883.10.20.22.2.6.1" extension="2015-08-01"/>
                     <code code="48765-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
@@ -605,20 +613,14 @@ E: @code SHALL = '34133-9'
                     <text>No information</text>
                 </section>
             </component>
-            <!-- ***************** PROBLEM LIST *********************** -->
+            <!-- ***************** PROBLEM LIST *********************** 
+                e: Cardinality of component:problems is 1..1
+            -->
+            <!-- ******************** MEDICATIONS ************************ 
+                e: SHALL contain at least one Medication Activity
+            -->
             <component>
-                <section nullFlavor="NI">
-                    <!--  *** Problem Section (entries required) (V3) *** -->
-                    <templateId root="2.16.840.1.113883.10.20.22.2.5.1" extension="2015-08-01"/>
-                    <code code="11450-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
-                        displayName="PROBLEM LIST"/>
-                    <title>PROBLEMS</title>
-                    <text>No information</text>
-                </section>
-            </component>
-            <!-- ******************** MEDICATIONS ************************ -->
-            <component>
-                <section nullFlavor="NI">
+                <section>
                     <!-- *** Medications Section (entries required) (V2) *** -->
                     <templateId root="2.16.840.1.113883.10.20.22.2.1.1" extension="2014-06-09"/>
                     <code code="10160-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
@@ -632,8 +634,11 @@ E: @code SHALL = '34133-9'
                 <section nullFlavor="NI">
                     <!-- Results Section (entries required) (V3) -->
                     <templateId root="2.16.840.1.113883.10.20.22.2.3.1" extension="2015-08-01"/>
-                    <code code="30954-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
-                        displayName="RESULTS"/>
+                    <!-- 
+                        e: 30954-2
+                        e: @codeSystem SHALL = '2.16.840.1.113883.6.1'
+                    -->
+                    <code code="xx" codeSystem="xx" />
                     <title>RESULTS</title>
                     <text>No information</text>
                 </section>
