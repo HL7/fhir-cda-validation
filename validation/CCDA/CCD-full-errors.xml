@@ -599,6 +599,43 @@ E: @code SHALL = '34133-9'
                         displayName="Social History"/>
                     <title>SOCIAL HISTORY</title>
                     <text>No information</text>
+                    <entry>
+                        <!-- Smoking status Quantity Example-->
+                        <observation classCode="OBS" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <!-- ** Tobacco use ** 2.16.840.1.113883.10.20.22.4.511, 2024-05-01 -->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.511" extension="2024-05-01" />
+                            <id root="9fd0cf98-2eeb-4f07-b2d9-8e3078d09460" />
+                            <code code="401201003" codeSystem="2.16.840.1.113883.6.96" displayName="Cigarette pack-years" />
+                            <text>
+                                <reference value="#tobaccouse" />
+                            </text>
+                            <statusCode code="completed" />
+                            <effectiveTime value="20240404" />
+                            <value xsi:type="REAL" value="30.5" /> 
+                        </observation>
+                    </entry>
+                    <entry>
+                        <!-- Smoking status Coded Example -->
+                        <observation classCode="OBS" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <!-- ** Tobacco use ** 2.16.840.1.113883.10.20.22.4.511, 2024-05-01 -->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.511" extension="2024-05-01" />
+                            <id root="45efb604-7049-4a2e-ad33-d38556c9636c" />
+                            <code code="11367-0" codeSystem="2.16.840.1.113883.6.1" displayName="History of tobacco use" />
+                            <text>
+                                <reference value="#tobaccouse" />
+                            </text>
+                            <statusCode code="completed" />
+                            <effectiveTime>
+                                <!-- The low value reflects the start date of the observation/value (moderate smoker) -->
+                                <low value="20090214" />
+                                <!-- The high value reflects the end date of the observation/value (moderate smoker) -->
+                                <high value="20110215" />
+                            </effectiveTime>
+                            <!-- e: the value SHALL be coded -->
+                            <value xsi:type="REAL" value="10" />
+                            <!-- <value xsi:type="CD" code="160604004" displayName="Moderate cigarette smoker, 10-19/day" codeSystem="2.16.840.1.113883.6.96" />  -->
+                        </observation>
+                    </entry>
                 </section>
             </component>
             <!-- ******************** ALLERGIES ************************ 
@@ -616,9 +653,7 @@ E: @code SHALL = '34133-9'
             <!-- ***************** PROBLEM LIST *********************** 
                 e: Cardinality of component:problems is 1..1
             -->
-            <!-- ******************** MEDICATIONS ************************ 
-                e: SHALL contain at least one Medication Activity
-            -->
+            <!-- ******************** MEDICATIONS ************************ -->
             <component>
                 <section>
                     <!-- *** Medications Section (entries required) (V2) *** -->
@@ -627,11 +662,106 @@ E: @code SHALL = '34133-9'
                         displayName="HISTORY OF MEDICATION USE"/>
                     <title>MEDICATIONS</title>
                     <text>No information</text>
+                    <entry>
+                        <substanceAdministration classCode="SBADM" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <!-- ** Medication Activity ** -->
+                        <templateId root="2.16.840.1.113883.10.20.22.4.16" 
+                                extension="2014-06-09"/>
+                        <id root="6c844c75-aa34-411c-b7bd-5e4a9f206e29"/>
+                        <text><reference value="#medicationactivity"/></text>
+                        <!-- e: SHALL be selected from ValueSet MedicationStatus 
+                            e: SHALL be selected from ValueSet ActStatus
+                        -->
+                        <statusCode code="fake"/>
+                        <!-- e: This effectiveTime **SHALL** contain either a low or a @value but not both -->
+                        <effectiveTime xsi:type="IVL_TS" value="20120318">
+                            <low value="20120318"/>
+                        </effectiveTime>
+                        <!-- e: @operator SHALL = 'A' -->
+                        <effectiveTime xsi:type="PIVL_TS" institutionSpecified="true" operator="X">
+                            <period value="12" unit="h"/>
+                        </effectiveTime>
+                        <routeCode code="C38288" 
+                                    codeSystem="2.16.840.1.113883.3.26.1.1" 
+                                    codeSystemName="NCI Thesaurus" 
+                                    displayName="ORAL">
+                            <translation code="26643006" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED" displayName="Oral route"/>
+                        </routeCode>
+                        <doseQuantity value="1" unit="1"/>
+                        <!-- e: If doseQuantity/@unit is present, then administrationUnitCode SHALL NOT be present-->
+                        <administrationUnitCode />
+                        <consumable>
+                            <manufacturedProduct classCode="MANU">
+                            <!-- e: manufacturedProduct SHALL conform to MedicationInformation -->
+                            <!-- <templateId root="2.16.840.1.113883.10.20.22.4.23" 
+                                    extension="2014-06-09"/> -->
+                            <id root="2a620155-9d11-439e-92b3-5d9815ff4ee8"/>
+                            <manufacturedMaterial>
+                                <code code="1000147"  
+                                displayName="estradiol cypionate 10 MG/ML" 
+                                    codeSystem="2.16.840.1.113883.6.88" codeSystemName="RxNorm"/>
+                            </manufacturedMaterial>
+                            </manufacturedProduct>
+                        </consumable>
+                        <author>
+                            <!-- e: author SHALL conform to AuthorParticipation -->
+                            <!-- <templateId root="2.16.840.1.113883.10.20.22.4.119" /> -->
+                            <time value="201308011235-0800" />
+                            <assignedAuthor>
+                            <id root="20cf14fb-b65c-4c8c-a54d-b0cca834c18c" />
+                            <code code="163W00000X" 
+                                displayName="Registered nurse" 
+                                codeSystem="2.16.840.1.113883.6.101" 
+                                codeSystemName="Health Care Provider Taxonomy (HIPAA)" />
+                            <addr use="H">
+                                <streetAddressLine>23 Anywhere Street</streetAddressLine>
+                                <city>El Paso</city>
+                                <state>TX</state>
+                                <postalCode>90210</postalCode>
+                                <country>US</country>
+                            </addr>
+                            <telecom value="tel:(995)555-1006" use="WP" />
+                            <assignedPerson>
+                                <name>
+                                <given>Nurse</given>
+                                <family>Nightingale</family>
+                                <suffix>RN</suffix>
+                                </name>
+                            </assignedPerson>
+                            <representedOrganization classCode="ORG">
+                                <id root="2.16.840.1.113883.19.5" />
+                                <name>Good Health Hospital</name>
+                            </representedOrganization>
+                            </assignedAuthor>
+                        </author>
+                        <entryRelationship typeCode="RSON">
+                            <observation classCode="OBS" moodCode="EVN">
+                            <!-- ** Indication ** -->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.19" 
+                                extension="2023-05-01"/>
+                            <id root="e63166c7-6482-4a44-83a1-37ccdbde725b"/>
+                            <code code="75321-0" 
+                                    codeSystem="2.16.840.1.113883.6.1" 
+                                    codeSystemName="LOINC" 
+                                    displayName="Clinical finding"/>
+                            <text><reference value="#indication"/></text>
+                            <statusCode code="completed"/>
+                            <effectiveTime>
+                                <low value="20120318"/>
+                            </effectiveTime>
+                            <value xsi:type="CD" 
+                                    code="38341003" 
+                                    displayName="Hypertension" 
+                                    codeSystem="2.16.840.1.113883.6.96"/>
+                            </observation>
+                        </entryRelationship>
+                        </substanceAdministration>
+                    </entry>
                 </section>
             </component>
             <!-- ******************** RESULTS ************************ -->
             <component>
-                <section nullFlavor="NI">
+                <section>
                     <!-- Results Section (entries required) (V3) -->
                     <templateId root="2.16.840.1.113883.10.20.22.2.3.1" extension="2015-08-01"/>
                     <!-- 
@@ -641,18 +771,323 @@ E: @code SHALL = '34133-9'
                     <code code="xx" codeSystem="xx" />
                     <title>RESULTS</title>
                     <text>No information</text>
+                    <entry>
+                        <!-- e: Cardinality of component:resultObs is 1..* 
+                            e: Cardinality of component is 1..*
+                        -->
+                        <organizer classCode="BATTERY" moodCode="EVN" xmlns="urn:hl7-org:v3"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1" extension="2023-05-01" />
+                            <id nullFlavor="UNK"/>
+                            <!-- w: **SHOULD** be selected from LOINC (codeSystem 2.16.840.1.113883.6.1) **OR** SNOMED CT (codeSystem 2.16.840.1.113883.6.96) -->
+                            <code nullFlavor="UNK"/>
+                            <statusCode code="completed" />
+                        </organizer>
+                    </entry>
+                    <entry>
+                        <organizer classCode="BATTERY" moodCode="EVN" xmlns="urn:hl7-org:v3"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <templateId root="2.16.840.1.113883.10.20.22.4.1" extension="2023-05-01" />
+                            <id root="7d5a02b0-67a4-11db-bd13-0800200c9a66" />
+                            <code code="57021-8" displayName="CBC W Auto Differential panel in Blood" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" />
+                            <statusCode code="completed" />
+                            <effectiveTime>
+                                <low value="200803190830-0800" />
+                                <!-- e: Cardinality of high is 1..1 -->
+                                <!-- <high value="200803190830-0800" /> -->
+                            </effectiveTime>
+                            <specimen typeCode="SPC">
+                                <specimenRole classCode="SPEC">
+                                <id root="a6d7b927-2b70-43c7-bdf3-0e7c4133062c" />
+                                <specimenPlayingEntity>
+                                    <code code="57259009" codeSystem="2.16.840.1.113883.6.96" displayName="gallbladder bile" />
+                                </specimenPlayingEntity>
+                                </specimenRole>
+                            </specimen>
+                            <author>
+                                <templateId root="2.16.840.1.113883.10.20.22.4.119"/>
+                                <time value="200803190830-0800" />
+                                <assignedAuthor>
+                                <id extension="333444444" root="1.1.1.1.1.1.1.4" />
+                                <addr use="HP">
+                                    <streetAddressLine>1017 Health Drive</streetAddressLine>
+                                    <city>Portland</city>
+                                    <state>OR</state>
+                                    <postalCode>99123</postalCode>
+                                    <country>US</country>
+                                </addr>
+                                <telecom use="WP" value="tel:+1(555)555-1017" />
+                                <assignedPerson>
+                                    <name>
+                                    <given>William</given>
+                                    <given qualifier="CL">Bill</given>
+                                    <family>Beaker</family>
+                                    </name>
+                                </assignedPerson>
+                                <representedOrganization>
+                                    <name>Good Health Laboratory</name>
+                                </representedOrganization>
+                                </assignedAuthor>
+                            </author>
+                            <component>
+                                <observation classCode="OBS" moodCode="EVN">
+                                <templateId root="2.16.840.1.113883.10.20.22.4.2" extension="2023-05-01" />
+                                <id root="7c0704bb-9c40-41b5-9c7d-26b2d59e234f" />
+                                <!-- e: SHALL contain either a @code attribute or a @nullFlavor attribute, but not both -->
+                                <code code="20570-8" displayName="Hematocrit" codeSystem="2.16.840.1.113883.6.1"
+                                codeSystemName="LOINC" nullFlavor="OTH"/>
+                                <!-- e: ValueSet ResultStatus -->
+                                <statusCode code="new" />
+                                <effectiveTime value="200803190830-0800" />
+                                <!-- e: Cardinality of @unit is 1..1 -->
+                                <value xsi:type="PQ" value="35.3" />
+                                <interpretationCode code="L" codeSystem="2.16.840.1.113883.5.83" />
+                                <author>
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.119" />
+                                    <time value="200803190830-0800" />
+                                    <assignedAuthor>
+                                    <id extension="333444444" root="1.1.1.1.1.1.1.4" />
+                                    <addr use="HP">
+                                        <streetAddressLine>1017 Health Drive</streetAddressLine>
+                                        <city>Portland</city>
+                                        <state>OR</state>
+                                        <postalCode>99123</postalCode>
+                                        <country>US</country>
+                                    </addr>
+                                    <telecom use="WP" value="tel:+1(555)555-1017" />
+                                    <assignedPerson>
+                                        <name>
+                                        <given>William</given>
+                                        <given qualifier="CL">Bill</given>
+                                        <family>Beaker</family>
+                                        </name>
+                                    </assignedPerson>
+                                    <representedOrganization>
+                                        <name>Good Health Laboratory</name>
+                                    </representedOrganization>
+                                    </assignedAuthor>
+                                </author>
+                                <referenceRange>
+                                    <observationRange>
+                                    <text>Low</text>
+                                    <value xsi:type="IVL_PQ">
+                                        <low value="34.9" unit="%" />
+                                        <high value="44.5" unit="%" />
+                                    </value>
+                                    <interpretationCode code="L" codeSystem="2.16.840.1.113883.5.83"/>
+                                    </observationRange>
+                                </referenceRange>
+                                </observation>
+                            </component>
+                            <component>
+                                <procedure classCode="PROC" moodCode="EVN" xmlns="urn:hl7-org:v3">
+                                    <!-- Specimen Collection Procedure -->
+                                    <templateId root="2.16.840.1.113883.10.20.22.4.415" extension="2018-09-01" />
+                                    <code code="17636008" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Specimen collection">
+                                        <originalText>
+                                        <reference value="#Proc1" />
+                                        </originalText>
+                                    </code>
+                                    <statusCode code="completed" />
+                                    <effectiveTime value="20130512120000-0700" />
+                                    <targetSiteCode code="28273000" displayName="bile duct" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" />
+                                    <entryRelationship typeCode="SUBJ">
+                                        <act classCode="ACT" moodCode="EVN">
+                                        <templateId root="2.16.840.1.113883.10.20.22.4.122" />
+                                        <id root="a6d7b927-2b70-43c7-bdf3-0e7c4133062c" />
+                                        <code nullFlavor="NP" />
+                                        <statusCode code="completed" />
+                                        </act>
+                                    </entryRelationship>
+                                    <entryRelationship typeCode="COMP">
+                                        <observation classCode="OBS" moodCode="EVN">
+                                        <templateId root="2.16.840.1.113883.10.20.22.4.421" extension="2018-06-12" />
+                                        <id root="7c0704bb-9c40-41b5-9c7d-26b2d59e234f" />
+                                        <code code="93047-7" displayName="Specimen condition" codeSystem="2.16.840.1.113883.6.1"
+                                        codeSystemName="LOINC" />
+                                        <text>
+                                        <reference value="#SpecimenCondition" />
+                                        </text>
+                                        <value xsi:type="CD" code="FROZ" displayName="Frozen" codeSystem="2.16.840.1.113883.18.317"/>
+                                        </observation>
+                                    </entryRelationship>
+                                </procedure>
+                            </component>
+                        </organizer>
+                    </entry>
                 </section>
             </component>
             <!-- ************* VITAL SIGNS *************** -->
             <component>
-                <section nullFlavor="NI">
+                <section>
                     <!-- ** Vital Signs Section (entries required) (V3) ** -->
                     <templateId root="2.16.840.1.113883.10.20.22.2.4.1" extension="2015-08-01"/>
                     <code code="8716-3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
                         displayName="VITAL SIGNS"/>
                     <title>VITAL SIGNS</title>
                     <text>No information</text>
-                </section>
+                    <entry>
+                        <!-- e: Cardinality of component:vitalSignObs is 1..* 
+                            e: Cardinality of component is 1..*
+                        -->
+                        <organizer classCode="CLUSTER" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+                            <!-- ** Vital signs organizer ** -->
+                            <templateId root="2.16.840.1.113883.10.20.22.4.26" extension="2015-08-01" />
+                            <id nullFlavor="UNK"/>
+                            <!-- e: 74728-7 
+                                e: Cardinality of @code is 1..1
+                                e: Cardinality of @codeSystem is 1..1
+                                e: Cardinality of effectiveTime is 1..1
+                            -->
+                            <code nullFlavor="UNK"/>
+                            <statusCode code="completed" />
+                        </organizer>
+                    </entry>
+                    <!-- Standard Vital Signs Organizer-->
+                    <entry>
+                        <organizer classCode="CLUSTER" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+                        <!-- ** Vital signs organizer ** -->
+                        <templateId root="2.16.840.1.113883.10.20.22.4.26" extension="2015-08-01" />
+                        <id root="24f6ad18-c512-40fc-82bd-1e131aa9e52b" />
+                        <code code="74728-7"
+                            displayName="Vital signs, weight, height, head circumference, oximetry, BMI, and BSA panel"
+                            codeSystem="2.16.840.1.113883.6.1"
+                            codeSystemName="LOINC"/>
+                        <sdtc:text>
+                            <reference value="#reaction2" />
+                        </sdtc:text>
+                        <statusCode code="completed" />
+                        <effectiveTime>
+                            <low value="20120910" />
+                            <high value="20120910" />
+                        </effectiveTime>
+                        <component>
+                            <observation classCode="OBS" moodCode="EVN">
+                            <templateId root="2.16.840.1.113883.10.20.22.4.27" extension="2014-06-09" />
+                            <!-- Vital Sign Observation template -->
+                            <id root="c6f88321-67ad-11db-bd13-0800200c9a66" />
+                            <code code="8302-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Height" />
+                            <text>
+                                <reference value="#reaction2" />
+                            </text>
+                            <statusCode code="completed" />
+                            <effectiveTime value="20121114" />
+                            <!-- w: Height & Head Circumference should be represented in cm -->
+                            <value xsi:type="PQ" value="1.77" unit="m" />    
+                            <author typeCode="AUT">
+                                <templateId root="2.16.840.1.113883.10.20.22.4.119" />
+                                <time value="201209101145-0800" />
+                                <assignedAuthor>
+                                <id extension="555555555" root="1.1.1.1.1.1.1.2" />
+                                <addr use="HP">
+                                    <!-- HP is "primary home" from codeSystem 2.16.840.1.113883.5.1119 -->
+                                    <streetAddressLine>2222 Home Street</streetAddressLine>
+                                    <city>Beaverton</city>
+                                    <state>OR</state>
+                                    <postalCode>97867</postalCode>
+                                    <country>US</country>
+                                    <!-- US is "United States" from ISO 3166-1 Country Codes: 1.0.3166.1 -->
+                                </addr>
+                                <telecom value="tel:+1(555)555-2003" use="HP"/>
+                                <assignedPerson>
+                                    <name>
+                                    <given>Nurse</given>
+                                    <family>Nightingale</family>
+                                    <suffix>RN</suffix>
+                                    </name>
+                                </assignedPerson>
+                                </assignedAuthor>
+                            </author>    
+                            </observation>
+                        </component>
+                        </organizer>
+                    </entry>
+                    <!-- Average Blood Pressure Organizer-->
+                    <entry>
+                        <organizer classCode="BATTERY" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdtc="urn:hl7-org:sdtc">
+                        <templateId root="2.16.840.1.113883.10.20.22.4.512" extension="2024-05-01" />
+                        <id root="604b2f9e-a3e7-4f4c-a4f8-0022d72dee2b" />
+                        <code code="96607-7" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Blood pressure panel mean systolic and mean diastolic" />
+                        <sdtc:text>
+                            <reference value="#AvgBP_1"/>
+                        </sdtc:text>
+                        <statusCode code="completed" />
+                        <effectiveTime value="20140519193605-0500" />
+                        <component typeCode="COMP">
+                            <observation classCode="OBS" moodCode="EVN">  
+                            <templateId root="2.16.840.1.113883.10.20.22.4.27" extension="2014-06-09" />
+                            <id root="a24910a8-2710-4940-908e-b3d805d5130c" />
+                            <code code="96608-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="average aystolic blood pressure" />
+                            <text>
+                                <!-- This reference identifies content in human readable formatted text-->
+                                <reference value="#SystolicAVGBP_1"/>
+                            </text>
+                            <statusCode code="completed" />
+                            <effectiveTime value="20140519193605-0500" />
+                            <!-- Example of Value with UCUM unit. Note that metric units used in this example-->
+                            <value xsi:type="PQ" value="122" unit="mm[Hg]" />
+                            <!-- Additional information of interpretation and/or reference range may be included but are optional-->
+                            <author>
+                                <templateId root="2.16.840.1.113883.10.20.22.4.119" />
+                                <time value="201308011235-0800" />
+                                <assignedAuthor>
+                                <!-- Refers to another author somewhere else in the document -->
+                                <id root="20cf14fb-b65c-4c8c-a54d-b0cca834c18c" />
+                                <addr use="H">
+                                    <streetAddressLine>23 Anywhere Street</streetAddressLine>
+                                    <city>El Paso</city>
+                                    <state>TX</state>
+                                    <postalCode>90210</postalCode>
+                                    <country>US</country>
+                                </addr>
+                                <telecom value="tel:(999)555-1212" use="WP" />
+                                <assignedPerson>
+                                    <name>
+                                    <prefix>Mrs.</prefix>
+                                    <given>Martha</given>
+                                    <family>Jones</family>
+                                    </name>
+                                </assignedPerson>
+                                </assignedAuthor>
+                            </author>
+                            </observation>
+                        </component>
+                        <component typeCode="COMP">
+                            <observation classCode="OBS" moodCode="EVN">  
+                            <templateId root="2.16.840.1.113883.10.20.22.4.27" extension="2014-06-09" />
+                            <id root="553f3f45-9046-4659-b3e7-5de904003550" />
+                            <code code="96609-3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="average Diastolic blood pressure" />
+                            <text>
+                                <reference value="#DiastolicBP_1"/>
+                            </text>
+                            <statusCode code="completed" />
+                            <effectiveTime value="20140520193605-0500" />
+                            <value xsi:type="PQ" value="82" unit="mm[Hg]" />
+                            <author>
+                                <templateId root="2.16.840.1.113883.10.20.22.4.119" />
+                                <time value="201308011235-0800" />
+                                <assignedAuthor>
+                                <!-- Refers to another author somewhere else in the document -->
+                                <id root="20cf14fb-b65c-4c8c-a54d-b0cca834c18c" />
+                                <addr use="H">
+                                    <streetAddressLine>23 Anywhere Street</streetAddressLine>
+                                    <city>El Paso</city>
+                                    <state>TX</state>
+                                    <postalCode>90210</postalCode>
+                                    <country>US</country>
+                                </addr>
+                                <telecom value="tel:(999)555-1212" use="WP" />
+                                <assignedPerson>
+                                    <name>
+                                    <prefix>Mrs.</prefix>
+                                    <given>Martha</given>
+                                    <family>Jones</family>
+                                    </name>
+                                </assignedPerson>
+                                </assignedAuthor>
+                            </author>
+                            </observation>
+                        </component>
+                        </organizer>
+                    </entry>                </section>
             </component>
         </structuredBody>
     </component>
