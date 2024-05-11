@@ -59,11 +59,39 @@ While the converter runs, progress will be displayed on the console. Additionall
 - `ValueSet-expansions.json` - Cached response to TX server's $expand calls - saves network calls between runs
 - `[IG]-Results.json` (coming soon) - Summarization of conversion results
 
-## Validating the Validator
-The converter has its own internal test suite to verify conversion functions, but the generated `.sch` file should be examined for validity and appropriateness, as well. It should be run against known CDA samples to ensure it properly identifies errors and does not throw false-positives for valid examples. 
+## Validating the Generated Schematron
+The converter has its own internal test suite to verify conversion functions, but the generated `.sch` file should be examined for validity and appropriateness, as well. It should be run against known CDA samples to ensure it properly identifies errors and does not throw false-positives for valid examples.
 
-> [!NOTE]
-> Automated validation of CDA samples using converted schematron is a planned, but not yet implemented, feature of this tool. 
+There is an additional npm script available when running from source code which will run any files in the `/validation` directory against generated schematron files. This uses the open-source [cda-schematron-validator](https://github.com/priyaranjan-tokachichu/cda-schematron-validator) package which has _some_ limitations<sup>*</sup> but seems to be catching most of the generated schematron rules.
+
+> `npm run validate   # runs the validation script and re-runs upon any changes in /validation or /output`
+
+The subdirectory under `/validation` corresponds to the IG name of the generated schematron in the `/output` directory. Any XML files in a particular subdirectory will be validated against that schematron, if it exists in the output directory (i.e. `/validation/CCDA/*.xml` is validated against `/output/CCDA.sch`).
+
+By default, all files are expected to be error-free (but not necessarily warning-free). If, however, the file contains known errors or warnings, include an XML comment (anywhere in the file) that starts with `e:` or `w:`, and this script will check whether the schematron produces the expected error or warning message. The string in the XML file after `e:` or `w:` may be a subset of the actual schematron-produced message, but everything after the `:` up to the end of the line must appear (with the exception of `-->`). For example, `CCDErrors.xml` contains the following expected errors:
+
+```xml
+<!-- e: SHALL contain exactly one [1..1] city 
+     e: Cardinality of city is 0..1
+     e: SHALL have at most one of each: state, city, postalCode, and country -->
+```
+which validates 3 different errors that fire when city occurs more than once, and later,
+```xml
+<!-- e: postalCode element is required -->
+```
+validates the postalCode formatting constraint (while not being nearly as long as the _actual_ description that is fired when that schematron rule triggers).
+
+All expected `e:` and `w:` messages _must_ appear in the schematron validation results for the test to pass, and no additional (unexpected) errors may be thrown. Additional warnings may be produced but will not cause this script to fail.
+
+<details>
+<summary>*Issues with `cda-schematron-validator` and work-arounds</summary>
+
+**Variable Resolution**
+Schematron variables like `<let name="Ethnicity" value="'2135-2 2186-5'"/>` are not supported. While the package could be enhanced, until that occurs, the schematrons are pre-processed to remove all references to these variables. For example, any instance in the schematron of `$Ethnicity` is replaced with `'2135-2 2186-5'`.
+
+</details>
+
+
 
 ## Known Limitations
 - Only IG's created in FHIR R5 are supported
