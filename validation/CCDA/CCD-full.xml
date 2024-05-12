@@ -582,7 +582,7 @@ w: precise to at least the minute
                     <title>ENCOUNTERS</title>
                     <text>No information</text>
                     <entry>
-                        <encounter classCode="ENC" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc">
+                        <encounter classCode="ENC" moodCode="EVN">
                             <templateId root="2.16.840.1.113883.10.20.22.4.49" extension="2015-08-01" />
                             <id root="2a620155-9d11-439e-92b3-5d9815ff4de8" />
                             <code code="99213" codeSystemName="CPT-4" codeSystem="2.16.840.1.113883.6.12">
@@ -600,7 +600,7 @@ w: precise to at least the minute
                                     <code code="207Q00000X" codeSystem="2.16.840.1.113883.6.101" codeSystemName="Health Care Provider Taxonomy" displayName="Family Medicine Physician" />
                                 </assignedEntity>
                             </performer>
-                            <participantRole classCode="SDLOC" xmlns="urn:hl7-org:v3">
+                            <participantRole classCode="SDLOC">
                                 <templateId root="2.16.840.1.113883.10.20.22.4.32"/>
                                 <code code="1160-1" codeSystem="2.16.840.1.113883.6.259"
                                         codeSystemName="HealthcareServiceLocation" displayName="Urgent Care Center"/>
@@ -641,7 +641,7 @@ w: precise to at least the minute
                     <text>No information</text>
                     <entry>
                         <!-- Smoking status Quantity Example-->
-                        <observation classCode="OBS" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <observation classCode="OBS" moodCode="EVN">
                             <!-- ** Tobacco use ** 2.16.840.1.113883.10.20.22.4.511, 2024-05-01 -->
                             <templateId root="2.16.840.1.113883.10.20.22.4.511" extension="2024-05-01" />
                             <id root="9fd0cf98-2eeb-4f07-b2d9-8e3078d09460" />
@@ -656,7 +656,7 @@ w: precise to at least the minute
                     </entry>
                     <entry>
                         <!-- Smoking status Coded Example -->
-                        <observation classCode="OBS" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <observation classCode="OBS" moodCode="EVN">
                             <!-- ** Tobacco use ** 2.16.840.1.113883.10.20.22.4.511, 2024-05-01 -->
                             <templateId root="2.16.840.1.113883.10.20.22.4.511" extension="2024-05-01" />
                             <id root="45efb604-7049-4a2e-ad33-d38556c9636c" />
@@ -685,7 +685,7 @@ w: precise to at least the minute
                     <title>ALLERGIES AND ADVERSE REACTIONS</title>
                     <text>No information</text>
                     <entry>
-                        <act classCode="ACT" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <act classCode="ACT" moodCode="EVN">
                         <!-- ** Allergy Concern Act ** -->
                         <templateId root="2.16.840.1.113883.10.20.22.4.30" extension="2015-08-01" />
                         <id root="36e3e930-7b14-11db-9fe1-0800200c9a66" />
@@ -755,7 +755,7 @@ w: precise to at least the minute
                     <title>PROBLEMS</title>
                     <text>No information</text>
                     <entry>
-                        <act classCode="ACT" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <act classCode="ACT" moodCode="EVN">
                         <!-- ** Problem Concern Act ** -->
                         <templateId root="2.16.840.1.113883.10.20.22.4.3" 
                                 extension="2024-05-01" />
@@ -785,7 +785,7 @@ w: precise to at least the minute
                             </assignedAuthor>
                         </author>
                         <entryRelationship typeCode="SUBJ">
-                                <observation classCode="OBS" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <observation classCode="OBS" moodCode="EVN">
                                 <!-- ** Problem Observation ** -->
                                 <templateId root="2.16.840.1.113883.10.20.22.4.4" extension="2024-05-01" />
                                 <id root="AB1791B0-5C71-11DB-B0DE-0800200C9A66" />
@@ -849,7 +849,7 @@ w: precise to at least the minute
                     <title>MEDICATIONS</title>
                     <text>No information</text>
                     <entry>
-                        <substanceAdministration classCode="SBADM" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <substanceAdministration classCode="SBADM" moodCode="EVN">
                         <!-- ** Medication Activity ** -->
                         <templateId root="2.16.840.1.113883.10.20.22.4.16" 
                                 extension="2014-06-09"/>
@@ -947,7 +947,7 @@ w: precise to at least the minute
                     <title>RESULTS</title>
                     <text>No information</text>
                     <entry>
-                        <organizer classCode="BATTERY" moodCode="EVN" xmlns="urn:hl7-org:v3"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <organizer classCode="BATTERY" moodCode="EVN" >
                             <templateId root="2.16.840.1.113883.10.20.22.4.1" extension="2023-05-01" />
                             <id root="7d5a02b0-67a4-11db-bd13-0800200c9a66" />
                             <code code="57021-8" displayName="CBC W Auto Differential panel in Blood" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" />
@@ -1037,7 +1037,7 @@ w: precise to at least the minute
                                 </observation>
                             </component>
                             <component>
-                                <procedure classCode="PROC" moodCode="EVN" xmlns="urn:hl7-org:v3">
+                                <procedure classCode="PROC" moodCode="EVN">
                                     <!-- Specimen Collection Procedure -->
                                     <templateId root="2.16.840.1.113883.10.20.22.4.415" extension="2018-09-01" />
                                     <code code="17636008" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Specimen collection">
@@ -1085,7 +1085,7 @@ w: precise to at least the minute
                     <text>No information</text>
                     <!-- Standard Vital Signs Organizer-->
                     <entry>
-                        <organizer classCode="CLUSTER" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+                        <organizer classCode="CLUSTER" moodCode="EVN" >
                         <!-- ** Vital signs organizer ** -->
                         <templateId root="2.16.840.1.113883.10.20.22.4.26" extension="2015-08-01" />
                         <id root="24f6ad18-c512-40fc-82bd-1e131aa9e52b" />
@@ -1143,7 +1143,7 @@ w: precise to at least the minute
                     </entry>
                     <!-- Average Blood Pressure Organizer-->
                     <entry>
-                        <organizer classCode="BATTERY" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdtc="urn:hl7-org:sdtc">
+                        <organizer classCode="BATTERY" moodCode="EVN">
                         <templateId root="2.16.840.1.113883.10.20.22.4.512" extension="2024-05-01" />
                         <id root="604b2f9e-a3e7-4f4c-a4f8-0022d72dee2b" />
                         <code code="96607-7" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Blood pressure panel mean systolic and mean diastolic" />

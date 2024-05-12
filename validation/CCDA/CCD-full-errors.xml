@@ -601,7 +601,7 @@ E: @code SHALL = '34133-9'
                     <text>No information</text>
                     <entry>
                         <!-- Smoking status Quantity Example-->
-                        <observation classCode="OBS" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <observation classCode="OBS" moodCode="EVN">
                             <!-- ** Tobacco use ** 2.16.840.1.113883.10.20.22.4.511, 2024-05-01 -->
                             <templateId root="2.16.840.1.113883.10.20.22.4.511" extension="2024-05-01" />
                             <id root="9fd0cf98-2eeb-4f07-b2d9-8e3078d09460" />
@@ -616,7 +616,7 @@ E: @code SHALL = '34133-9'
                     </entry>
                     <entry>
                         <!-- Smoking status Coded Example -->
-                        <observation classCode="OBS" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <observation classCode="OBS" moodCode="EVN">
                             <!-- ** Tobacco use ** 2.16.840.1.113883.10.20.22.4.511, 2024-05-01 -->
                             <templateId root="2.16.840.1.113883.10.20.22.4.511" extension="2024-05-01" />
                             <id root="45efb604-7049-4a2e-ad33-d38556c9636c" />
@@ -663,7 +663,7 @@ E: @code SHALL = '34133-9'
                     <title>MEDICATIONS</title>
                     <text>No information</text>
                     <entry>
-                        <substanceAdministration classCode="SBADM" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <substanceAdministration classCode="SBADM" moodCode="EVN">
                         <!-- ** Medication Activity ** -->
                         <templateId root="2.16.840.1.113883.10.20.22.4.16" 
                                 extension="2014-06-09"/>
@@ -775,7 +775,7 @@ E: @code SHALL = '34133-9'
                         <!-- e: Cardinality of component:resultObs is 1..* 
                             e: Cardinality of component is 1..*
                         -->
-                        <organizer classCode="BATTERY" moodCode="EVN" xmlns="urn:hl7-org:v3"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <organizer classCode="BATTERY" moodCode="EVN" >
                             <templateId root="2.16.840.1.113883.10.20.22.4.1" extension="2023-05-01" />
                             <id nullFlavor="UNK"/>
                             <!-- w: **SHOULD** be selected from LOINC (codeSystem 2.16.840.1.113883.6.1) **OR** SNOMED CT (codeSystem 2.16.840.1.113883.6.96) -->
@@ -784,7 +784,7 @@ E: @code SHALL = '34133-9'
                         </organizer>
                     </entry>
                     <entry>
-                        <organizer classCode="BATTERY" moodCode="EVN" xmlns="urn:hl7-org:v3"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <organizer classCode="BATTERY" moodCode="EVN" >
                             <templateId root="2.16.840.1.113883.10.20.22.4.1" extension="2023-05-01" />
                             <id root="7d5a02b0-67a4-11db-bd13-0800200c9a66" />
                             <code code="57021-8" displayName="CBC W Auto Differential panel in Blood" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" />
@@ -878,7 +878,7 @@ E: @code SHALL = '34133-9'
                                 </observation>
                             </component>
                             <component>
-                                <procedure classCode="PROC" moodCode="EVN" xmlns="urn:hl7-org:v3">
+                                <procedure classCode="PROC" moodCode="EVN">
                                     <!-- Specimen Collection Procedure -->
                                     <templateId root="2.16.840.1.113883.10.20.22.4.415" extension="2018-09-01" />
                                     <code code="17636008" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Specimen collection">
@@ -928,7 +928,7 @@ E: @code SHALL = '34133-9'
                         <!-- e: Cardinality of component:vitalSignObs is 1..* 
                             e: Cardinality of component is 1..*
                         -->
-                        <organizer classCode="CLUSTER" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+                        <organizer classCode="CLUSTER" moodCode="EVN" >
                             <!-- ** Vital signs organizer ** -->
                             <templateId root="2.16.840.1.113883.10.20.22.4.26" extension="2015-08-01" />
                             <id nullFlavor="UNK"/>
@@ -943,7 +943,7 @@ E: @code SHALL = '34133-9'
                     </entry>
                     <!-- Standard Vital Signs Organizer-->
                     <entry>
-                        <organizer classCode="CLUSTER" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+                        <organizer classCode="CLUSTER" moodCode="EVN" >
                         <!-- ** Vital signs organizer ** -->
                         <templateId root="2.16.840.1.113883.10.20.22.4.26" extension="2015-08-01" />
                         <id root="24f6ad18-c512-40fc-82bd-1e131aa9e52b" />
@@ -1002,7 +1002,7 @@ E: @code SHALL = '34133-9'
                     </entry>
                     <!-- Average Blood Pressure Organizer-->
                     <entry>
-                        <organizer classCode="BATTERY" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdtc="urn:hl7-org:sdtc">
+                        <organizer classCode="BATTERY" moodCode="EVN">
                         <templateId root="2.16.840.1.113883.10.20.22.4.512" extension="2024-05-01" />
                         <id root="604b2f9e-a3e7-4f4c-a4f8-0022d72dee2b" />
                         <code code="96607-7" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Blood pressure panel mean systolic and mean diastolic" />
@@ -1087,7 +1087,8 @@ E: @code SHALL = '34133-9'
                             </observation>
                         </component>
                         </organizer>
-                    </entry>                </section>
+                    </entry>
+                </section>
             </component>
         </structuredBody>
     </component>
