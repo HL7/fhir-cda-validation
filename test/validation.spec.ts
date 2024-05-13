@@ -31,9 +31,9 @@ describe('Validate the generated schematron', () => {
       let schema = readFileSync(path.join('output', `${ig}.sch`), 'utf-8');
 
       // Lazy method since cda-schematron-validator doesn't handle variables, and I can't work on that right now
-      const matches = Array.from(schema.matchAll(/<let name="(\w+)" value="('[^'"]+')"\/>/g));
+      const matches = Array.from(schema.matchAll(/<let name="([\w_]+)" value="('[^'"]+')"\/>/g));
       for (const variable of matches) {
-        schema = schema.replaceAll(`$${variable[1]}`, variable[2]);
+        schema = schema.replaceAll(`($${variable[1]},`, `(${variable[2]},`);
       }
 
       for (const testFile of testFiles[ig]) {
