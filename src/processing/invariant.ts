@@ -230,7 +230,7 @@ export const convertExpression = (originalExpression: string, originalSd: Struct
     // Special handling for descendants
     const descFun = expression.match(/^(.*)descendants\(\)(?:\.ofType\(([^)]+)\))?(.*)$/);
     if (descFun) {
-      const pre = descFun[1] === '%resource.' ? '/cda:ClinicalSummary' : convertSubExpression(descFun[1] || '', subContext);
+      const pre = descFun[1] === '%resource.' ? '/cda:ClinicalDocument' : convertSubExpression(descFun[1] || '', subContext);
       const elements = descFun[2] ? ofType(descFun[2]) : '*';
       let post = '';
       if (descFun[3]) {
