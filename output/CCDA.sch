@@ -1029,7 +1029,6 @@
       <assert test="count(cda:procedure)=1">Cardinality of procedure is 1..1</assert>
     </rule>
     <rule id="AnesthesiaSection-errors-entry-procedure.procedure" context="cda:section[cda:templateId[@root='2.16.840.1.113883.10.20.22.2.25' and @extension='2014-06-09']]/cda:entry[cda:procedure[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01'])] and not(cda:substanceAdministration)]/cda:procedure">
-      <assert test="not((cda:statusCode/@code = 'active' and cda:effectiveTime/cda:high/@value)) or cda:effectiveTime/cda:high/@value &gt; /cda:ClinicalDocument/cda:effectiveTime/@value">If the procedure is active and contains a high effectiveTime, this time SHALL be after the ClinicalDocument/effectiveTime</assert>
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01'])">procedure SHALL conform to ProcedureActivityProcedure</assert>
     </rule>
     <rule id="AnesthesiaSection-errors-entry-medication" context="cda:section[cda:templateId[@root='2.16.840.1.113883.10.20.22.2.25' and @extension='2014-06-09']]/cda:entry[not(cda:procedure) and cda:substanceAdministration[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09'])]]">
@@ -6051,7 +6050,6 @@
       <assert test="contains($XActRelationshipEntryRelationship, .)">SHALL be selected from ValueSet XActRelationshipEntryRelationship</assert>
     </rule>
     <rule id="InterventionAct-errors-entryRelationship-procedureActivityProcedure.procedure" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.131' and @extension='2015-08-01']]/cda:entryRelationship[(@typeCode = 'REFR') and not(cda:observation) and not(cda:substanceAdministration) and not(cda:act) and cda:procedure[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01'])] and not(cda:encounter) and not(cda:supply)]/cda:procedure">
-      <assert test="not((cda:statusCode/@code = 'active' and cda:effectiveTime/cda:high/@value)) or cda:effectiveTime/cda:high/@value &gt; /cda:ClinicalDocument/cda:effectiveTime/@value">If the procedure is active and contains a high effectiveTime, this time SHALL be after the ClinicalDocument/effectiveTime</assert>
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01'])">procedure SHALL conform to ProcedureActivityProcedure</assert>
     </rule>
     <rule id="InterventionAct-errors-entryRelationship-encounterActivity" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.131' and @extension='2015-08-01']]/cda:entryRelationship[(@typeCode = 'REFR') and not(cda:observation) and not(cda:substanceAdministration) and not(cda:act) and not(cda:procedure) and cda:encounter[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.49' and @extension='2015-08-01'])] and not(cda:supply)]">
@@ -6435,7 +6433,6 @@
       <assert test="count(cda:procedure)=1">Cardinality of procedure is 1..1</assert>
     </rule>
     <rule id="MedicalEquipmentOrganizer-errors-component-procedureActivity.procedure" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.135' and not(@extension)]]/cda:component[not(cda:supply) and cda:procedure[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01'])]]/cda:procedure">
-      <assert test="not((cda:statusCode/@code = 'active' and cda:effectiveTime/cda:high/@value)) or cda:effectiveTime/cda:high/@value &gt; /cda:ClinicalDocument/cda:effectiveTime/@value">If the procedure is active and contains a high effectiveTime, this time SHALL be after the ClinicalDocument/effectiveTime</assert>
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01'])">procedure SHALL conform to ProcedureActivityProcedure</assert>
     </rule>
   </pattern>
@@ -6477,7 +6474,6 @@
       <assert test="count(cda:procedure)=1">Cardinality of procedure is 1..1</assert>
     </rule>
     <rule id="MedicalEquipmentSection-errors-entry-procedure.procedure" context="cda:section[cda:templateId[@root='2.16.840.1.113883.10.20.22.2.23' and @extension='2014-06-09']]/cda:entry[not(cda:organizer) and cda:procedure[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01'])] and not(cda:supply)]/cda:procedure">
-      <assert test="not((cda:statusCode/@code = 'active' and cda:effectiveTime/cda:high/@value)) or cda:effectiveTime/cda:high/@value &gt; /cda:ClinicalDocument/cda:effectiveTime/@value">If the procedure is active and contains a high effectiveTime, this time SHALL be after the ClinicalDocument/effectiveTime</assert>
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01'])">procedure SHALL conform to ProcedureActivityProcedure</assert>
     </rule>
   </pattern>
@@ -9996,7 +9992,6 @@
   <pattern id="ProcedureActivityProcedure-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.4.14:2024-05-01-->
     <rule id="ProcedureActivityProcedure-errors-root" context="cda:procedure[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01']]">
-      <assert test="not((cda:statusCode/@code = 'active' and cda:effectiveTime/cda:high/@value)) or cda:effectiveTime/cda:high/@value &gt; /cda:ClinicalDocument/cda:effectiveTime/@value">If the procedure is active and contains a high effectiveTime, this time SHALL be after the ClinicalDocument/effectiveTime</assert>
       <assert test="count(cda:templateId)&gt;=1">Cardinality of templateId is 1..*</assert>
       <assert test="count(cda:templateId[(@root = '2.16.840.1.113883.10.20.22.4.14') and (@extension = '2024-05-01')])=1">Cardinality of templateId:procedure is 1..1</assert>
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
@@ -10050,14 +10045,12 @@
     <rule id="ProcedureActivityProcedure-errors-effectiveTime" context="cda:procedure[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01']]/cda:effectiveTime">
       <assert test="not(cda:center) or (not(cda:low) and not(cda:high))">Center cannot co-exist with low or high</assert>
       <assert test="not(@value) or string-length(@value) &gt;= 8">If a time interval contains @value, then it shall be precise to at least the day.</assert>
-      <assert test="not(@value) or @value &lt;= /cda:ClinicalDocument/cda:effectiveTime/@value">Time value must be equal to or before ClinicalDocument/effectiveTime</assert>
       <assert test="count(@value) &lt;= 1">Cardinality of @value is 0..1</assert>
       <assert test="count(cda:low) &lt;= 1">Cardinality of low is 0..1</assert>
       <assert test="count(cda:high) &lt;= 1">Cardinality of high is 0..1</assert>
     </rule>
     <rule id="ProcedureActivityProcedure-errors-effectiveTime.low" context="cda:procedure[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01']]/cda:effectiveTime/cda:low">
       <assert test="@nullFlavor or string-length(@value) &gt;= 8">**SHALL** be precise to at least the day</assert>
-      <assert test="not(@value) or @value &lt;= /cda:ClinicalDocument/cda:effectiveTime/@value">Time value must be equal to or before ClinicalDocument/effectiveTime</assert>
     </rule>
     <rule id="ProcedureActivityProcedure-errors-effectiveTime.high" context="cda:procedure[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01']]/cda:effectiveTime/cda:high">
       <assert test="@nullFlavor or string-length(@value) &gt;= 8">**SHALL** be precise to at least the day</assert>
@@ -10753,7 +10746,6 @@
       <assert test="count(cda:procedure)=1">Cardinality of procedure is 1..1</assert>
     </rule>
     <rule id="ProceduresSection-errors-entry-entryProcedure.procedure" context="cda:section[cda:templateId[@root='2.16.840.1.113883.10.20.22.2.7.1' and @extension='2014-06-09']]/cda:entry[cda:procedure[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01'])]]/cda:procedure">
-      <assert test="not((cda:statusCode/@code = 'active' and cda:effectiveTime/cda:high/@value)) or cda:effectiveTime/cda:high/@value &gt; /cda:ClinicalDocument/cda:effectiveTime/@value">If the procedure is active and contains a high effectiveTime, this time SHALL be after the ClinicalDocument/effectiveTime</assert>
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01'])">procedure SHALL conform to ProcedureActivityProcedure</assert>
     </rule>
   </pattern>
@@ -11239,7 +11231,6 @@
       <assert test="contains($XActRelationshipEntryRelationship, .)">SHALL be selected from ValueSet XActRelationshipEntryRelationship</assert>
     </rule>
     <rule id="ReactionObservation-errors-entryRelationship-procedure.procedure" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.9' and @extension='2014-06-09']]/cda:entryRelationship[cda:procedure[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01'])] and not(cda:substanceAdministration) and not(cda:observation)]/cda:procedure">
-      <assert test="not((cda:statusCode/@code = 'active' and cda:effectiveTime/cda:high/@value)) or cda:effectiveTime/cda:high/@value &gt; /cda:ClinicalDocument/cda:effectiveTime/@value">If the procedure is active and contains a high effectiveTime, this time SHALL be after the ClinicalDocument/effectiveTime</assert>
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01'])">procedure SHALL conform to ProcedureActivityProcedure</assert>
     </rule>
     <rule id="ReactionObservation-errors-entryRelationship-medication" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.9' and @extension='2014-06-09']]/cda:entryRelationship[not(cda:procedure) and cda:substanceAdministration[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09'])] and not(cda:observation)]">

@@ -424,12 +424,17 @@ export const convertExpression = (originalExpression: string, originalSd: Struct
   }
 
   // Run the conversion, then run some post-processing functions to clean up weird leftovers
+  const convertedExpression = convertSubExpression(originalExpression);
+
+  if (convertedExpression.includes('effectiveTime') && (convertedExpression.includes('<') || convertedExpression.includes('>'))) {
+    throw new UnsupportedInvariantError('Comparisons on datetime elements are not supported');
+  }
+
   return pipe(...[
-    convertSubExpression,
     removeDoubleBrackets,
     deunionizeContains,
     adjustLengths,
-  ])(originalExpression);
+  ])(convertedExpression);
 }
 
 
