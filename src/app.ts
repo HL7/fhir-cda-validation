@@ -4,7 +4,7 @@ import { sch } from "./model";
 import { StructureDefinition } from "./processing/structureDefinition";
 import { loadDefs } from "./utils/definitions";
 import { mkdir, writeFile } from "fs/promises";
-import { merge, mergeWith } from "lodash";
+import { isEqual, merge, mergeWith, uniqWith } from "lodash";
 import { voc } from "./processing/terminology";
 import { InvalidOptionArgumentError, program } from "commander";
 import { updateConfigFromOptions } from "./processing/config";
@@ -133,16 +133,25 @@ async function main() {
 
   errors.map(logger.error);
   notices.map(logger.warn);
+  for (const [key, value] of Object.entries(unhandledInvariants)) {
+    unhandledInvariants[key] = uniqWith(value, isEqual);
+    const details = printFailingInvariants ? "\n" + value.map(v => v.expression).join("\n") : '';
+    logger.warn(`${key} (${value.length} instances)${details}`);
+  }
 
   logger.info('Writing output files...');
   await mkdir('./output', {}).catch(e => { if (e.code !== 'EEXIST') throw e; });
   await writeFile(`./output/${ig.name}.sch`, schematron.toString(), 'utf-8');
   await writeFile(`./output/${ig.name}-Bindings.json`, voc.bindings(), 'utf-8');
 
-  for (const [key, value] of Object.entries(unhandledInvariants)) {
-    const details = printFailingInvariants ? "\n" + value.map(v => v.expression).join("\n") : '';
-    logger.warn(`${key} (${value.length} instances)${details}`);
-  }
+  // Generate results
+  const results = {
+    errors,
+    notices,
+    unhandledInvariants,
+    nonLoadedValueSets: voc.nonLoadedValueSets
+  };
+  await writeFile(`./output/${ig.name}-Results.json`, JSON.stringify(results, null, 2), 'utf-8');
 
   voc.saveCache();
   logger.info('Complete');

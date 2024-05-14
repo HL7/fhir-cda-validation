@@ -35,7 +35,11 @@ class TerminologyPool {
   private uniqueNameToId: Record<string, string> = {};
   private loadedValueSets: Record<string, LoadedValueSet> = {};
 
+  // ValueSetId => error message
   private unsupportedValueSets: Record<string, string> = {};
+
+  // Message => details (TODO - combine!)
+  public nonLoadedValueSets: Record<string, string[]> = {};
 
   private bindingLocations: BindingLocation[] = [];
 
@@ -140,11 +144,11 @@ class TerminologyPool {
 
     if (concepts.length > config.valueSetMemberLimit) {
       vs.expansion.contains = concepts;
-      throw this.unsupportedError(originalId, `ValueSet ${originalId} contains ${concepts.length} concepts. This is greater than the configured limit ${config.valueSetMemberLimit}, so this value set will not be included in the schematron`);
+      throw this.unsupportedError(originalId, `ValueSet ${originalId} contains ${concepts.length} concepts. This is greater than the configured limit ${config.valueSetMemberLimit}, so this value set will not be included in the schematron`, 'too-many-concepts', concepts.length);
     }
 
     if (concepts.find(c => c.code?.includes("'"))) {
-      throw this.unsupportedError(originalId, `ValueSet ${originalId} contains codes with apostrophes, which is currently not supported.`);
+      throw this.unsupportedError(originalId, `ValueSet ${originalId} contains codes with apostrophes, which is currently not supported.`, 'apostrophes-in-codes', concepts.length);
     }
 
     // TODO - this is not needed unless we go the voc.xml route
@@ -159,8 +163,28 @@ class TerminologyPool {
     return uniqueName;
   }
 
-  private unsupportedError = (valueSetId: string, message: string): UnsupportedValueSetError => {
-    this.unsupportedValueSets[valueSetId] = message;
+  private unsupportedError = (valueSetId: string, message: string, categoryMessage?: string, numberOfConcepts?: number): UnsupportedValueSetError => {
+    if (!this.unsupportedValueSets[valueSetId]) {
+      // Save so we get the same message next time
+      this.unsupportedValueSets[valueSetId] = message;
+
+      // Audit this as nonLoaded
+      let notSupportMessage = valueSetId;
+      if (!categoryMessage) {
+        // Technically should parse OperationOutcome better - but for now....
+        if (['not-supported', 'too-costly'].includes(message.split(':')[0])) {
+          categoryMessage = message.split(':')[0];
+          notSupportMessage += ` - ` + message;
+        } else categoryMessage = message.replace(valueSetId, '');
+      }
+      if (numberOfConcepts) notSupportMessage += ` (${numberOfConcepts})`;
+      if (!this.nonLoadedValueSets[categoryMessage]) {
+        this.nonLoadedValueSets[categoryMessage] = [notSupportMessage];
+      } else {
+        this.nonLoadedValueSets[categoryMessage].push(notSupportMessage);
+      }
+    }
+
     return new UnsupportedValueSetError(message);
   }
 
@@ -179,10 +203,10 @@ class TerminologyPool {
 
     const vs: fhir5.ValueSet = defs.fishForFHIR(valueSetId, Type.ValueSet);
     if (!vs) {
-      throw this.unsupportedError(valueSetId, `Value Set ${valueSetId} not found`);
+      throw this.unsupportedError(valueSetId, `Value Set ${valueSetId} not found`, 'not-found');
     }
     if (!vs.url) {
-      throw this.unsupportedError(valueSetId, `Value Set ${valueSetId} needs a URL`);
+      throw this.unsupportedError(valueSetId, `Value Set ${valueSetId} needs a URL`, 'missing-url');
     }
     if (vs.expansion?.contains) {
       return this.saveValueSetToCache(vs, valueSetId);
@@ -191,7 +215,7 @@ class TerminologyPool {
       return this.saveValueSetToCache(this.apiCache[valueSetId], valueSetId);
     }
     if (!this.serverUrl) {
-      throw this.unsupportedError(valueSetId, `Value Set ${valueSetId} is not expanded and no terminology server was specified.`);
+      throw this.unsupportedError(valueSetId, `Value Set ${valueSetId} is not expanded and no terminology server was specified.`, 'run without terminology server');
     }
     
     logger.info(`Expanding ${valueSetId} from ${this.serverUrl}`);
