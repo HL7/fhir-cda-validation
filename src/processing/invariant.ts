@@ -5,13 +5,15 @@ import { getErrorMessage, pipe } from "../utils/helpers";
 import { cdaTypeToFilter, ofType, sdFromCdaType, templateIdContextFromProfile, typeFilter, xmlNameFromDefs } from "../utils/cdaUtil";
 import { UnsupportedInvariantError, UnsupportedValueSetError } from "../utils/errors";
 import { voc } from "./terminology";
+import { Let } from "../model/rule";
 
 interface InvariantResponse {
   Error?: string,
   Unsupported?: string,
   Processed?: {
     Assertion: Assert,
-    Strength: fhir5.ElementDefinitionConstraint['severity']
+    Strength: fhir5.ElementDefinitionConstraint['severity'],
+    Lets?: Let[],
   }
 }
 
@@ -34,10 +36,13 @@ export const processInvariant = async (inv: fhir5.ElementDefinitionConstraint, s
   try {
     const converted = convertExpression(inv.expression, sd, context);
     // logger.info(inv.key + ' - ' + converted + "\n" + inv.expression + "\n");
+    if (!converted) return {};
+    const { test, lets } = converted instanceof Object ? converted : { test: converted, lets: [] }
     return converted ? {
       Processed: {
         Strength: inv.severity,
-        Assertion: new Assert(converted, inv.human, inv.key),
+        Assertion: new Assert(test, inv.human, inv.key),
+        Lets: lets,
       }
     } : {};
   } catch (e) {
@@ -55,13 +60,14 @@ export const processInvariant = async (inv: fhir5.ElementDefinitionConstraint, s
 }
 
 // Main entry point to convert the expression, has a 
-export const convertExpression = (originalExpression: string, originalSd: StructureDefinition, originalContext: string): string => {
+export const convertExpression = (originalExpression: string, originalSd: StructureDefinition, originalContext: string): string | { test: string, lets: Let[]} => {
   let tokenCounter = 0;
   let stringTokens: Record<string, string> = {};
 
   let sd = originalSd;
   let context = originalContext;
 
+  const letReplacements = new Set<string>();
 
   // Recursive portion of expression conversion - this is called a lot!
   const convertSubExpression = (expression: string, subContext?: string): string => {
@@ -223,8 +229,9 @@ export const convertExpression = (originalExpression: string, originalSd: Struct
     if (expression.startsWith('%context')) {
       // Not passing any subContext to convertSubExpression because %context resets us!
       // .... AHA. Well, I guess if expression _ever_ starts with %context, we need to reset... at least before functions... maybe?
-      return expression === '%context' ? 'current()' : `current()/${convertExpression(expression.slice(9), originalSd, originalContext)}`
-      //return expression === '%context' ? 'current()' : `current()/${convertSubExpression(expression.slice(9))}`;
+      const letString = convertExpression(expression.slice(9), originalSd, originalContext);
+      letReplacements.add(letString instanceof Object ? letString.test : letString);
+      return expression === '%context' ? 'current()' : `current()/${letString}`;
     }
 
     // Special handling for descendants
@@ -424,17 +431,32 @@ export const convertExpression = (originalExpression: string, originalSd: Struct
   }
 
   // Run the conversion, then run some post-processing functions to clean up weird leftovers
-  const convertedExpression = convertSubExpression(originalExpression);
+  let convertedExpression = pipe(...[
+    convertSubExpression,
+    removeDoubleBrackets,
+    deunionizeContains,
+    adjustLengths,
+  ])(originalExpression)
 
   if (convertedExpression.includes('effectiveTime') && (convertedExpression.includes('<') || convertedExpression.includes('>'))) {
     throw new UnsupportedInvariantError('Comparisons on datetime elements are not supported');
   }
 
-  return pipe(...[
-    removeDoubleBrackets,
-    deunionizeContains,
-    adjustLengths,
-  ])(convertedExpression);
+  if (letReplacements.size > 0) {
+    const lets: Let[] = [];
+    let counter = 1;
+    for (const value of letReplacements) {
+      const name = `r${counter++}`;
+      lets.push({ name, value });
+      convertedExpression = convertedExpression.replaceAll(`current()/${value}`, `$${name}`);
+    }
+    return {
+      test: convertedExpression,
+      lets
+    }
+  }
+
+  return convertedExpression;
 }
 
 

@@ -3,12 +3,18 @@ import { Assert } from "./assert";
 import { ns } from ".";
 import { normalizeNCName } from "../utils/helpers";
 
+export interface Let {
+  name: string,
+  value: string,
+}
+
 export class Rule {
   public id?: string;
   public context: string;
   public abstract?: boolean = false;
   private _extends?: string;
   public assertions: Assert[] = [];
+  public lets: Let[] = [];
 
   constructor(id: string, context: string) {
     this.id = normalizeNCName(id);
@@ -26,6 +32,10 @@ export class Rule {
     if (this._extends) {
       ruleXml.ele(ns.sch, 'extends', { rule: this._extends });
     }
+    for (const { name, value } of this.lets) {
+      ruleXml.ele(ns.sch, 'let', { name, value })
+    }
+
     for (const assertion of this.assertions) {
       if (assertion.comment) {
         ruleXml.com(assertion.comment);

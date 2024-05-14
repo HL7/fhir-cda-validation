@@ -1200,7 +1200,9 @@
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
     </rule>
     <rule id="AuthorParticipation-errors-assignedAuthor" context="cda:author[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.119' and not(@extension)]]/cda:assignedAuthor">
-      <assert test="@nullFlavor or (cda:addr and cda:telecom and (cda:assignedPerson/cda:name or cda:assignedAuthoringDevice/cda:manufacturerModelName)) or (/cda:ClinicalDocument//cda:assignedAuthor[cda:id[self::node()/@root = current()/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:id[1]/@extension] and cda:addr and cda:telecom and (cda:assignedPerson/cda:name or cda:assignedAuthoringDevice/cda:manufacturerModelName)])">Authors require addr, telecom, and either assignedPerson/name or assignedAuthoringDevice/manufacturerModelName. These may be present on this author or on another instance of an Author Participation in the document that has an id that matches the first id of this author.</assert>
+      <let name="r1" value="cda:id[1]/@root"/>
+      <let name="r2" value="cda:id[1]/@extension"/>
+      <assert test="@nullFlavor or (cda:addr and cda:telecom and (cda:assignedPerson/cda:name or cda:assignedAuthoringDevice/cda:manufacturerModelName)) or (/cda:ClinicalDocument//cda:assignedAuthor[cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2] and cda:addr and cda:telecom and (cda:assignedPerson/cda:name or cda:assignedAuthoringDevice/cda:manufacturerModelName)])">Authors require addr, telecom, and either assignedPerson/name or assignedAuthoringDevice/manufacturerModelName. These may be present on this author or on another instance of an Author Participation in the document that has an id that matches the first id of this author.</assert>
       <assert test="count(cda:id)&gt;=1">Cardinality of id is 1..*</assert>
       <assert test="count(cda:code) &lt;= 1">Cardinality of code is 0..1</assert>
       <assert test="count(cda:assignedPerson) &lt;= 1">Cardinality of assignedPerson is 0..1</assert>
@@ -1823,7 +1825,9 @@
       <assert test="count(cda:assignedEntity)=1">Cardinality of assignedEntity is 1..1</assert>
     </rule>
     <rule id="CareTeamMemberAct-errors-performer.assignedEntity" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.500.1' and @extension='2024-05-01']]/cda:performer/cda:assignedEntity">
-      <assert test="cda:assignedPerson or (/cda:ClinicalDocument//cda:performer[cda:assignedEntity/cda:assignedPerson and cda:assignedEntity/cda:id[self::node()/@root = current()/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:id[1]/@extension]])">If the assignedEntity/id is not referencing a Performer elsewhere in the document with an assignedPerson populated, this assignedEntity SHALL contain exactly one [1..1] assignedPerson (CONF:4515-180).</assert>
+      <let name="r1" value="cda:id[1]/@root"/>
+      <let name="r2" value="cda:id[1]/@extension"/>
+      <assert test="cda:assignedPerson or (/cda:ClinicalDocument//cda:performer[cda:assignedEntity/cda:assignedPerson and cda:assignedEntity/cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2]])">If the assignedEntity/id is not referencing a Performer elsewhere in the document with an assignedPerson populated, this assignedEntity SHALL contain exactly one [1..1] assignedPerson (CONF:4515-180).</assert>
       <assert test="count(cda:id)&gt;=1">Cardinality of id is 1..*</assert>
       <assert test="count(cda:assignedPerson) &lt;= 1">Cardinality of assignedPerson is 0..1</assert>
       <assert test="count(cda:representedOrganization) &lt;= 1">Cardinality of representedOrganization is 0..1</assert>
@@ -1884,7 +1888,9 @@
       <assert test="contains($XActRelationshipEntryRelationship, .)">SHALL be selected from ValueSet XActRelationshipEntryRelationship</assert>
     </rule>
     <rule id="CareTeamMemberAct-errors-entryRelationship-encounter.encounter" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.500.1' and @extension='2024-05-01']]/cda:entryRelationship[not(cda:observation) and not(cda:act) and (cda:encounter) and not(cda:observation) and not(cda:act)]/cda:encounter">
-      <assert test="cda:id[1]/@nullFlavor = 'NA' or (/cda:ClinicalDocument//cda:encounter[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.49' and @extension='2015-08-01']] and cda:id[self::node()/@root = current()/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:id[1]/@extension])">If the first id does not match an encounter/id from an encounter elsewhere within the same document and the id does not contain @nullFlavor="NA", then this entry SHALL conform to the Encounter Activity (identifier: urn:hl7ii:2.16.840.1.113883.10.20.22.4.49:2015-08-01) (CONF:4515-90).</assert>
+      <let name="r1" value="cda:id[1]/@root"/>
+      <let name="r2" value="cda:id[1]/@extension"/>
+      <assert test="cda:id[1]/@nullFlavor = 'NA' or (/cda:ClinicalDocument//cda:encounter[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.49' and @extension='2015-08-01']] and cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2])">If the first id does not match an encounter/id from an encounter elsewhere within the same document and the id does not contain @nullFlavor="NA", then this entry SHALL conform to the Encounter Activity (identifier: urn:hl7ii:2.16.840.1.113883.10.20.22.4.49:2015-08-01) (CONF:4515-90).</assert>
       <assert test="count(cda:id)=1">Cardinality of id is 1..1</assert>
     </rule>
     <rule id="CareTeamMemberAct-errors-entryRelationship-note" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.500.1' and @extension='2024-05-01']]/cda:entryRelationship[not(cda:observation) and cda:act[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.202' and @extension='2016-11-01'])] and not(cda:encounter) and not(cda:observation) and (cda:act)]">
@@ -3880,7 +3886,9 @@
       <assert test="contains($XActRelationshipEntryRelationship, .)">SHALL be selected from ValueSet XActRelationshipEntryRelationship</assert>
     </rule>
     <rule id="EncounterActivity-errors-entryRelationship-indication.observation" context="cda:encounter[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.49' and @extension='2015-08-01']]/cda:entryRelationship[not(cda:act) and cda:observation[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])]]/cda:observation">
-      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = current()/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:id[1]/@extension] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
+      <let name="r1" value="cda:id[1]/@root"/>
+      <let name="r2" value="cda:id[1]/@extension"/>
+      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])">observation SHALL conform to Indication</assert>
     </rule>
     <rule id="EncounterActivity-errors-entryRelationship-diagnosis" context="cda:encounter[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.49' and @extension='2015-08-01']]/cda:entryRelationship[cda:act[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.80' and @extension='2024-05-01'])] and not(cda:observation)]">
@@ -4902,7 +4910,9 @@
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.122' and not(@extension)])">act SHALL conform to EntryReference</assert>
     </rule>
     <rule id="HealthConcernAct-errors-entryRelationship-component-health-concern-acts" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.132' and @extension='2022-06-01']]/cda:entryRelationship[cda:act[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.122' and not(@extension)])] and not(cda:observation) and not(cda:organizer) and (@typeCode = 'COMP')]">
-      <assert test="/cda:ClinicalDocument//cda:act[cda:templateId[self::node()/@root = '2.16.840.1.113883.10.20.22.4.132' and self::node()/@extension = '2022-06-01'] and cda:id[self::node()/@root = current()/cda:act/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:act/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:act/cda:id[1]/@extension]]">The Entry Reference template **SHALL** contain an id that references a Health Concern Act (CONF:4515-32745).</assert>
+      <let name="r1" value="cda:act/cda:id[1]/@root"/>
+      <let name="r2" value="cda:act/cda:id[1]/@extension"/>
+      <assert test="/cda:ClinicalDocument//cda:act[cda:templateId[self::node()/@root = '2.16.840.1.113883.10.20.22.4.132' and self::node()/@extension = '2022-06-01'] and cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2]]">The Entry Reference template **SHALL** contain an id that references a Health Concern Act (CONF:4515-32745).</assert>
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
       <assert test="@typeCode = 'COMP'">@typeCode SHALL = 'COMP'</assert>
       <assert test="count(cda:act)=1">Cardinality of act is 1..1</assert>
@@ -5615,7 +5625,9 @@
       <assert test="contains($XActRelationshipEntryRelationship, .)">SHALL be selected from ValueSet XActRelationshipEntryRelationship</assert>
     </rule>
     <rule id="ImmunizationActivity-errors-entryRelationship-indication.observation" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.52' and @extension='2015-08-01']]/cda:entryRelationship[not(cda:act) and cda:observation[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])] and not(cda:supply)]/cda:observation">
-      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = current()/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:id[1]/@extension] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
+      <let name="r1" value="cda:id[1]/@root"/>
+      <let name="r2" value="cda:id[1]/@extension"/>
+      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])">observation SHALL conform to Indication</assert>
       <assert test="count(cda:code)=1">Cardinality of code is 1..1</assert>
     </rule>
@@ -5846,7 +5858,9 @@
   <pattern id="Indication-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.4.19:2023-05-01-->
     <rule id="Indication-errors-root" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01']]">
-      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = current()/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:id[1]/@extension] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
+      <let name="r1" value="cda:id[1]/@root"/>
+      <let name="r2" value="cda:id[1]/@extension"/>
+      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
       <assert test="count(cda:templateId)&gt;=1">Cardinality of templateId is 1..*</assert>
       <assert test="count(cda:templateId[(@root = '2.16.840.1.113883.10.20.22.4.19') and (@extension = '2023-05-01')])=1">Cardinality of templateId:indication is 1..1</assert>
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
@@ -6108,7 +6122,9 @@
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.122' and not(@extension)])">act SHALL conform to EntryReference</assert>
     </rule>
     <rule id="InterventionAct-errors-entryRelationship-entryReferenceRson" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.131' and @extension='2015-08-01']]/cda:entryRelationship[(@typeCode = 'RSON') and not(cda:observation) and not(cda:substanceAdministration) and cda:act[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.122' and not(@extension)])] and not(cda:procedure) and not(cda:encounter) and not(cda:supply)]">
-      <assert test="/cda:ClinicalDocument//cda:observation[cda:templateId[self::node()/@root = '2.16.840.1.113883.10.20.22.4.121' and self::node()/@extension = '2022-06-01'] and cda:id[self::node()/@root = current()/cda:act/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:act/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:act/cda:id[1]/@extension]]">This entryReference template **SHALL** reference an instance of a Goal Observation template.</assert>
+      <let name="r1" value="cda:act/cda:id[1]/@root"/>
+      <let name="r2" value="cda:act/cda:id[1]/@extension"/>
+      <assert test="/cda:ClinicalDocument//cda:observation[cda:templateId[self::node()/@root = '2.16.840.1.113883.10.20.22.4.121' and self::node()/@extension = '2022-06-01'] and cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2]]">This entryReference template **SHALL** reference an instance of a Goal Observation template.</assert>
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
       <assert test="@typeCode = 'RSON'">@typeCode SHALL = 'RSON'</assert>
       <assert test="count(cda:act)=1">Cardinality of act is 1..1</assert>
@@ -6604,7 +6620,9 @@
       <assert test="contains($XActRelationshipEntryRelationship, .)">SHALL be selected from ValueSet XActRelationshipEntryRelationship</assert>
     </rule>
     <rule id="MedicationActivity-errors-entryRelationship-indication.observation" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09']]/cda:entryRelationship[not(cda:substanceAdministration) and cda:observation[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])] and not(cda:act) and not(cda:supply)]/cda:observation">
-      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = current()/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:id[1]/@extension] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
+      <let name="r1" value="cda:id[1]/@root"/>
+      <let name="r2" value="cda:id[1]/@extension"/>
+      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])">observation SHALL conform to Indication</assert>
     </rule>
     <rule id="MedicationActivity-errors-entryRelationship-instruction" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09']]/cda:entryRelationship[not(cda:substanceAdministration) and not(cda:observation) and cda:act[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.20' and @extension='2014-06-09'])] and not(cda:supply)]">
@@ -8013,7 +8031,9 @@
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.119' and not(@extension)])">author SHALL conform to AuthorParticipation</assert>
     </rule>
     <rule id="OutcomeObservation-errors-entryRelationship-goal-reference" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.144' and not(@extension)]]/cda:entryRelationship[(@typeCode = 'GEVL') and cda:act[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.122' and not(@extension)])] and not(cda:observation)]">
-      <assert test="/cda:ClinicalDocument//cda:observation[cda:templateId[self::node()/@root = '2.16.840.1.113883.10.20.22.4.121' and self::node()/@extension = '2022-06-01'] and cda:id[self::node()/@root = current()/cda:act/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:act/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:act/cda:id[1]/@extension]]">This entryReference template **SHALL** reference an instance of a Goal Observation template.</assert>
+      <let name="r1" value="cda:act/cda:id[1]/@root"/>
+      <let name="r2" value="cda:act/cda:id[1]/@extension"/>
+      <assert test="/cda:ClinicalDocument//cda:observation[cda:templateId[self::node()/@root = '2.16.840.1.113883.10.20.22.4.121' and self::node()/@extension = '2022-06-01'] and cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2]]">This entryReference template **SHALL** reference an instance of a Goal Observation template.</assert>
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
       <assert test="@typeCode = 'GEVL'">@typeCode SHALL = 'GEVL'</assert>
       <assert test="count(cda:act)=1">Cardinality of act is 1..1</assert>
@@ -8038,7 +8058,9 @@
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.110' and not(@extension)])">observation SHALL conform to ProgressTowardGoalObservation</assert>
     </rule>
     <rule id="OutcomeObservation-errors-entryRelationship-intervention-reference" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.144' and not(@extension)]]/cda:entryRelationship[(@typeCode = 'RSON') and cda:act[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.122' and not(@extension)])] and not(cda:observation)]">
-      <assert test="/cda:ClinicalDocument//cda:observation[cda:templateId[self::node()/@root = '2.16.840.1.113883.10.20.22.4.131' and self::node()/@extension = '2015-08-01'] and cda:id[self::node()/@root = current()/cda:act/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:act/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:act/cda:id[1]/@extension]]">This entryReference template **SHALL** reference an instance of a Goal Observation template.</assert>
+      <let name="r1" value="cda:act/cda:id[1]/@root"/>
+      <let name="r2" value="cda:act/cda:id[1]/@extension"/>
+      <assert test="/cda:ClinicalDocument//cda:observation[cda:templateId[self::node()/@root = '2.16.840.1.113883.10.20.22.4.131' and self::node()/@extension = '2015-08-01'] and cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2]]">This entryReference template **SHALL** reference an instance of a Goal Observation template.</assert>
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
       <assert test="@typeCode = 'RSON'">@typeCode SHALL = 'RSON'</assert>
       <assert test="count(cda:act)=1">Cardinality of act is 1..1</assert>
@@ -8181,7 +8203,9 @@
       <assert test="contains($XActRelationshipEntryRelationship, .)">SHALL be selected from ValueSet XActRelationshipEntryRelationship</assert>
     </rule>
     <rule id="PatientReferralAct-errors-entryRelationship-indication.observation" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.140' and not(@extension)]]/cda:entryRelationship[cda:observation[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])]]/cda:observation">
-      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = current()/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:id[1]/@extension] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
+      <let name="r1" value="cda:id[1]/@root"/>
+      <let name="r2" value="cda:id[1]/@extension"/>
+      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])">observation SHALL conform to Indication</assert>
     </rule>
   </pattern>
@@ -8399,7 +8423,9 @@
       <assert test="contains($XActRelationshipEntryRelationship, .)">SHALL be selected from ValueSet XActRelationshipEntryRelationship</assert>
     </rule>
     <rule id="PlannedEncounter-errors-entryRelationship-indication.observation" context="cda:encounter[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.40' and @extension='2014-06-09']]/cda:entryRelationship[cda:observation[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])]]/cda:observation">
-      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = current()/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:id[1]/@extension] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
+      <let name="r1" value="cda:id[1]/@root"/>
+      <let name="r2" value="cda:id[1]/@extension"/>
+      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])">observation SHALL conform to Indication</assert>
     </rule>
   </pattern>
@@ -8475,7 +8501,9 @@
       <assert test="contains($XActRelationshipEntryRelationship, .)">SHALL be selected from ValueSet XActRelationshipEntryRelationship</assert>
     </rule>
     <rule id="PlannedImmunizationActivity-errors-entryRelationship-indication.observation" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.120' and not(@extension)]]/cda:entryRelationship[cda:observation[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])] and not(cda:act)]/cda:observation">
-      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = current()/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:id[1]/@extension] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
+      <let name="r1" value="cda:id[1]/@root"/>
+      <let name="r2" value="cda:id[1]/@extension"/>
+      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])">observation SHALL conform to Indication</assert>
     </rule>
     <rule id="PlannedImmunizationActivity-errors-entryRelationship-instruction" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.120' and not(@extension)]]/cda:entryRelationship[not(cda:observation) and cda:act[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.20' and @extension='2014-06-09'])]]">
@@ -8547,7 +8575,9 @@
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.119' and not(@extension)])">author SHALL conform to AuthorParticipation</assert>
     </rule>
     <rule id="PlannedInterventionAct-errors-entryRelationship-reason" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.146' and @extension='2015-08-01']]/cda:entryRelationship[not(cda:observation) and not(cda:substanceAdministration) and cda:act[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.122' and not(@extension)])] and not(cda:procedure) and not(cda:encounter) and not(cda:supply) and (@typeCode = 'RSON')]">
-      <assert test="/cda:ClinicalDocument//cda:observation[cda:templateId[self::node()/@root = '2.16.840.1.113883.10.20.22.4.121' and self::node()/@extension = '2022-06-01'] and cda:id[self::node()/@root = current()/cda:act/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:act/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:act/cda:id[1]/@extension]]">This entryReference template **SHALL** reference an instance of a Goal Observation template.</assert>
+      <let name="r1" value="cda:act/cda:id[1]/@root"/>
+      <let name="r2" value="cda:act/cda:id[1]/@extension"/>
+      <assert test="/cda:ClinicalDocument//cda:observation[cda:templateId[self::node()/@root = '2.16.840.1.113883.10.20.22.4.121' and self::node()/@extension = '2022-06-01'] and cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2]]">This entryReference template **SHALL** reference an instance of a Goal Observation template.</assert>
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
       <assert test="@typeCode = 'RSON'">@typeCode SHALL = 'RSON'</assert>
       <assert test="count(cda:act)=1">Cardinality of act is 1..1</assert>
@@ -8796,7 +8826,9 @@
       <assert test="contains($XActRelationshipEntryRelationship, .)">SHALL be selected from ValueSet XActRelationshipEntryRelationship</assert>
     </rule>
     <rule id="PlannedMedicationActivity-errors-entryRelationship-indication.observation" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.42' and @extension='2014-06-09']]/cda:entryRelationship[not(cda:act) and cda:observation[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])]]/cda:observation">
-      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = current()/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:id[1]/@extension] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
+      <let name="r1" value="cda:id[1]/@root"/>
+      <let name="r2" value="cda:id[1]/@extension"/>
+      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])">observation SHALL conform to Indication</assert>
     </rule>
     <rule id="PlannedMedicationActivity-errors-entryRelationship-instruction" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.42' and @extension='2014-06-09']]/cda:entryRelationship[cda:act[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.20' and @extension='2014-06-09'])] and not(cda:observation)]">
@@ -8880,7 +8912,9 @@
       <assert test="contains($XActRelationshipEntryRelationship, .)">SHALL be selected from ValueSet XActRelationshipEntryRelationship</assert>
     </rule>
     <rule id="PlannedProcedure-errors-entryRelationship-indication.observation" context="cda:procedure[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.41' and @extension='2022-06-01']]/cda:entryRelationship[not(cda:act) and cda:observation[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])]]/cda:observation">
-      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = current()/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:id[1]/@extension] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
+      <let name="r1" value="cda:id[1]/@root"/>
+      <let name="r2" value="cda:id[1]/@extension"/>
+      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])">observation SHALL conform to Indication</assert>
     </rule>
     <rule id="PlannedProcedure-errors-entryRelationship-instruction" context="cda:procedure[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.41' and @extension='2022-06-01']]/cda:entryRelationship[cda:act[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.20' and @extension='2014-06-09'])] and not(cda:observation)]">
@@ -9039,7 +9073,9 @@
       <assert test="contains($XActRelationshipEntryRelationship, .)">SHALL be selected from ValueSet XActRelationshipEntryRelationship</assert>
     </rule>
     <rule id="PlannedSupply-errors-entryRelationship-indication.observation" context="cda:supply[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.43' and @extension='2024-05-01']]/cda:entryRelationship[not(cda:act) and cda:observation[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])]]/cda:observation">
-      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = current()/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:id[1]/@extension] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
+      <let name="r1" value="cda:id[1]/@root"/>
+      <let name="r2" value="cda:id[1]/@extension"/>
+      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])">observation SHALL conform to Indication</assert>
     </rule>
     <rule id="PlannedSupply-errors-entryRelationship-instruction" context="cda:supply[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.43' and @extension='2024-05-01']]/cda:entryRelationship[cda:act[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.20' and @extension='2014-06-09'])] and not(cda:observation)]">
@@ -10163,7 +10199,9 @@
       <assert test="contains($XActRelationshipEntryRelationship, .)">SHALL be selected from ValueSet XActRelationshipEntryRelationship</assert>
     </rule>
     <rule id="ProcedureActivityProcedure-errors-entryRelationship-indication.observation" context="cda:procedure[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01']]/cda:entryRelationship[not(cda:act) and cda:observation[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])] and not(cda:substanceAdministration) and not(cda:encounter)]/cda:observation">
-      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = current()/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:id[1]/@extension] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
+      <let name="r1" value="cda:id[1]/@root"/>
+      <let name="r2" value="cda:id[1]/@extension"/>
+      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])">observation SHALL conform to Indication</assert>
     </rule>
     <rule id="ProcedureActivityProcedure-errors-entryRelationship-medication" context="cda:procedure[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01']]/cda:entryRelationship[not(cda:act) and not(cda:observation) and cda:substanceAdministration[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09'])] and not(cda:encounter)]">
@@ -10353,7 +10391,9 @@
       <assert test="count(cda:observation)=1">Cardinality of observation is 1..1</assert>
     </rule>
     <rule id="ProcedureIndicationsSection-errors-entry-indication.observation" context="cda:section[cda:templateId[@root='2.16.840.1.113883.10.20.22.2.29' and @extension='2014-06-09']]/cda:entry[cda:observation[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])]]/cda:observation">
-      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = current()/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:id[1]/@extension] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
+      <let name="r1" value="cda:id[1]/@root"/>
+      <let name="r2" value="cda:id[1]/@extension"/>
+      <assert test="cda:value or (/cda:ClinicalDocument//cda:observation[cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2] and cda:value])">If the ID element does not reference a problem recorded elsewhere in the document, then observation/value must be populated with a coded entry.</assert>
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])">observation SHALL conform to Indication</assert>
     </rule>
   </pattern>
@@ -11124,8 +11164,10 @@
       <assert test="@extension = '2019-10-01'">@extension SHALL = '2019-10-01'</assert>
     </rule>
     <rule id="ProvenanceAuthorParticipation-errors-assignedAuthor" context="cda:author[cda:templateId[@root='2.16.840.1.113883.10.20.22.5.6' and @extension='2019-10-01']]/cda:assignedAuthor">
-      <assert test="@nullFlavor or (cda:addr and cda:telecom and (cda:assignedPerson/cda:name or cda:assignedAuthoringDevice/cda:manufacturerModelName)) or (/cda:ClinicalDocument//cda:assignedAuthor[cda:id[self::node()/@root = current()/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:id[1]/@extension] and cda:addr and cda:telecom and (cda:assignedPerson/cda:name or cda:assignedAuthoringDevice/cda:manufacturerModelName)])">Authors require addr, telecom, and either assignedPerson/name or assignedAuthoringDevice/manufacturerModelName. These may be present on this author or on another instance of an Author Participation in the document that has an id that matches the first id of this author.</assert>
-      <assert test="cda:representedOrganization or (/cda:ClinicalDocument//cda:author[cda:templateId[self::node()/@root = '2.16.840.1.113883.10.20.22.5.6' and self::node()/@extension = '2019-10-01'] and cda:assignedAuthor/cda:representedOrganization and cda:assignedAuthor/cda:id[self::node()/@root = current()/cda:id[1]/@root and (not(self::node()/@extension) and not(current()/cda:id[1]/@extension)) or self::node()/@extension = current()/cda:id[1]/@extension]])">If the assignedAuthor/id is not referencing a Provenance Author described elsewhere in the document with a representedOrganization populated, this assignedAuthor SHALL contain exactly one [1..1] representedOrganization (CONF:4515-64).</assert>
+      <let name="r1" value="cda:id[1]/@root"/>
+      <let name="r2" value="cda:id[1]/@extension"/>
+      <assert test="@nullFlavor or (cda:addr and cda:telecom and (cda:assignedPerson/cda:name or cda:assignedAuthoringDevice/cda:manufacturerModelName)) or (/cda:ClinicalDocument//cda:assignedAuthor[cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2] and cda:addr and cda:telecom and (cda:assignedPerson/cda:name or cda:assignedAuthoringDevice/cda:manufacturerModelName)])">Authors require addr, telecom, and either assignedPerson/name or assignedAuthoringDevice/manufacturerModelName. These may be present on this author or on another instance of an Author Participation in the document that has an id that matches the first id of this author.</assert>
+      <assert test="cda:representedOrganization or (/cda:ClinicalDocument//cda:author[cda:templateId[self::node()/@root = '2.16.840.1.113883.10.20.22.5.6' and self::node()/@extension = '2019-10-01'] and cda:assignedAuthor/cda:representedOrganization and cda:assignedAuthor/cda:id[self::node()/@root = $r1 and (not(self::node()/@extension) and not($r2)) or self::node()/@extension = $r2]])">If the assignedAuthor/id is not referencing a Provenance Author described elsewhere in the document with a representedOrganization populated, this assignedAuthor SHALL contain exactly one [1..1] representedOrganization (CONF:4515-64).</assert>
       <assert test="count(cda:id)&gt;=1">Cardinality of id is 1..*</assert>
       <assert test="count(cda:id[(@root = '2.16.840.1.113883.4.6')])=1">Cardinality of id:npi is 1..1</assert>
       <assert test="count(cda:code) &lt;= 1">Cardinality of code is 0..1</assert>

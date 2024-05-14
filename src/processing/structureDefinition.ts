@@ -202,10 +202,11 @@ export class StructureDefinition {
     for (const constraint of element.constraint || []) {
       const invRule = await processInvariant(constraint, this, element.id);
       if (invRule.Processed) {
-        if (invRule.Processed.Strength === 'warning') {
-          this.warningRule(element.id).assertions.push(invRule.Processed.Assertion);
-        } else {
-          this.errorRule(element.id).assertions.push(invRule.Processed.Assertion);
+        const rule = invRule.Processed.Strength === 'warning' ? this.warningRule(element.id) : this.errorRule(element.id);
+        rule.assertions.push(invRule.Processed.Assertion);
+        if (invRule.Processed.Lets) {
+          // Bad approach - could overwrite if multiples
+          rule.lets = invRule.Processed.Lets;
         }
       } else if (invRule.Error) {
         results.errors.push(invRule.Error);
