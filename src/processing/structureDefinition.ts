@@ -276,11 +276,15 @@ export class StructureDefinition {
       }
     }
     
-
-
     // TODO - simplification - attach at parent if element is required
 
-    // TODO - if slicing is closed - validate everything matches a slice
+    // If slicing is closed - don't allow any other instances of this node that do not conform to one of the slices
+    if (element.slicing?.rules === 'closed') {
+      const slices = this.sd.snapshot.element.filter(e => e.path === element.path && e !== element && e.id);
+      const sliceNames = slices.map(s => s.sliceName).join(', ');
+      const sliceXPaths = slices.map(s => this.sliceFilter(s.id!));
+      this.errorRule(element.id, true).assert(`count(${nodeXml}[not(${sliceXPaths.join(' or ')})]) = 0`, `Slicing is closed, each ${nodeDisplay} must conform to one of the following slices: ${sliceNames}`);
+    }
 
   }
 

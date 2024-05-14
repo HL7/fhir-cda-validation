@@ -594,7 +594,8 @@ w: precise to at least the minute
                             </text>
                             <statusCode code="completed" />
                             <effectiveTime value="20240404" />
-                            <value xsi:type="REAL" value="30.5" />
+                            <!-- e: Slicing is closed -->
+                            <value xsi:type="INT" value="30" />
                         </observation>
                     </entry>
                     <entry>

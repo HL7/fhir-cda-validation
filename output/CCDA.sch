@@ -12624,6 +12624,7 @@
       <assert test="count(cda:statusCode)=1">Cardinality of statusCode is 1..1</assert>
       <assert test="count(cda:effectiveTime)=1">Cardinality of effectiveTime is 1..1</assert>
       <assert test="count(cda:value)=1">Cardinality of value is 1..1</assert>
+      <assert test="count(cda:value[not(@xsi:type='REAL' or @xsi:type='CD')]) = 0">Slicing is closed, each value must conform to one of the following slices: packYears, coded</assert>
       <assert test="count(cda:value[@xsi:type='REAL']) &lt;= 1">Cardinality of value:packYears is 0..1</assert>
       <assert test="count(cda:value[@xsi:type='CD']) &lt;= 1">Cardinality of value:coded is 0..1</assert>
     </rule>
