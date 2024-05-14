@@ -4,7 +4,8 @@
 Error-free file created from combining several passing valid samples from C-CDA 3.0 IG
 
 Expected warnings:
-
+w: Documents SHOULD contain a RelatedPerson participant
+w: SHOULD contain responsibleParty
 
   -->
 <ClinicalDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
