@@ -4,6 +4,10 @@ import { describe, expect, it } from "vitest";
 import * as validator from 'cda-schematron-validator';
 import { differenceWith } from "lodash";
 
+// Tests that cda-schematron-validation can't handle yet
+const knownIgnoredTests = [
+  'current()'
+];
 
 describe('Validate the generated schematron', () => {
   const schematrons = readdirSync('output', { withFileTypes: true }).filter(f => !f.isDirectory() && f.name.endsWith('.sch')).map(f => f.name.slice(0, -4));
@@ -42,6 +46,7 @@ describe('Validate the generated schematron', () => {
           const expected = collectExpectedErrorsAndWarnings(xml);
           validator.clearCache();
           const results = validator.validate(xml, schema, { includeWarnings: true });
+          results.ignored = results.ignored.filter(i => !knownIgnoredTests.find(search => i.test.includes(search)));
 
           it('should not have any unknown unsupported tests', () => {
             expect(results.ignored, JSON.stringify(results.ignored, null, 2)).to.be.empty;

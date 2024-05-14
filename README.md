@@ -94,7 +94,8 @@ Schematron variables like `<let name="Ethnicity" value="'2135-2 2186-5'"/>` are 
 
 
 ## Known Limitations
-- Only IG's created in FHIR R5 are supported
+- Only IG's created in FHIR R5 are currently supported
 - Value sets containing values with apostrophes (`'`) are not included
 - Comparisons on dateTimes are not supported (e.g. procedure start date must be before document date)
+- Some assertions use the XPath 2.0 function `current()` which is not supported by the included validator. These assertions have been tested manually.
 - `conformsTo()` (and other FHIRPath functions not used by C-CDA) are not supported
