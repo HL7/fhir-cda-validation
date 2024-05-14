@@ -43,9 +43,10 @@ Arguments:
 
 Options:
   -d, --dependency <dependency...>  additional dependencies to be loaded using format dependencyId@version
-  -t, --terminology-server <url>    terminology server to use for expanding value sets (set to x to disable) (default: "https://tx.fhir.org/r5/")
-  --value-set-limit <number>        maximum number of values to include in value set lookups (default: 200)
-  -p --profile <string>             Process only a single profile (useful for testing)
+  -t, --terminology-server <url>    terminology server to use for expanding value sets (set to x to disable)
+                                    (default: "https://tx.fhir.org/r5/")
+  -l, --value-set-limit <number>    maximum number of values to include in value set lookups (default: 200)
+  -p --profile <string>             process only a single profile (useful for testing)
   -h, --help                        display help for command
 ```
 
