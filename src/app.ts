@@ -67,7 +67,7 @@ if (!Array.isArray(options.dependency)) {
   options.dependency = [];
 }
 if (!options.dependency.find((d: string) => d.startsWith('hl7.cda.uv.core'))) {
-  options.dependency.push('hl7.cda.uv.core@2.0.0-sd-snapshot1');
+  options.dependency.push('hl7.cda.uv.core@current');
 }
 
 // TODO - need to load all deps if we want vocab

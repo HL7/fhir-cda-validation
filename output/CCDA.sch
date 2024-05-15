@@ -598,6 +598,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2022-02-14'">@extension SHALL = '2022-02-14'</assert>
     </rule>
+    <rule id="AdvanceDirectiveObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.48' and @extension='2022-02-14']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="AdvanceDirectiveObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.48' and @extension='2022-02-14']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -642,6 +645,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.1.58'">@root SHALL = '2.16.840.1.113883.10.20.1.58'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
     </rule>
+    <rule id="AdvanceDirectiveObservation-errors-participant-verifier.typeCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.48' and @extension='2022-02-14']]/cda:participant[(@typeCode = 'VRF')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="AdvanceDirectiveObservation-errors-participant-verifier.time" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.48' and @extension='2022-02-14']]/cda:participant[(@typeCode = 'VRF')]/cda:time">
       <assert test="not(((cda:low | cda:high | cda:width | cda:center)))">Interval fields SHALL not be present</assert>
       <assert test="count(@value) &lt;= 1">Cardinality of @value is 0..1</assert>
@@ -670,12 +676,18 @@
       <assert test="@typeCode = 'CST'">@typeCode SHALL = 'CST'</assert>
       <assert test="count(cda:participantRole)=1">Cardinality of participantRole is 1..1</assert>
     </rule>
+    <rule id="AdvanceDirectiveObservation-errors-participant-custodian.typeCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.48' and @extension='2022-02-14']]/cda:participant[(@typeCode = 'CST')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="AdvanceDirectiveObservation-errors-participant-custodian.participantRole" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.48' and @extension='2022-02-14']]/cda:participant[(@typeCode = 'CST')]/cda:participantRole">
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
       <assert test="@classCode = 'AGNT'">@classCode SHALL = 'AGNT'</assert>
       <assert test="count(cda:code) &lt;= 1">Cardinality of code is 0..1</assert>
       <assert test="count(cda:addr) &lt;= 1">Cardinality of addr is 0..1</assert>
       <assert test="count(cda:playingEntity)=1">Cardinality of playingEntity is 1..1</assert>
+    </rule>
+    <rule id="AdvanceDirectiveObservation-errors-participant-custodian.participantRole.classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.48' and @extension='2022-02-14']]/cda:participant[(@typeCode = 'CST')]/cda:participantRole/@classCode">
+      <assert test="contains($CDARoleClassRoot, .)">SHALL be selected from ValueSet CDARoleClassRoot</assert>
     </rule>
     <rule id="AdvanceDirectiveObservation-errors-participant-custodian.participantRole.addr" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.48' and @extension='2022-02-14']]/cda:participant[(@typeCode = 'CST')]/cda:participantRole/cda:addr">
       <assert test="@nullFlavor or count(cda:city) = 1">SHALL contain exactly one [1..1] city (CONF:81-7292).</assert>
@@ -730,6 +742,9 @@
     </rule>
     <rule id="AdvanceDirectiveOrganizer-errors-classCode" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.108' and @extension='2022-02-14']]/@classCode">
       <assert test="contains($XActClassDocumentEntryOrganizer, .)">SHALL be selected from ValueSet XActClassDocumentEntryOrganizer</assert>
+    </rule>
+    <rule id="AdvanceDirectiveOrganizer-errors-moodCode" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.108' and @extension='2022-02-14']]/@moodCode">
+      <assert test="contains($CDAActMood, .)">SHALL be selected from ValueSet CDAActMood</assert>
     </rule>
     <rule id="AdvanceDirectiveOrganizer-errors-code" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.108' and @extension='2022-02-14']]/cda:code">
       <assert test="count(@code)=1">Cardinality of @code is 1..1</assert>
@@ -812,6 +827,9 @@
       <assert test="count(@root)=1">Cardinality of @root is 1..1</assert>
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.31'">@root SHALL = '2.16.840.1.113883.10.20.22.4.31'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
+    </rule>
+    <rule id="AgeObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.31' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="AgeObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.31' and not(@extension)]]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -980,6 +998,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2019-06-20'">@extension SHALL = '2019-06-20'</assert>
     </rule>
+    <rule id="AllergyStatusObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.28' and @extension='2019-06-20']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="AllergyStatusObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.28' and @extension='2019-06-20']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -1062,6 +1083,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2022-06-01'">@extension SHALL = '2022-06-01'</assert>
     </rule>
+    <rule id="AssessmentScaleObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.69' and @extension='2022-06-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="AssessmentScaleObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.69' and @extension='2022-06-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -1075,6 +1099,9 @@
       <assert test="@nullFlavor or contains($ActStatus, @code)">SHALL be selected from ValueSet ActStatus</assert>
       <assert test="count(@code)=1">Cardinality of @code is 1..1</assert>
       <assert test="@code = 'completed'">@code SHALL = 'completed'</assert>
+    </rule>
+    <rule id="AssessmentScaleObservation-errors-interpretationCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.69' and @extension='2022-06-01']]/cda:interpretationCode">
+      <assert test="@nullFlavor or contains($CDAObservationInterpretation, @code)">SHALL be selected from ValueSet CDAObservationInterpretation</assert>
     </rule>
     <rule id="AssessmentScaleObservation-errors-entryRelationship-supportingObs" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.69' and @extension='2022-06-01']]/cda:entryRelationship[cda:observation[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.86' and @extension='2022-06-01'])] and (@typeCode = 'COMP')]">
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
@@ -1120,6 +1147,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.86'">@root SHALL = '2.16.840.1.113883.10.20.22.4.86'</assert>
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2022-06-01'">@extension SHALL = '2022-06-01'</assert>
+    </rule>
+    <rule id="AssessmentScaleSupportingObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.86' and @extension='2022-06-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="AssessmentScaleSupportingObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.86' and @extension='2022-06-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -1359,6 +1389,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2023-05-01'">@extension SHALL = '2023-05-01'</assert>
     </rule>
+    <rule id="BasicIndustryObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.504' and @extension='2023-05-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="BasicIndustryObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.504' and @extension='2023-05-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -1397,6 +1430,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.503'">@root SHALL = '2.16.840.1.113883.10.20.22.4.503'</assert>
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2023-05-01'">@extension SHALL = '2023-05-01'</assert>
+    </rule>
+    <rule id="BasicOccupationObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.503' and @extension='2023-05-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="BasicOccupationObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.503' and @extension='2023-05-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -1451,6 +1487,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.200'">@root SHALL = '2.16.840.1.113883.10.20.22.4.200'</assert>
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2024-05-01'">@extension SHALL = '2024-05-01'</assert>
+    </rule>
+    <rule id="BirthSexObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.200' and @extension='2024-05-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="BirthSexObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.200' and @extension='2024-05-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -1529,6 +1568,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.509'">@root SHALL = '2.16.840.1.113883.10.20.22.4.509'</assert>
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2024-05-01'">@extension SHALL = '2024-05-01'</assert>
+    </rule>
+    <rule id="CareExperiencePreference-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.509' and @extension='2024-05-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="CareExperiencePreference-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.509' and @extension='2024-05-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -1626,6 +1668,9 @@
       <assert test="count(cda:time)=1">Cardinality of time is 1..1</assert>
       <assert test="count(cda:associatedEntity)=1">Cardinality of associatedEntity is 1..1</assert>
     </rule>
+    <rule id="CarePlan-errors-participant-verifier.typeCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.15' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'VRF')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="CarePlan-errors-participant-verifier.functionCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.15' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'VRF')]/cda:functionCode">
       <assert test="count(@code)=1">Cardinality of @code is 1..1</assert>
       <assert test="@code = '425268008'">@code SHALL = '425268008'</assert>
@@ -1642,6 +1687,9 @@
       <assert test="count(cda:id)&gt;=1">Cardinality of id is 1..*</assert>
       <assert test="count(cda:code) &lt;= 1">Cardinality of code is 0..1</assert>
     </rule>
+    <rule id="CarePlan-errors-participant-verifier.associatedEntity.classCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.15' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'VRF')]/cda:associatedEntity/@classCode">
+      <assert test="contains($CDARoleClassAssociative, .)">SHALL be selected from ValueSet CDARoleClassAssociative</assert>
+    </rule>
     <rule id="CarePlan-errors-participant-verifier.associatedEntity.code" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.15' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'VRF')]/cda:associatedEntity/cda:code">
       <assert test="count(@code) &lt;= 1">Cardinality of @code is 0..1</assert>
     </rule>
@@ -1650,6 +1698,9 @@
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
       <assert test="@typeCode = 'IND'">@typeCode SHALL = 'IND'</assert>
       <assert test="count(cda:associatedEntity)=1">Cardinality of associatedEntity is 1..1</assert>
+    </rule>
+    <rule id="CarePlan-errors-participant-indirect.typeCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.15' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'IND')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
     </rule>
     <rule id="CarePlan-errors-participant-indirect.associatedEntity" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.15' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'IND')]/cda:associatedEntity">
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
@@ -1669,6 +1720,9 @@
       <assert test="@classCode = 'PCPR'">@classCode SHALL = 'PCPR'</assert>
       <assert test="count(cda:effectiveTime)=1">Cardinality of effectiveTime is 1..1</assert>
       <assert test="count(cda:performer)&gt;=1">Cardinality of performer is 1..*</assert>
+    </rule>
+    <rule id="CarePlan-errors-documentationOf-care-provision.serviceEvent.classCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.15' and @extension='2024-05-01']]/cda:documentationOf[(cda:serviceEvent/@classCode = 'PCPR')]/cda:serviceEvent/@classCode">
+      <assert test="contains($CDAActClass, .)">SHALL be selected from ValueSet CDAActClass</assert>
     </rule>
     <rule id="CarePlan-errors-documentationOf-care-provision.serviceEvent.effectiveTime" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.15' and @extension='2024-05-01']]/cda:documentationOf[(cda:serviceEvent/@classCode = 'PCPR')]/cda:serviceEvent/cda:effectiveTime">
       <assert test="not(cda:center) or (not(cda:low) and not(cda:high))">Center cannot co-exist with low or high</assert>
@@ -1863,11 +1917,17 @@
       <assert test="@typeCode = 'LOC'">@typeCode SHALL = 'LOC'</assert>
       <assert test="count(cda:participantRole)=1">Cardinality of participantRole is 1..1</assert>
     </rule>
+    <rule id="CareTeamMemberAct-errors-participant-location.typeCode" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.500.1' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'LOC')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="CareTeamMemberAct-errors-participant-addl-functions" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.500.1' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'IND')]">
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
       <assert test="@typeCode = 'IND'">@typeCode SHALL = 'IND'</assert>
       <assert test="count(sdtc:functionCode)=1">Cardinality of functionCode is 1..1</assert>
       <assert test="count(cda:participantRole)=1">Cardinality of participantRole is 1..1</assert>
+    </rule>
+    <rule id="CareTeamMemberAct-errors-participant-addl-functions.typeCode" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.500.1' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'IND')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
     </rule>
     <rule id="CareTeamMemberAct-errors-participant-addl-functions.participantRole" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.500.1' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'IND')]/cda:participantRole">
       <assert test="count(@nullFlavor)=1">Cardinality of @nullFlavor is 1..1</assert>
@@ -1934,6 +1994,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2022-06-01'">@extension SHALL = '2022-06-01'</assert>
     </rule>
+    <rule id="CareTeamMemberScheduleObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.500.3' and @extension='2022-06-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="CareTeamMemberScheduleObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.500.3' and @extension='2022-06-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -1987,6 +2050,9 @@
     <rule id="CareTeamOrganizer-errors-classCode" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.500' and @extension='2022-06-01']]/@classCode">
       <assert test="contains($XActClassDocumentEntryOrganizer, .)">SHALL be selected from ValueSet XActClassDocumentEntryOrganizer</assert>
     </rule>
+    <rule id="CareTeamOrganizer-errors-moodCode" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.500' and @extension='2022-06-01']]/@moodCode">
+      <assert test="contains($CDAActMood, .)">SHALL be selected from ValueSet CDAActMood</assert>
+    </rule>
     <rule id="CareTeamOrganizer-errors-code" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.500' and @extension='2022-06-01']]/cda:code">
       <assert test="count(@code)=1">Cardinality of @code is 1..1</assert>
       <assert test="@code = '86744-0'">@code SHALL = '86744-0'</assert>
@@ -2027,6 +2093,9 @@
       <assert test="count(sdtc:functionCode) &lt;= 1">Cardinality of functionCode is 0..1</assert>
       <assert test="count(cda:participantRole)=1">Cardinality of participantRole is 1..1</assert>
     </rule>
+    <rule id="CareTeamOrganizer-errors-participant-lead.typeCode" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.500' and @extension='2022-06-01']]/cda:participant[(@typeCode = 'PPRF')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="CareTeamOrganizer-errors-participant-lead.participantRole" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.500' and @extension='2022-06-01']]/cda:participant[(@typeCode = 'PPRF')]/cda:participantRole">
       <assert test="count(cda:id)&gt;=1">Cardinality of id is 1..*</assert>
     </rule>
@@ -2034,6 +2103,9 @@
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
       <assert test="@typeCode = 'LOC'">@typeCode SHALL = 'LOC'</assert>
       <assert test="count(cda:participantRole)=1">Cardinality of participantRole is 1..1</assert>
+    </rule>
+    <rule id="CareTeamOrganizer-errors-participant-location.typeCode" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.500' and @extension='2022-06-01']]/cda:participant[(@typeCode = 'LOC')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
     </rule>
     <rule id="CareTeamOrganizer-errors-participant-location.participantRole" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.500' and @extension='2022-06-01']]/cda:participant[(@typeCode = 'LOC')]/cda:participantRole">
       <assert test="count(cda:id)&gt;=1">Cardinality of id is 1..*</assert>
@@ -2117,6 +2189,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2019-07-01'">@extension SHALL = '2019-07-01'</assert>
     </rule>
+    <rule id="CareTeamTypeObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.500.2' and @extension='2019-07-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="CareTeamTypeObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.500.2' and @extension='2019-07-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -2194,6 +2269,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.72'">@root SHALL = '2.16.840.1.113883.10.20.22.4.72'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
     </rule>
+    <rule id="CaregiverCharacteristics-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.72' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="CaregiverCharacteristics-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.72' and not(@extension)]]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -2217,6 +2295,9 @@
       <assert test="count(cda:time) &lt;= 1">Cardinality of time is 0..1</assert>
       <assert test="count(cda:participantRole)=1">Cardinality of participantRole is 1..1</assert>
     </rule>
+    <rule id="CaregiverCharacteristics-errors-participant.typeCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.72' and not(@extension)]]/cda:participant/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="CaregiverCharacteristics-errors-participant.time" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.72' and not(@extension)]]/cda:participant/cda:time">
       <assert test="count(cda:low)=1">Cardinality of low is 1..1</assert>
       <assert test="count(cda:high) &lt;= 1">Cardinality of high is 0..1</assert>
@@ -2224,6 +2305,9 @@
     <rule id="CaregiverCharacteristics-errors-participant.participantRole" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.72' and not(@extension)]]/cda:participant/cda:participantRole">
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
       <assert test="@classCode = 'CAREGIVER'">@classCode SHALL = 'CAREGIVER'</assert>
+    </rule>
+    <rule id="CaregiverCharacteristics-errors-participant.participantRole.classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.72' and not(@extension)]]/cda:participant/cda:participantRole/@classCode">
+      <assert test="contains($CDARoleClassRoot, .)">SHALL be selected from ValueSet CDARoleClassRoot</assert>
     </rule>
   </pattern>
   <pattern id="CatalogNumberObservation-errors">
@@ -2275,6 +2359,9 @@
       <assert test="count(@root)=1">Cardinality of @root is 1..1</assert>
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.109'">@root SHALL = '2.16.840.1.113883.10.20.22.4.109'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
+    </rule>
+    <rule id="CharacteristicsofHomeEnvironment-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.109' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="CharacteristicsofHomeEnvironment-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.109' and not(@extension)]]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -2469,6 +2556,9 @@
       <assert test="@typeCode = 'CALLBCK'">@typeCode SHALL = 'CALLBCK'</assert>
       <assert test="count(cda:associatedEntity)=1">Cardinality of associatedEntity is 1..1</assert>
     </rule>
+    <rule id="ConsultationNote-errors-participant-callback.typeCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.4' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'CALLBCK')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="ConsultationNote-errors-participant-callback.associatedEntity" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.4' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'CALLBCK')]/cda:associatedEntity">
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
       <assert test="@classCode = 'ASSIGNED'">@classCode SHALL = 'ASSIGNED'</assert>
@@ -2476,6 +2566,9 @@
       <assert test="count(cda:telecom)&gt;=1">Cardinality of telecom is 1..*</assert>
       <assert test="count(cda:associatedPerson)=1">Cardinality of associatedPerson is 1..1</assert>
       <assert test="count(cda:scopingOrganization) &lt;= 1">Cardinality of scopingOrganization is 0..1</assert>
+    </rule>
+    <rule id="ConsultationNote-errors-participant-callback.associatedEntity.classCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.4' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'CALLBCK')]/cda:associatedEntity/@classCode">
+      <assert test="contains($CDARoleClassAssociative, .)">SHALL be selected from ValueSet CDARoleClassAssociative</assert>
     </rule>
     <rule id="ConsultationNote-errors-participant-callback.associatedEntity.addr" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.4' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'CALLBCK')]/cda:associatedEntity/cda:addr">
       <assert test="@nullFlavor or count(cda:city) = 1">SHALL contain exactly one [1..1] city (CONF:81-7292).</assert>
@@ -2746,6 +2839,9 @@
       <assert test="@classCode = 'PCPR'">@classCode SHALL = 'PCPR'</assert>
       <assert test="count(cda:effectiveTime)=1">Cardinality of effectiveTime is 1..1</assert>
     </rule>
+    <rule id="ContinuityofCareDocumentCCD-errors-documentationOf.serviceEvent.classCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.2' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/@classCode">
+      <assert test="contains($CDAActClass, .)">SHALL be selected from ValueSet CDAActClass</assert>
+    </rule>
     <rule id="ContinuityofCareDocumentCCD-errors-documentationOf.serviceEvent.effectiveTime" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.2' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/cda:effectiveTime">
       <assert test="not(cda:center) or (not(cda:low) and not(cda:high))">Center cannot co-exist with low or high</assert>
       <assert test="not(@value) or string-length(@value) &gt;= 8">If a time interval contains @value, then it shall be precise to at least the day.</assert>
@@ -3011,6 +3107,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.145'">@root SHALL = '2.16.840.1.113883.10.20.22.4.145'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
     </rule>
+    <rule id="CriticalityObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.145' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="CriticalityObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.145' and not(@extension)]]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -3054,6 +3153,9 @@
       <assert test="count(@root)=1">Cardinality of @root is 1..1</assert>
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.111'">@root SHALL = '2.16.840.1.113883.10.20.22.4.111'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
+    </rule>
+    <rule id="CulturalandReligiousObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.111' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="CulturalandReligiousObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.111' and not(@extension)]]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -3150,6 +3252,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.79'">@root SHALL = '2.16.840.1.113883.10.20.22.4.79'</assert>
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2015-08-01'">@extension SHALL = '2015-08-01'</assert>
+    </rule>
+    <rule id="DeceasedObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.79' and @extension='2015-08-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="DeceasedObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.79' and @extension='2015-08-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -3250,6 +3355,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.505'">@root SHALL = '2.16.840.1.113883.10.20.22.4.505'</assert>
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2023-05-01'">@extension SHALL = '2023-05-01'</assert>
+    </rule>
+    <rule id="DisabilityStatusObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.505' and @extension='2023-05-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="DisabilityStatusObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.505' and @extension='2023-05-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -3451,6 +3559,9 @@
     </rule>
     <rule id="DischargeSummary-errors-participant.associatedEntity" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.8' and @extension='2024-05-01']]/cda:participant/cda:associatedEntity">
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
+    </rule>
+    <rule id="DischargeSummary-errors-participant.associatedEntity.classCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.8' and @extension='2024-05-01']]/cda:participant/cda:associatedEntity/@classCode">
+      <assert test="contains($CDARoleClassAssociative, .)">SHALL be selected from ValueSet CDARoleClassAssociative</assert>
     </rule>
     <rule id="DischargeSummary-errors-componentOf" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.8' and @extension='2024-05-01']]/cda:componentOf">
       <assert test="count(cda:encompassingEncounter)=1">Cardinality of encompassingEncounter is 1..1</assert>
@@ -3774,11 +3885,17 @@
       <assert test="@typeCode = 'RESP'">@typeCode SHALL = 'RESP'</assert>
       <assert test="count(cda:participantRole)=1">Cardinality of participantRole is 1..1</assert>
     </rule>
+    <rule id="DrugMonitoringAct-errors-participant-responsible.typeCode" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.123' and not(@extension)]]/cda:participant[(@typeCode = 'RESP')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="DrugMonitoringAct-errors-participant-responsible.participantRole" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.123' and not(@extension)]]/cda:participant[(@typeCode = 'RESP')]/cda:participantRole">
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
       <assert test="@classCode = 'ASSIGNED'">@classCode SHALL = 'ASSIGNED'</assert>
       <assert test="count(cda:id)&gt;=1">Cardinality of id is 1..*</assert>
       <assert test="count(cda:playingEntity)=1">Cardinality of playingEntity is 1..1</assert>
+    </rule>
+    <rule id="DrugMonitoringAct-errors-participant-responsible.participantRole.classCode" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.123' and not(@extension)]]/cda:participant[(@typeCode = 'RESP')]/cda:participantRole/@classCode">
+      <assert test="contains($CDARoleClassRoot, .)">SHALL be selected from ValueSet CDARoleClassRoot</assert>
     </rule>
     <rule id="DrugMonitoringAct-errors-participant-responsible.participantRole.playingEntity" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.123' and not(@extension)]]/cda:participant[(@typeCode = 'RESP')]/cda:participantRole/cda:playingEntity">
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
@@ -3807,6 +3924,9 @@
       <assert test="count(@root)=1">Cardinality of @root is 1..1</assert>
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.24'">@root SHALL = '2.16.840.1.113883.10.20.22.4.24'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
+    </rule>
+    <rule id="DrugVehicle-errors-classCode" context="cda:participantRole[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.24' and not(@extension)]]/@classCode">
+      <assert test="contains($CDARoleClassRoot, .)">SHALL be selected from ValueSet CDARoleClassRoot</assert>
     </rule>
     <rule id="DrugVehicle-errors-code" context="cda:participantRole[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.24' and not(@extension)]]/cda:code">
       <assert test="count(@code)=1">Cardinality of @code is 1..1</assert>
@@ -3840,6 +3960,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2015-08-01'">@extension SHALL = '2015-08-01'</assert>
     </rule>
+    <rule id="EncounterActivity-errors-classCode" context="cda:encounter[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.49' and @extension='2015-08-01']]/@classCode">
+      <assert test="contains($CDAActClass, .)">SHALL be selected from ValueSet CDAActClass</assert>
+    </rule>
     <rule id="EncounterActivity-errors-moodCode" context="cda:encounter[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.49' and @extension='2015-08-01']]/@moodCode">
       <assert test="contains($XDocumentEncounterMood, .)">SHALL be selected from ValueSet XDocumentEncounterMood</assert>
     </rule>
@@ -3869,6 +3992,9 @@
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
       <assert test="@typeCode = 'LOC'">@typeCode SHALL = 'LOC'</assert>
       <assert test="count(cda:participantRole)=1">Cardinality of participantRole is 1..1</assert>
+    </rule>
+    <rule id="EncounterActivity-errors-participant-location.typeCode" context="cda:encounter[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.49' and @extension='2015-08-01']]/cda:participant[cda:participantRole[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.32' and not(@extension)])] and (@typeCode = 'LOC')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
     </rule>
     <rule id="EncounterActivity-errors-participant-location.participantRole" context="cda:encounter[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.49' and @extension='2015-08-01']]/cda:participant[cda:participantRole[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.32' and not(@extension)])] and (@typeCode = 'LOC')]/cda:participantRole">
       <assert test="count(((cda:playingDevice | cda:playingEntity))) &lt;= 1">playingDevice and playingEntity are mutually exclusive</assert>
@@ -4059,6 +4185,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.15.3.1'">@root SHALL = '2.16.840.1.113883.10.20.15.3.1'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
     </rule>
+    <rule id="EstimatedDateofDelivery-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.15.3.1' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="EstimatedDateofDelivery-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.15.3.1' and not(@extension)]]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -4078,6 +4207,9 @@
       <assert test="@nullFlavor or contains($ActStatus, @code)">SHALL be selected from ValueSet ActStatus</assert>
       <assert test="count(@code)=1">Cardinality of @code is 1..1</assert>
       <assert test="@code = 'completed'">@code SHALL = 'completed'</assert>
+    </rule>
+    <rule id="EstimatedDateofDelivery-errors-interpretationCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.15.3.1' and not(@extension)]]/cda:interpretationCode">
+      <assert test="@nullFlavor or contains($CDAObservationInterpretation, @code)">SHALL be selected from ValueSet CDAObservationInterpretation</assert>
     </rule>
   </pattern>
   <pattern id="ExpirationDateObservation-errors">
@@ -4136,6 +4268,9 @@
     <rule id="ExternalDocumentReference-errors-classCode" context="cda:externalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.115' and @extension='2014-06-09']]/@classCode">
       <assert test="contains($ActClassDocument, .)">SHALL be selected from ValueSet ActClassDocument</assert>
     </rule>
+    <rule id="ExternalDocumentReference-errors-moodCode" context="cda:externalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.115' and @extension='2014-06-09']]/@moodCode">
+      <assert test="contains($CDAActMood, .)">SHALL be selected from ValueSet CDAActMood</assert>
+    </rule>
   </pattern>
   <pattern id="FamilyHistoryDeathObservation-errors">
     <!--urn:oid:2.16.840.1.113883.10.20.22.4.47-->
@@ -4155,6 +4290,9 @@
       <assert test="count(@root)=1">Cardinality of @root is 1..1</assert>
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.47'">@root SHALL = '2.16.840.1.113883.10.20.22.4.47'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
+    </rule>
+    <rule id="FamilyHistoryDeathObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.47' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="FamilyHistoryDeathObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.47' and not(@extension)]]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -4206,6 +4344,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.46'">@root SHALL = '2.16.840.1.113883.10.20.22.4.46'</assert>
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2015-08-01'">@extension SHALL = '2015-08-01'</assert>
+    </rule>
+    <rule id="FamilyHistoryObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.46' and @extension='2015-08-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="FamilyHistoryObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.46' and @extension='2015-08-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -4269,6 +4410,9 @@
     </rule>
     <rule id="FamilyHistoryOrganizer-errors-classCode" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.45' and @extension='2015-08-01']]/@classCode">
       <assert test="contains($XActClassDocumentEntryOrganizer, .)">SHALL be selected from ValueSet XActClassDocumentEntryOrganizer</assert>
+    </rule>
+    <rule id="FamilyHistoryOrganizer-errors-moodCode" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.45' and @extension='2015-08-01']]/@moodCode">
+      <assert test="contains($CDAActMood, .)">SHALL be selected from ValueSet CDAActMood</assert>
     </rule>
     <rule id="FamilyHistoryOrganizer-errors-sdtcText" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.45' and @extension='2015-08-01']]/sdtc:text">
       <assert test="count(cda:reference) &lt;= 1">Cardinality of reference is 0..1</assert>
@@ -4360,6 +4504,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2014-06-09'">@extension SHALL = '2014-06-09'</assert>
     </rule>
+    <rule id="FunctionalStatusObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.67' and @extension='2014-06-09']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="FunctionalStatusObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.67' and @extension='2014-06-09']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -4442,6 +4589,9 @@
     </rule>
     <rule id="FunctionalStatusOrganizer-errors-classCode" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.66' and @extension='2014-06-09']]/@classCode">
       <assert test="contains($XActClassDocumentEntryOrganizer, .)">SHALL be selected from ValueSet XActClassDocumentEntryOrganizer</assert>
+    </rule>
+    <rule id="FunctionalStatusOrganizer-errors-moodCode" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.66' and @extension='2014-06-09']]/@moodCode">
+      <assert test="contains($CDAActMood, .)">SHALL be selected from ValueSet CDAActMood</assert>
     </rule>
     <rule id="FunctionalStatusOrganizer-errors-sdtcText" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.66' and @extension='2014-06-09']]/sdtc:text">
       <assert test="count(cda:reference) &lt;= 1">Cardinality of reference is 0..1</assert>
@@ -4556,6 +4706,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2023-05-01'">@extension SHALL = '2023-05-01'</assert>
     </rule>
+    <rule id="GenderIdentityObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.34.3.45' and @extension='2023-05-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="GenderIdentityObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.34.3.45' and @extension='2023-05-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -4622,6 +4775,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.121'">@root SHALL = '2.16.840.1.113883.10.20.22.4.121'</assert>
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2022-06-01'">@extension SHALL = '2022-06-01'</assert>
+    </rule>
+    <rule id="GoalObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.121' and @extension='2022-06-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="GoalObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.121' and @extension='2022-06-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -4791,6 +4947,9 @@
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
       <assert test="@typeCode = 'IRCP'">@typeCode SHALL = 'IRCP'</assert>
       <assert test="count(cda:participantRole)=1">Cardinality of participantRole is 1..1</assert>
+    </rule>
+    <rule id="HandoffCommunicationParticipants-errors-participant-infoRecipient.typeCode" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.141' and not(@extension)]]/cda:participant[(@typeCode = 'IRCP')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
     </rule>
     <rule id="HandoffCommunicationParticipants-errors-participant-infoRecipient.participantRole" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.141' and not(@extension)]]/cda:participant[(@typeCode = 'IRCP')]/cda:participantRole">
       <assert test="count(cda:id)&gt;=1">Cardinality of id is 1..*</assert>
@@ -5020,6 +5179,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2014-06-09'">@extension SHALL = '2014-06-09'</assert>
     </rule>
+    <rule id="HealthStatusObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.5' and @extension='2014-06-09']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="HealthStatusObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.5' and @extension='2014-06-09']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -5062,6 +5224,9 @@
       <assert test="count(@root)=1">Cardinality of @root is 1..1</assert>
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.77'">@root SHALL = '2.16.840.1.113883.10.20.22.4.77'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
+    </rule>
+    <rule id="HighestPressureUlcerStage-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.77' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="HighestPressureUlcerStage-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.77' and not(@extension)]]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -5560,6 +5725,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2015-08-01'">@extension SHALL = '2015-08-01'</assert>
     </rule>
+    <rule id="ImmunizationActivity-errors-classCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.52' and @extension='2015-08-01']]/@classCode">
+      <assert test="contains($CDAActClass, .)">SHALL be selected from ValueSet CDAActClass</assert>
+    </rule>
     <rule id="ImmunizationActivity-errors-moodCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.52' and @extension='2015-08-01']]/@moodCode">
       <assert test="contains($MoodCodeEvnInt, .)">SHALL be selected from ValueSet MoodCodeEvnInt</assert>
     </rule>
@@ -5604,6 +5772,9 @@
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
       <assert test="@typeCode = 'CSM'">@typeCode SHALL = 'CSM'</assert>
       <assert test="count(cda:participantRole)=1">Cardinality of participantRole is 1..1</assert>
+    </rule>
+    <rule id="ImmunizationActivity-errors-participant-drugVehicle.typeCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.52' and @extension='2015-08-01']]/cda:participant[(@typeCode = 'CSM')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
     </rule>
     <rule id="ImmunizationActivity-errors-participant-drugVehicle.participantRole" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.52' and @extension='2015-08-01']]/cda:participant[(@typeCode = 'CSM')]/cda:participantRole">
       <assert test="count(((cda:playingDevice | cda:playingEntity))) &lt;= 1">playingDevice and playingEntity are mutually exclusive</assert>
@@ -5704,6 +5875,9 @@
       <assert test="@typeCode = 'PRCN'">@typeCode SHALL = 'PRCN'</assert>
       <assert test="count(cda:criterion)=1">Cardinality of criterion is 1..1</assert>
     </rule>
+    <rule id="ImmunizationActivity-errors-precondition-substanceAdmin.typeCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.52' and @extension='2015-08-01']]/cda:precondition[cda:criterion[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.25' and @extension='2014-06-09'])]]/@typeCode">
+      <assert test="contains($CDAActRelationshipType, .)">SHALL be selected from ValueSet CDAActRelationshipType</assert>
+    </rule>
     <rule id="ImmunizationActivity-errors-precondition-substanceAdmin.criterion" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.52' and @extension='2015-08-01']]/cda:precondition[cda:criterion[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.25' and @extension='2014-06-09'])]]/cda:criterion">
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.25' and @extension='2014-06-09'])">criterion SHALL conform to PreconditionforSubstanceAdministration</assert>
     </rule>
@@ -5756,6 +5930,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.53'">@root SHALL = '2.16.840.1.113883.10.20.22.4.53'</assert>
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2024-05-01'">@extension SHALL = '2024-05-01'</assert>
+    </rule>
+    <rule id="ImmunizationNotGivenReason-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.53' and @extension='2024-05-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="ImmunizationNotGivenReason-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.53' and @extension='2024-05-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -5871,6 +6048,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.19'">@root SHALL = '2.16.840.1.113883.10.20.22.4.19'</assert>
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2023-05-01'">@extension SHALL = '2023-05-01'</assert>
+    </rule>
+    <rule id="Indication-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="Indication-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -6216,6 +6396,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2015-08-01'">@extension SHALL = '2015-08-01'</assert>
     </rule>
+    <rule id="LongitudinalCareWoundObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.114' and @extension='2015-08-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="LongitudinalCareWoundObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.114' and @extension='2015-08-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -6411,6 +6594,9 @@
     <rule id="MedicalEquipmentOrganizer-errors-classCode" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.135' and not(@extension)]]/@classCode">
       <assert test="contains($XActClassDocumentEntryOrganizer, .)">SHALL be selected from ValueSet XActClassDocumentEntryOrganizer</assert>
     </rule>
+    <rule id="MedicalEquipmentOrganizer-errors-moodCode" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.135' and not(@extension)]]/@moodCode">
+      <assert test="contains($CDAActMood, .)">SHALL be selected from ValueSet CDAActMood</assert>
+    </rule>
     <rule id="MedicalEquipmentOrganizer-errors-sdtcText" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.135' and not(@extension)]]/sdtc:text">
       <assert test="count(cda:reference) &lt;= 1">Cardinality of reference is 0..1</assert>
     </rule>
@@ -6540,6 +6726,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2014-06-09'">@extension SHALL = '2014-06-09'</assert>
     </rule>
+    <rule id="MedicationActivity-errors-classCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09']]/@classCode">
+      <assert test="contains($CDAActClass, .)">SHALL be selected from ValueSet CDAActClass</assert>
+    </rule>
     <rule id="MedicationActivity-errors-moodCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09']]/@moodCode">
       <assert test="contains($MoodCodeEvnInt, .)">SHALL be selected from ValueSet MoodCodeEvnInt</assert>
     </rule>
@@ -6566,9 +6755,15 @@
       <assert test="count(@operator)=1">Cardinality of @operator is 1..1</assert>
       <assert test="@operator = 'A'">@operator SHALL = 'A'</assert>
     </rule>
+    <rule id="MedicationActivity-errors-effectiveTime-periodicFrequency.operator" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09']]/cda:effectiveTime[@xsi:type='EIVL_TS']/@operator">
+      <assert test="contains($CDASetOperator, .)">SHALL be selected from ValueSet CDASetOperator</assert>
+    </rule>
     <rule id="MedicationActivity-errors-effectiveTime-eventFrequency" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09']]/cda:effectiveTime[@xsi:type='PIVL_TS']">
       <assert test="count(@operator)=1">Cardinality of @operator is 1..1</assert>
       <assert test="@operator = 'A'">@operator SHALL = 'A'</assert>
+    </rule>
+    <rule id="MedicationActivity-errors-effectiveTime-eventFrequency.operator" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09']]/cda:effectiveTime[@xsi:type='PIVL_TS']/@operator">
+      <assert test="contains($CDASetOperator, .)">SHALL be selected from ValueSet CDASetOperator</assert>
     </rule>
     <rule id="MedicationActivity-errors-routeCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09']]/cda:routeCode">
       <assert test="@nullFlavor or contains($SPLDrugRouteOfAdministrationTerminology, @code)">SHALL be selected from ValueSet SPLDrugRouteOfAdministrationTerminology</assert>
@@ -6596,6 +6791,9 @@
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
       <assert test="@typeCode = 'CSM'">@typeCode SHALL = 'CSM'</assert>
       <assert test="count(cda:participantRole)=1">Cardinality of participantRole is 1..1</assert>
+    </rule>
+    <rule id="MedicationActivity-errors-participant-drugVehicle.typeCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09']]/cda:participant[(@typeCode = 'CSM')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
     </rule>
     <rule id="MedicationActivity-errors-participant-drugVehicle.participantRole" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09']]/cda:participant[(@typeCode = 'CSM')]/cda:participantRole">
       <assert test="count(((cda:playingDevice | cda:playingEntity))) &lt;= 1">playingDevice and playingEntity are mutually exclusive</assert>
@@ -6710,6 +6908,9 @@
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
       <assert test="@typeCode = 'PRCN'">@typeCode SHALL = 'PRCN'</assert>
       <assert test="count(cda:criterion)=1">Cardinality of criterion is 1..1</assert>
+    </rule>
+    <rule id="MedicationActivity-errors-precondition.typeCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09']]/cda:precondition/@typeCode">
+      <assert test="contains($CDAActRelationshipType, .)">SHALL be selected from ValueSet CDAActRelationshipType</assert>
     </rule>
     <rule id="MedicationActivity-errors-precondition.criterion" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09']]/cda:precondition/cda:criterion">
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.25' and @extension='2014-06-09'])">criterion SHALL conform to PreconditionforSubstanceAdministration</assert>
@@ -6874,6 +7075,9 @@
       <assert test="count(@root)=1">Cardinality of @root is 1..1</assert>
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.147'">@root SHALL = '2.16.840.1.113883.10.20.22.4.147'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
+    </rule>
+    <rule id="MedicationFreeTextSig-errors-classCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.147' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClass, .)">SHALL be selected from ValueSet CDAActClass</assert>
     </rule>
     <rule id="MedicationFreeTextSig-errors-moodCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.147' and not(@extension)]]/@moodCode">
       <assert test="contains($MoodCodeEvnInt, .)">SHALL be selected from ValueSet MoodCodeEvnInt</assert>
@@ -7081,6 +7285,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2024-05-01'">@extension SHALL = '2024-05-01'</assert>
     </rule>
+    <rule id="MentalStatusObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.74' and @extension='2024-05-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="MentalStatusObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.74' and @extension='2024-05-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -7141,6 +7348,9 @@
     </rule>
     <rule id="MentalStatusOrganizer-errors-classCode" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.75' and @extension='2015-08-01']]/@classCode">
       <assert test="contains($XActClassDocumentEntryOrganizer, .)">SHALL be selected from ValueSet XActClassDocumentEntryOrganizer</assert>
+    </rule>
+    <rule id="MentalStatusOrganizer-errors-moodCode" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.75' and @extension='2015-08-01']]/@moodCode">
+      <assert test="contains($CDAActMood, .)">SHALL be selected from ValueSet CDAActMood</assert>
     </rule>
     <rule id="MentalStatusOrganizer-errors-code" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.75' and @extension='2015-08-01']]/cda:code">
       <assert test="count(@code)=1">Cardinality of @code is 1..1</assert>
@@ -7280,6 +7490,9 @@
       <assert test="@typeCode = 'PRD'">@typeCode SHALL = 'PRD'</assert>
       <assert test="count(cda:participantRole)=1">Cardinality of participantRole is 1..1</assert>
     </rule>
+    <rule id="NonMedicinalSupplyActivity-errors-participant-product.typeCode" context="cda:supply[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.50' and @extension='2014-06-09']]/cda:participant[(@typeCode = 'PRD')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="NonMedicinalSupplyActivity-errors-participant-product.participantRole" context="cda:supply[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.50' and @extension='2014-06-09']]/cda:participant[(@typeCode = 'PRD')]/cda:participantRole">
       <assert test="count(((cda:playingDevice | cda:playingEntity))) &lt;= 1">playingDevice and playingEntity are mutually exclusive</assert>
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.37' and not(@extension)])">participantRole SHALL conform to ProductInstance</assert>
@@ -7355,6 +7568,9 @@
       <assert test="@typeCode = 'LA'">@typeCode SHALL = 'LA'</assert>
       <assert test="count(cda:time)=1">Cardinality of time is 1..1</assert>
       <assert test="count(cda:participantRole)=1">Cardinality of participantRole is 1..1</assert>
+    </rule>
+    <rule id="NoteActivity-errors-participant-legalAuthenticator.typeCode" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.202' and @extension='2016-11-01']]/cda:participant[(@typeCode = 'LA')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
     </rule>
     <rule id="NoteActivity-errors-participant-legalAuthenticator.time" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.202' and @extension='2016-11-01']]/cda:participant[(@typeCode = 'LA')]/cda:time">
       <assert test="not(cda:center) or (not(cda:low) and not(cda:high))">Center cannot co-exist with low or high</assert>
@@ -7446,6 +7662,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2024-05-01'">@extension SHALL = '2024-05-01'</assert>
     </rule>
+    <rule id="NumberofPressureUlcersObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.76' and @extension='2024-05-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="NumberofPressureUlcersObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.76' and @extension='2024-05-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -7490,6 +7709,9 @@
       <assert test="count(cda:code)=1">Cardinality of code is 1..1</assert>
       <assert test="count(cda:value)=1">Cardinality of value is 1..1</assert>
     </rule>
+    <rule id="NumberofPressureUlcersObservation-errors-entryRelationship-stage.observation.classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.76' and @extension='2024-05-01']]/cda:entryRelationship[(@typeCode = 'SUBJ') and (cda:observation)]/cda:observation/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="NumberofPressureUlcersObservation-errors-entryRelationship-stage.observation.moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.76' and @extension='2024-05-01']]/cda:entryRelationship[(@typeCode = 'SUBJ') and (cda:observation)]/cda:observation/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -7520,6 +7742,9 @@
       <assert test="count(@root)=1">Cardinality of @root is 1..1</assert>
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.138'">@root SHALL = '2.16.840.1.113883.10.20.22.4.138'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
+    </rule>
+    <rule id="NutritionAssessment-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.138' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="NutritionAssessment-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.138' and not(@extension)]]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -7677,6 +7902,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.124'">@root SHALL = '2.16.840.1.113883.10.20.22.4.124'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
     </rule>
+    <rule id="NutritionalStatusObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.124' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="NutritionalStatusObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.124' and not(@extension)]]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -7812,6 +8040,12 @@
       <assert test="count(@moodCode)=1">Cardinality of @moodCode is 1..1</assert>
       <assert test="@moodCode = 'EVN'">@moodCode SHALL = 'EVN'</assert>
       <assert test="count(cda:statusCode)=1">Cardinality of statusCode is 1..1</assert>
+    </rule>
+    <rule id="OperativeNote-errors-authorization.consent.classCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.7' and @extension='2024-05-01']]/cda:authorization/cda:consent/@classCode">
+      <assert test="contains($CDAActClass, .)">SHALL be selected from ValueSet CDAActClass</assert>
+    </rule>
+    <rule id="OperativeNote-errors-authorization.consent.moodCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.7' and @extension='2024-05-01']]/cda:authorization/cda:consent/@moodCode">
+      <assert test="contains($CDAActMood, .)">SHALL be selected from ValueSet CDAActMood</assert>
     </rule>
     <rule id="OperativeNote-errors-authorization.consent.statusCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.7' and @extension='2024-05-01']]/cda:authorization/cda:consent/cda:statusCode">
       <assert test="@nullFlavor or contains($ActStatus, @code)">SHALL be selected from ValueSet ActStatus</assert>
@@ -8006,6 +8240,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.144'">@root SHALL = '2.16.840.1.113883.10.20.22.4.144'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
     </rule>
+    <rule id="OutcomeObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.144' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="OutcomeObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.144' and not(@extension)]]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -8143,6 +8380,9 @@
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
       <assert test="count(cda:participantRole)=1">Cardinality of participantRole is 1..1</assert>
     </rule>
+    <rule id="PatientReferralAct-errors-participant.typeCode" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.140' and not(@extension)]]/cda:participant/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="PatientReferralAct-errors-participant.participantRole" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.140' and not(@extension)]]/cda:participant/cda:participantRole">
       <assert test="count(cda:code) &lt;= 1">Cardinality of code is 0..1</assert>
     </rule>
@@ -8163,6 +8403,9 @@
       <assert test="count(cda:statusCode)=1">Cardinality of statusCode is 1..1</assert>
       <assert test="count(cda:priorityCode) &lt;= 1">Cardinality of priorityCode is 0..1</assert>
       <assert test="count(cda:value)=1">Cardinality of value is 1..1</assert>
+    </rule>
+    <rule id="PatientReferralAct-errors-entryRelationship-entryRelationship1.observation.classCode" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.140' and not(@extension)]]/cda:entryRelationship[not(cda:observation)]/cda:observation/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="PatientReferralAct-errors-entryRelationship-entryRelationship1.observation.moodCode" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.140' and not(@extension)]]/cda:entryRelationship[not(cda:observation)]/cda:observation/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -8356,6 +8599,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2014-06-09'">@extension SHALL = '2014-06-09'</assert>
     </rule>
+    <rule id="PlannedEncounter-errors-classCode" context="cda:encounter[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.40' and @extension='2014-06-09']]/@classCode">
+      <assert test="contains($CDAActClass, .)">SHALL be selected from ValueSet CDAActClass</assert>
+    </rule>
     <rule id="PlannedEncounter-errors-moodCode" context="cda:encounter[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.40' and @extension='2014-06-09']]/@moodCode">
       <assert test="contains($PlannedMoodCodeActEncounterProcedure, .)">SHALL be selected from ValueSet PlannedMoodCodeActEncounterProcedure</assert>
     </rule>
@@ -8380,6 +8626,9 @@
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
       <assert test="@typeCode = 'LOC'">@typeCode SHALL = 'LOC'</assert>
       <assert test="count(cda:participantRole)=1">Cardinality of participantRole is 1..1</assert>
+    </rule>
+    <rule id="PlannedEncounter-errors-participant-location.typeCode" context="cda:encounter[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.40' and @extension='2014-06-09']]/cda:participant[(@typeCode = 'LOC')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
     </rule>
     <rule id="PlannedEncounter-errors-participant-location.participantRole" context="cda:encounter[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.40' and @extension='2014-06-09']]/cda:participant[(@typeCode = 'LOC')]/cda:participantRole">
       <assert test="count(((cda:playingDevice | cda:playingEntity))) &lt;= 1">playingDevice and playingEntity are mutually exclusive</assert>
@@ -8430,6 +8679,9 @@
       <assert test="count(@root)=1">Cardinality of @root is 1..1</assert>
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.120'">@root SHALL = '2.16.840.1.113883.10.20.22.4.120'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
+    </rule>
+    <rule id="PlannedImmunizationActivity-errors-classCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.120' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClass, .)">SHALL be selected from ValueSet CDAActClass</assert>
     </rule>
     <rule id="PlannedImmunizationActivity-errors-moodCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.120' and not(@extension)]]/@moodCode">
       <assert test="contains($PlannedMoodCodeSubstanceAdministrationSupply, .)">SHALL be selected from ValueSet PlannedMoodCodeSubstanceAdministrationSupply</assert>
@@ -8499,6 +8751,9 @@
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
       <assert test="@typeCode = 'PRCN'">@typeCode SHALL = 'PRCN'</assert>
       <assert test="count(cda:criterion)=1">Cardinality of criterion is 1..1</assert>
+    </rule>
+    <rule id="PlannedImmunizationActivity-errors-precondition-pronditionForSubstanceAdmin.typeCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.120' and not(@extension)]]/cda:precondition[cda:criterion[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.25' and @extension='2014-06-09'])]]/@typeCode">
+      <assert test="contains($CDAActRelationshipType, .)">SHALL be selected from ValueSet CDAActRelationshipType</assert>
     </rule>
     <rule id="PlannedImmunizationActivity-errors-precondition-pronditionForSubstanceAdmin.criterion" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.120' and not(@extension)]]/cda:precondition[cda:criterion[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.25' and @extension='2014-06-09'])]]/cda:criterion">
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.25' and @extension='2014-06-09'])">criterion SHALL conform to PreconditionforSubstanceAdministration</assert>
@@ -8732,6 +8987,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2014-06-09'">@extension SHALL = '2014-06-09'</assert>
     </rule>
+    <rule id="PlannedMedicationActivity-errors-classCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.42' and @extension='2014-06-09']]/@classCode">
+      <assert test="contains($CDAActClass, .)">SHALL be selected from ValueSet CDAActClass</assert>
+    </rule>
     <rule id="PlannedMedicationActivity-errors-moodCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.42' and @extension='2014-06-09']]/@moodCode">
       <assert test="contains($PlannedMoodCodeSubstanceAdministrationSupply, .)">SHALL be selected from ValueSet PlannedMoodCodeSubstanceAdministrationSupply</assert>
     </rule>
@@ -8756,9 +9014,15 @@
       <assert test="count(@operator)=1">Cardinality of @operator is 1..1</assert>
       <assert test="@operator = 'A'">@operator SHALL = 'A'</assert>
     </rule>
+    <rule id="PlannedMedicationActivity-errors-effectiveTime-periodicFrequency.operator" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.42' and @extension='2014-06-09']]/cda:effectiveTime[@xsi:type='EIVL_TS']/@operator">
+      <assert test="contains($CDASetOperator, .)">SHALL be selected from ValueSet CDASetOperator</assert>
+    </rule>
     <rule id="PlannedMedicationActivity-errors-effectiveTime-eventFrequency" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.42' and @extension='2014-06-09']]/cda:effectiveTime[@xsi:type='PIVL_TS']">
       <assert test="count(@operator)=1">Cardinality of @operator is 1..1</assert>
       <assert test="@operator = 'A'">@operator SHALL = 'A'</assert>
+    </rule>
+    <rule id="PlannedMedicationActivity-errors-effectiveTime-eventFrequency.operator" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.42' and @extension='2014-06-09']]/cda:effectiveTime[@xsi:type='PIVL_TS']/@operator">
+      <assert test="contains($CDASetOperator, .)">SHALL be selected from ValueSet CDASetOperator</assert>
     </rule>
     <rule id="PlannedMedicationActivity-errors-routeCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.42' and @extension='2014-06-09']]/cda:routeCode">
       <assert test="@nullFlavor or contains($SPLDrugRouteOfAdministrationTerminology, @code)">SHALL be selected from ValueSet SPLDrugRouteOfAdministrationTerminology</assert>
@@ -8820,6 +9084,9 @@
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
       <assert test="@typeCode = 'PRCN'">@typeCode SHALL = 'PRCN'</assert>
       <assert test="count(cda:criterion)=1">Cardinality of criterion is 1..1</assert>
+    </rule>
+    <rule id="PlannedMedicationActivity-errors-precondition.typeCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.42' and @extension='2014-06-09']]/cda:precondition/@typeCode">
+      <assert test="contains($CDAActRelationshipType, .)">SHALL be selected from ValueSet CDAActRelationshipType</assert>
     </rule>
     <rule id="PlannedMedicationActivity-errors-precondition.criterion" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.42' and @extension='2014-06-09']]/cda:precondition/cda:criterion">
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.25' and @extension='2014-06-09'])">criterion SHALL conform to PreconditionforSubstanceAdministration</assert>
@@ -9020,6 +9287,9 @@
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
       <assert test="@typeCode = 'DEV'">@typeCode SHALL = 'DEV'</assert>
       <assert test="count(cda:participantRole)=1">Cardinality of participantRole is 1..1</assert>
+    </rule>
+    <rule id="PlannedSupply-errors-participant-productInstance.typeCode" context="cda:supply[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.43' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'DEV')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
     </rule>
     <rule id="PlannedSupply-errors-participant-productInstance.participantRole" context="cda:supply[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.43' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'DEV')]/cda:participantRole">
       <assert test="count(((cda:playingDevice | cda:playingEntity))) &lt;= 1">playingDevice and playingEntity are mutually exclusive</assert>
@@ -9262,6 +9532,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.89'">@root SHALL = '2.16.840.1.113883.10.20.22.4.89'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
     </rule>
+    <rule id="PolicyActivity-errors-participant-coverage-target.typeCode" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.61' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'COV')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="PolicyActivity-errors-participant-coverage-target.time" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.61' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'COV')]/cda:time">
       <assert test="count(cda:low) &lt;= 1">Cardinality of low is 0..1</assert>
       <assert test="count(cda:high) &lt;= 1">Cardinality of high is 0..1</assert>
@@ -9298,6 +9571,9 @@
       <assert test="count(@root)=1">Cardinality of @root is 1..1</assert>
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.90'">@root SHALL = '2.16.840.1.113883.10.20.22.4.90'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
+    </rule>
+    <rule id="PolicyActivity-errors-participant-subscriber.typeCode" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.61' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'HLD')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
     </rule>
     <rule id="PolicyActivity-errors-participant-subscriber.participantRole" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.61' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'HLD')]/cda:participantRole">
       <assert test="count(cda:id)&gt;=1">Cardinality of id is 1..*</assert>
@@ -9493,6 +9769,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2023-05-01'">@extension SHALL = '2023-05-01'</assert>
     </rule>
+    <rule id="PregnancyIntentionInNextYear-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.281' and @extension='2023-05-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="PregnancyIntentionInNextYear-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.281' and @extension='2023-05-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -9541,6 +9820,9 @@
       <assert test="count(@root)=1">Cardinality of @root is 1..1</assert>
       <assert test="@root = '2.16.840.1.113883.10.20.15.3.8'">@root SHALL = '2.16.840.1.113883.10.20.15.3.8'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
+    </rule>
+    <rule id="PregnancyObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.15.3.8' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="PregnancyObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.15.3.8' and not(@extension)]]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -9680,6 +9962,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.143'">@root SHALL = '2.16.840.1.113883.10.20.22.4.143'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
     </rule>
+    <rule id="PriorityPreference-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.143' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="PriorityPreference-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.143' and not(@extension)]]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -9809,6 +10094,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.4'">@root SHALL = '2.16.840.1.113883.10.20.22.4.4'</assert>
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2024-05-01'">@extension SHALL = '2024-05-01'</assert>
+    </rule>
+    <rule id="ProblemObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.4' and @extension='2024-05-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="ProblemObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.4' and @extension='2024-05-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -9971,6 +10259,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2019-06-20'">@extension SHALL = '2019-06-20'</assert>
     </rule>
+    <rule id="ProblemStatus-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.6' and @extension='2019-06-20']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="ProblemStatus-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.6' and @extension='2019-06-20']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -10112,6 +10403,9 @@
       <assert test="@typeCode = 'DEV'">@typeCode SHALL = 'DEV'</assert>
       <assert test="count(cda:participantRole)=1">Cardinality of participantRole is 1..1</assert>
     </rule>
+    <rule id="ProcedureActivityProcedure-errors-participant-productInstance.typeCode" context="cda:procedure[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'DEV')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="ProcedureActivityProcedure-errors-participant-productInstance.participantRole" context="cda:procedure[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'DEV')]/cda:participantRole">
       <assert test="count(((cda:playingDevice | cda:playingEntity))) &lt;= 1">playingDevice and playingEntity are mutually exclusive</assert>
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.37' and not(@extension)])">participantRole SHALL conform to ProductInstance</assert>
@@ -10120,6 +10414,9 @@
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
       <assert test="@typeCode = 'LOC'">@typeCode SHALL = 'LOC'</assert>
       <assert test="count(cda:participantRole)=1">Cardinality of participantRole is 1..1</assert>
+    </rule>
+    <rule id="ProcedureActivityProcedure-errors-participant-serviceDeliveryLocation.typeCode" context="cda:procedure[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'LOC')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
     </rule>
     <rule id="ProcedureActivityProcedure-errors-participant-serviceDeliveryLocation.participantRole" context="cda:procedure[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'LOC')]/cda:participantRole">
       <assert test="count(((cda:playingDevice | cda:playingEntity))) &lt;= 1">playingDevice and playingEntity are mutually exclusive</assert>
@@ -10141,6 +10438,9 @@
       <assert test="count(@moodCode)=1">Cardinality of @moodCode is 1..1</assert>
       <assert test="@moodCode = 'EVN'">@moodCode SHALL = 'EVN'</assert>
       <assert test="count(cda:id)=1">Cardinality of id is 1..1</assert>
+    </rule>
+    <rule id="ProcedureActivityProcedure-errors-entryRelationship-encounter.encounter.classCode" context="cda:procedure[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01']]/cda:entryRelationship[not(cda:act) and not(cda:observation) and not(cda:substanceAdministration) and (cda:encounter)]/cda:encounter/@classCode">
+      <assert test="contains($CDAActClass, .)">SHALL be selected from ValueSet CDAActClass</assert>
     </rule>
     <rule id="ProcedureActivityProcedure-errors-entryRelationship-encounter.encounter.moodCode" context="cda:procedure[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01']]/cda:entryRelationship[not(cda:act) and not(cda:observation) and not(cda:substanceAdministration) and (cda:encounter)]/cda:encounter/@moodCode">
       <assert test="contains($XDocumentEncounterMood, .)">SHALL be selected from ValueSet XDocumentEncounterMood</assert>
@@ -10394,6 +10694,9 @@
       <assert test="@typeCode = 'IND'">@typeCode SHALL = 'IND'</assert>
       <assert test="count(cda:functionCode)=1">Cardinality of functionCode is 1..1</assert>
     </rule>
+    <rule id="ProcedureNote-errors-participant-participant1.typeCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.6' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'IND') and (cda:functionCode/@code = 'PCP')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="ProcedureNote-errors-participant-participant1.functionCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.6' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'IND') and (cda:functionCode/@code = 'PCP')]/cda:functionCode">
       <assert test="count(@code)=1">Cardinality of @code is 1..1</assert>
       <assert test="@code = 'PCP'">@code SHALL = 'PCP'</assert>
@@ -10404,6 +10707,9 @@
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
       <assert test="@classCode = 'PROV'">@classCode SHALL = 'PROV'</assert>
       <assert test="count(cda:associatedPerson)=1">Cardinality of associatedPerson is 1..1</assert>
+    </rule>
+    <rule id="ProcedureNote-errors-participant-participant1.associatedEntity.classCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.6' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'IND') and (cda:functionCode/@code = 'PCP')]/cda:associatedEntity/@classCode">
+      <assert test="contains($CDARoleClassAssociative, .)">SHALL be selected from ValueSet CDARoleClassAssociative</assert>
     </rule>
     <rule id="ProcedureNote-errors-documentationOf" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.6' and @extension='2024-05-01']]/cda:documentationOf">
       <assert test="count(cda:serviceEvent)=1">Cardinality of serviceEvent is 1..1</assert>
@@ -10459,6 +10765,12 @@
       <assert test="count(@moodCode)=1">Cardinality of @moodCode is 1..1</assert>
       <assert test="@moodCode = 'EVN'">@moodCode SHALL = 'EVN'</assert>
       <assert test="count(cda:statusCode)=1">Cardinality of statusCode is 1..1</assert>
+    </rule>
+    <rule id="ProcedureNote-errors-authorization.consent.classCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.6' and @extension='2024-05-01']]/cda:authorization/cda:consent/@classCode">
+      <assert test="contains($CDAActClass, .)">SHALL be selected from ValueSet CDAActClass</assert>
+    </rule>
+    <rule id="ProcedureNote-errors-authorization.consent.moodCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.6' and @extension='2024-05-01']]/cda:authorization/cda:consent/@moodCode">
+      <assert test="contains($CDAActMood, .)">SHALL be selected from ValueSet CDAActMood</assert>
     </rule>
     <rule id="ProcedureNote-errors-authorization.consent.statusCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.6' and @extension='2024-05-01']]/cda:authorization/cda:consent/cda:statusCode">
       <assert test="@nullFlavor or contains($ActStatus, @code)">SHALL be selected from ValueSet ActStatus</assert>
@@ -10771,6 +11083,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.37'">@root SHALL = '2.16.840.1.113883.10.20.22.4.37'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
     </rule>
+    <rule id="ProductInstance-errors-classCode" context="cda:participantRole[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.37' and not(@extension)]]/@classCode">
+      <assert test="contains($CDARoleClassRoot, .)">SHALL be selected from ValueSet CDARoleClassRoot</assert>
+    </rule>
     <rule id="ProductInstance-errors-playingDevice" context="cda:participantRole[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.37' and not(@extension)]]/cda:playingDevice">
       <assert test="count(cda:code) &lt;= 1">Cardinality of code is 0..1</assert>
     </rule>
@@ -10797,6 +11112,9 @@
       <assert test="count(@root)=1">Cardinality of @root is 1..1</assert>
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.113'">@root SHALL = '2.16.840.1.113883.10.20.22.4.113'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
+    </rule>
+    <rule id="PrognosisObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.113' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="PrognosisObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.113' and not(@extension)]]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -10854,6 +11172,9 @@
       <assert test="count(@root)=1">Cardinality of @root is 1..1</assert>
       <assert test="@root = '2.16.840.1.113883.10.20.21.3.1'">@root SHALL = '2.16.840.1.113883.10.20.21.3.1'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
+    </rule>
+    <rule id="ProgressNote-errors-documentationOf.serviceEvent.classCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.9' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/@classCode">
+      <assert test="contains($CDAActClass, .)">SHALL be selected from ValueSet CDAActClass</assert>
     </rule>
     <rule id="ProgressNote-errors-documentationOf.serviceEvent.effectiveTime" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.9' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/cda:effectiveTime">
       <assert test="not(cda:center) or (not(cda:low) and not(cda:high))">Center cannot co-exist with low or high</assert>
@@ -11046,6 +11367,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.110'">@root SHALL = '2.16.840.1.113883.10.20.22.4.110'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
     </rule>
+    <rule id="ProgressTowardGoalObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.110' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="ProgressTowardGoalObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.110' and not(@extension)]]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -11091,6 +11415,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2020-05-19'">@extension SHALL = '2020-05-19'</assert>
     </rule>
+    <rule id="ProvenanceAssemblerParticipation-errors-typeCode" context="cda:participant[cda:templateId[@root='2.16.840.1.113883.10.20.22.5.7' and @extension='2020-05-19']]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="ProvenanceAssemblerParticipation-errors-functionCode" context="cda:participant[cda:templateId[@root='2.16.840.1.113883.10.20.22.5.7' and @extension='2020-05-19']]/cda:functionCode">
       <assert test="count(@code)=1">Cardinality of @code is 1..1</assert>
       <assert test="@code = 'assembler'">@code SHALL = 'assembler'</assert>
@@ -11101,6 +11428,9 @@
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
       <assert test="@classCode = 'OWN'">@classCode SHALL = 'OWN'</assert>
       <assert test="count(cda:scopingOrganization)=1">Cardinality of scopingOrganization is 1..1</assert>
+    </rule>
+    <rule id="ProvenanceAssemblerParticipation-errors-associatedEntity.classCode" context="cda:participant[cda:templateId[@root='2.16.840.1.113883.10.20.22.5.7' and @extension='2020-05-19']]/cda:associatedEntity/@classCode">
+      <assert test="contains($CDARoleClassAssociative, .)">SHALL be selected from ValueSet CDARoleClassAssociative</assert>
     </rule>
     <rule id="ProvenanceAssemblerParticipation-errors-associatedEntity.scopingOrganization" context="cda:participant[cda:templateId[@root='2.16.840.1.113883.10.20.22.5.7' and @extension='2020-05-19']]/cda:associatedEntity/cda:scopingOrganization">
       <assert test="count(cda:id)&gt;=1">Cardinality of id is 1..*</assert>
@@ -11202,6 +11532,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2014-06-09'">@extension SHALL = '2014-06-09'</assert>
     </rule>
+    <rule id="ReactionObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.9' and @extension='2014-06-09']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="ReactionObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.9' and @extension='2014-06-09']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -11288,6 +11621,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.24.3.88'">@root SHALL = '2.16.840.1.113883.10.20.24.3.88'</assert>
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2023-05-01'">@extension SHALL = '2023-05-01'</assert>
+    </rule>
+    <rule id="Reason-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.24.3.88' and @extension='2023-05-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="Reason-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.24.3.88' and @extension='2023-05-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -11412,6 +11748,9 @@
       <assert test="@typeCode = 'IND'">@typeCode SHALL = 'IND'</assert>
       <assert test="count(cda:associatedEntity)=1">Cardinality of associatedEntity is 1..1</assert>
     </rule>
+    <rule id="ReferralNote-errors-participant-indirect.typeCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.14' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'IND')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="ReferralNote-errors-participant-indirect.associatedEntity" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.14' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'IND')]/cda:associatedEntity">
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
       <assert test="count(cda:associatedPerson)=1">Cardinality of associatedPerson is 1..1</assert>
@@ -11432,6 +11771,9 @@
       <assert test="@typeCode = 'CALLBCK'">@typeCode SHALL = 'CALLBCK'</assert>
       <assert test="count(cda:associatedEntity)=1">Cardinality of associatedEntity is 1..1</assert>
     </rule>
+    <rule id="ReferralNote-errors-participant-callback.typeCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.14' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'CALLBCK')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="ReferralNote-errors-participant-callback.associatedEntity" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.14' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'CALLBCK')]/cda:associatedEntity">
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
       <assert test="@classCode = 'ASSIGNED'">@classCode SHALL = 'ASSIGNED'</assert>
@@ -11439,6 +11781,9 @@
       <assert test="count(cda:telecom)&gt;=1">Cardinality of telecom is 1..*</assert>
       <assert test="count(cda:associatedPerson)=1">Cardinality of associatedPerson is 1..1</assert>
       <assert test="count(cda:scopingOrganization) &lt;= 1">Cardinality of scopingOrganization is 0..1</assert>
+    </rule>
+    <rule id="ReferralNote-errors-participant-callback.associatedEntity.classCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.14' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'CALLBCK')]/cda:associatedEntity/@classCode">
+      <assert test="contains($CDARoleClassAssociative, .)">SHALL be selected from ValueSet CDARoleClassAssociative</assert>
     </rule>
     <rule id="ReferralNote-errors-participant-callback.associatedEntity.addr" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.14' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'CALLBCK')]/cda:associatedEntity/cda:addr">
       <assert test="@nullFlavor or count(cda:city) = 1">SHALL contain exactly one [1..1] city (CONF:81-7292).</assert>
@@ -11652,10 +11997,16 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2023-05-01'">@extension SHALL = '2023-05-01'</assert>
     </rule>
+    <rule id="RelatedPersonRelationshipAndNameParticipant-errors-typeCode" context="cda:participant[cda:templateId[@root='2.16.840.1.113883.10.20.22.5.8' and @extension='2023-05-01']]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="RelatedPersonRelationshipAndNameParticipant-errors-associatedEntity" context="cda:participant[cda:templateId[@root='2.16.840.1.113883.10.20.22.5.8' and @extension='2023-05-01']]/cda:associatedEntity">
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
       <assert test="count(cda:code)=1">Cardinality of code is 1..1</assert>
       <assert test="count(cda:associatedPerson)=1">Cardinality of associatedPerson is 1..1</assert>
+    </rule>
+    <rule id="RelatedPersonRelationshipAndNameParticipant-errors-associatedEntity.classCode" context="cda:participant[cda:templateId[@root='2.16.840.1.113883.10.20.22.5.8' and @extension='2023-05-01']]/cda:associatedEntity/@classCode">
+      <assert test="contains($CDARoleClassAssociative, .)">SHALL be selected from ValueSet CDARoleClassAssociative</assert>
     </rule>
     <rule id="RelatedPersonRelationshipAndNameParticipant-errors-associatedEntity.code" context="cda:participant[cda:templateId[@root='2.16.840.1.113883.10.20.22.5.8' and @extension='2023-05-01']]/cda:associatedEntity/cda:code">
       <assert test="@nullFlavor or contains($PersonalAndLegalRelationshipRoleType, @code)">SHALL be selected from ValueSet PersonalAndLegalRelationshipRoleType</assert>
@@ -11702,6 +12053,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2023-05-01'">@extension SHALL = '2023-05-01'</assert>
     </rule>
+    <rule id="ResultObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.2' and @extension='2023-05-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="ResultObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.2' and @extension='2023-05-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -11730,6 +12084,9 @@
     </rule>
     <rule id="ResultObservation-errors-value-coded" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.2' and @extension='2023-05-01']]/cda:value[@xsi:type='CD']">
       <assert test="count(cda:translation) &lt;= 1">Cardinality of translation is 0..1</assert>
+    </rule>
+    <rule id="ResultObservation-errors-interpretationCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.2' and @extension='2023-05-01']]/cda:interpretationCode">
+      <assert test="@nullFlavor or contains($CDAObservationInterpretation, @code)">SHALL be selected from ValueSet CDAObservationInterpretation</assert>
     </rule>
     <rule id="ResultObservation-errors-author" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.2' and @extension='2023-05-01']]/cda:author">
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.119' and not(@extension)])">author SHALL conform to AuthorParticipation</assert>
@@ -11766,6 +12123,9 @@
     </rule>
     <rule id="ResultOrganizer-errors-classCode" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.1' and @extension='2023-05-01']]/@classCode">
       <assert test="contains($XActClassDocumentEntryOrganizer, .)">SHALL be selected from ValueSet XActClassDocumentEntryOrganizer</assert>
+    </rule>
+    <rule id="ResultOrganizer-errors-moodCode" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.1' and @extension='2023-05-01']]/@moodCode">
+      <assert test="contains($CDAActMood, .)">SHALL be selected from ValueSet CDAActMood</assert>
     </rule>
     <rule id="ResultOrganizer-errors-sdtcText" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.1' and @extension='2023-05-01']]/sdtc:text">
       <assert test="count(cda:reference) &lt;= 1">Cardinality of reference is 0..1</assert>
@@ -12286,6 +12646,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2016-06-01'">@extension SHALL = '2016-06-01'</assert>
     </rule>
+    <rule id="SectionTimeRangeObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.201' and @extension='2016-06-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="SectionTimeRangeObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.201' and @extension='2016-06-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -12332,6 +12695,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.128'">@root SHALL = '2.16.840.1.113883.10.20.22.4.128'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
     </rule>
+    <rule id="SelfCareActivitiesADLandIADL-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.128' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="SelfCareActivitiesADLandIADL-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.128' and not(@extension)]]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -12369,6 +12735,9 @@
       <assert test="count(@root)=1">Cardinality of @root is 1..1</assert>
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.127'">@root SHALL = '2.16.840.1.113883.10.20.22.4.127'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
+    </rule>
+    <rule id="SensoryStatus-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.127' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="SensoryStatus-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.127' and not(@extension)]]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -12450,6 +12819,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.32'">@root SHALL = '2.16.840.1.113883.10.20.22.4.32'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
     </rule>
+    <rule id="ServiceDeliveryLocation-errors-classCode" context="cda:participantRole[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.32' and not(@extension)]]/@classCode">
+      <assert test="contains($CDARoleClassRoot, .)">SHALL be selected from ValueSet CDARoleClassRoot</assert>
+    </rule>
     <rule id="ServiceDeliveryLocation-errors-id-NPI" context="cda:participantRole[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.32' and not(@extension)]]/cda:id[(@root = '2.16.840.1.113883.4.6')]">
       <assert test="count(@root)=1">Cardinality of @root is 1..1</assert>
       <assert test="@root = '2.16.840.1.113883.4.6'">@root SHALL = '2.16.840.1.113883.4.6'</assert>
@@ -12502,6 +12874,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2014-06-09'">@extension SHALL = '2014-06-09'</assert>
     </rule>
+    <rule id="SeverityObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.8' and @extension='2014-06-09']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="SeverityObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.8' and @extension='2014-06-09']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -12543,6 +12918,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.507'">@root SHALL = '2.16.840.1.113883.10.20.22.4.507'</assert>
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2023-07-01'">@extension SHALL = '2023-07-01'</assert>
+    </rule>
+    <rule id="SexObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.507' and @extension='2023-07-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="SexObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.507' and @extension='2023-07-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -12595,6 +12973,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2023-05-01'">@extension SHALL = '2023-05-01'</assert>
     </rule>
+    <rule id="SexualOrientationObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.501' and @extension='2023-05-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="SexualOrientationObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.501' and @extension='2023-05-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -12643,6 +13024,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2024-05-01'">@extension SHALL = '2024-05-01'</assert>
     </rule>
+    <rule id="SmokingStatus-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.511' and @extension='2024-05-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="SmokingStatus-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.511' and @extension='2024-05-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -12690,6 +13074,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.78'">@root SHALL = '2.16.840.1.113883.10.20.22.4.78'</assert>
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2024-05-01'">@extension SHALL = '2024-05-01'</assert>
+    </rule>
+    <rule id="SmokingStatusMeaningfulUse-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.78' and @extension='2024-05-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="SmokingStatusMeaningfulUse-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.78' and @extension='2024-05-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -12748,6 +13135,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.38'">@root SHALL = '2.16.840.1.113883.10.20.22.4.38'</assert>
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2022-06-01'">@extension SHALL = '2022-06-01'</assert>
+    </rule>
+    <rule id="SocialHistoryObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.38' and @extension='2022-06-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="SocialHistoryObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.38' and @extension='2022-06-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -12926,6 +13316,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2018-06-12'">@extension SHALL = '2018-06-12'</assert>
     </rule>
+    <rule id="SpecimenConditionObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.421' and @extension='2018-06-12']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="SpecimenConditionObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.421' and @extension='2018-06-12']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -13032,6 +13425,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2014-06-09'">@extension SHALL = '2014-06-09'</assert>
     </rule>
+    <rule id="SubstanceOrDeviceAllergyIntoleranceObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.24.3.90' and @extension='2014-06-09']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="SubstanceOrDeviceAllergyIntoleranceObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.24.3.90' and @extension='2014-06-09']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -13071,10 +13467,16 @@
       <assert test="@typeCode = 'CSM'">@typeCode SHALL = 'CSM'</assert>
       <assert test="count(cda:participantRole)=1">Cardinality of participantRole is 1..1</assert>
     </rule>
+    <rule id="SubstanceOrDeviceAllergyIntoleranceObservation-errors-participant-consumable.typeCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.24.3.90' and @extension='2014-06-09']]/cda:participant[(@typeCode = 'CSM')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="SubstanceOrDeviceAllergyIntoleranceObservation-errors-participant-consumable.participantRole" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.24.3.90' and @extension='2014-06-09']]/cda:participant[(@typeCode = 'CSM')]/cda:participantRole">
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
       <assert test="@classCode = 'MANU'">@classCode SHALL = 'MANU'</assert>
       <assert test="count(cda:playingEntity)=1">Cardinality of playingEntity is 1..1</assert>
+    </rule>
+    <rule id="SubstanceOrDeviceAllergyIntoleranceObservation-errors-participant-consumable.participantRole.classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.24.3.90' and @extension='2014-06-09']]/cda:participant[(@typeCode = 'CSM')]/cda:participantRole/@classCode">
+      <assert test="contains($CDARoleClassRoot, .)">SHALL be selected from ValueSet CDARoleClassRoot</assert>
     </rule>
     <rule id="SubstanceOrDeviceAllergyIntoleranceObservation-errors-participant-consumable.participantRole.playingEntity" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.24.3.90' and @extension='2014-06-09']]/cda:participant[(@typeCode = 'CSM')]/cda:participantRole/cda:playingEntity">
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
@@ -13180,6 +13582,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2014-06-09'">@extension SHALL = '2014-06-09'</assert>
     </rule>
+    <rule id="TobaccoUse-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.85' and @extension='2014-06-09']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="TobaccoUse-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.85' and @extension='2014-06-09']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -13245,6 +13650,9 @@
       <assert test="@typeCode = 'IND'">@typeCode SHALL = 'IND'</assert>
       <assert test="count(cda:associatedEntity)=1">Cardinality of associatedEntity is 1..1</assert>
     </rule>
+    <rule id="TransferSummary-errors-participant-indirect.typeCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.13' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'IND')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="TransferSummary-errors-participant-indirect.associatedEntity" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.13' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'IND')]/cda:associatedEntity">
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
       <assert test="count(cda:associatedPerson)=1">Cardinality of associatedPerson is 1..1</assert>
@@ -13261,6 +13669,9 @@
       <assert test="@typeCode = 'CALLBCK'">@typeCode SHALL = 'CALLBCK'</assert>
       <assert test="count(cda:associatedEntity)=1">Cardinality of associatedEntity is 1..1</assert>
     </rule>
+    <rule id="TransferSummary-errors-participant-callback.typeCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.13' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'CALLBCK')]/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="TransferSummary-errors-participant-callback.associatedEntity" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.13' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'CALLBCK')]/cda:associatedEntity">
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
       <assert test="@classCode = 'ASSIGNED'">@classCode SHALL = 'ASSIGNED'</assert>
@@ -13268,6 +13679,9 @@
       <assert test="count(cda:telecom)&gt;=1">Cardinality of telecom is 1..*</assert>
       <assert test="count(cda:associatedPerson)=1">Cardinality of associatedPerson is 1..1</assert>
       <assert test="count(cda:scopingOrganization) &lt;= 1">Cardinality of scopingOrganization is 0..1</assert>
+    </rule>
+    <rule id="TransferSummary-errors-participant-callback.associatedEntity.classCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.13' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'CALLBCK')]/cda:associatedEntity/@classCode">
+      <assert test="contains($CDARoleClassAssociative, .)">SHALL be selected from ValueSet CDARoleClassAssociative</assert>
     </rule>
     <rule id="TransferSummary-errors-participant-callback.associatedEntity.addr" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.13' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'CALLBCK')]/cda:associatedEntity/cda:addr">
       <assert test="@nullFlavor or count(cda:city) = 1">SHALL contain exactly one [1..1] city (CONF:81-7292).</assert>
@@ -13289,6 +13703,9 @@
       <assert test="count(cda:code) &lt;= 1">Cardinality of code is 0..1</assert>
       <assert test="count(cda:performer)&gt;=1">Cardinality of performer is 1..*</assert>
       <assert test="count(cda:performer[(@typeCode = 'PRF')])&gt;=1">Cardinality of performer:performer1 is 1..*</assert>
+    </rule>
+    <rule id="TransferSummary-errors-documentationOf.serviceEvent.classCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.13' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/@classCode">
+      <assert test="contains($CDAActClass, .)">SHALL be selected from ValueSet CDAActClass</assert>
     </rule>
     <rule id="TransferSummary-errors-documentationOf.serviceEvent.performer-performer1" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.13' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/cda:performer[(@typeCode = 'PRF')]">
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
@@ -13541,6 +13958,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2024-05-01'">@extension SHALL = '2024-05-01'</assert>
     </rule>
+    <rule id="TreatmentInterventionPreference-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.510' and @extension='2024-05-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="TreatmentInterventionPreference-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.510' and @extension='2024-05-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -13581,6 +14001,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.506'">@root SHALL = '2.16.840.1.113883.10.20.22.4.506'</assert>
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2023-05-01'">@extension SHALL = '2023-05-01'</assert>
+    </rule>
+    <rule id="TribalAffiliationObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.506' and @extension='2023-05-01']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="TribalAffiliationObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.506' and @extension='2023-05-01']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -13625,6 +14048,9 @@
     </rule>
     <rule id="UDIOrganizer-errors-classCode" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.311' and @extension='2019-06-21']]/@classCode">
       <assert test="contains($XActClassDocumentEntryOrganizer, .)">SHALL be selected from ValueSet XActClassDocumentEntryOrganizer</assert>
+    </rule>
+    <rule id="UDIOrganizer-errors-moodCode" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.311' and @extension='2019-06-21']]/@moodCode">
+      <assert test="contains($CDAActMood, .)">SHALL be selected from ValueSet CDAActMood</assert>
     </rule>
     <rule id="UDIOrganizer-errors-id" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.311' and @extension='2019-06-21']]/cda:id">
       <assert test="count(@root)=1">Cardinality of @root is 1..1</assert>
@@ -14298,6 +14724,9 @@
       <assert test="count(@typeCode)=1">Cardinality of @typeCode is 1..1</assert>
       <assert test="count(cda:associatedEntity)=1">Cardinality of associatedEntity is 1..1</assert>
     </rule>
+    <rule id="USRealmHeaderforPatientGeneratedDocument-errors-participant.typeCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]/cda:participant/@typeCode">
+      <assert test="contains($CDAParticipationType, .)">SHALL be selected from ValueSet CDAParticipationType</assert>
+    </rule>
     <rule id="USRealmHeaderforPatientGeneratedDocument-errors-participant.associatedEntity" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]/cda:participant/cda:associatedEntity">
       <assert test="count(cda:code) &lt;= 1">Cardinality of code is 0..1</assert>
     </rule>
@@ -14396,6 +14825,9 @@
       <assert test="count(@extension)=1">Cardinality of @extension is 1..1</assert>
       <assert test="@extension = '2014-06-09'">@extension SHALL = '2014-06-09'</assert>
     </rule>
+    <rule id="VitalSignObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.27' and @extension='2014-06-09']]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="VitalSignObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.27' and @extension='2014-06-09']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -14417,6 +14849,7 @@
       <assert test="count(@unit)=1">Cardinality of @unit is 1..1</assert>
     </rule>
     <rule id="VitalSignObservation-errors-interpretationCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.27' and @extension='2014-06-09']]/cda:interpretationCode">
+      <assert test="@nullFlavor or contains($CDAObservationInterpretation, @code)">SHALL be selected from ValueSet CDAObservationInterpretation</assert>
       <assert test="count(@nullFlavor)=0">Cardinality of @nullFlavor is 0..0</assert>
       <assert test="count(@code)=1">Cardinality of @code is 1..1</assert>
     </rule>
@@ -14452,6 +14885,9 @@
     </rule>
     <rule id="VitalSignsOrganizer-errors-classCode" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.26' and @extension='2015-08-01']]/@classCode">
       <assert test="contains($XActClassDocumentEntryOrganizer, .)">SHALL be selected from ValueSet XActClassDocumentEntryOrganizer</assert>
+    </rule>
+    <rule id="VitalSignsOrganizer-errors-moodCode" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.26' and @extension='2015-08-01']]/@moodCode">
+      <assert test="contains($CDAActMood, .)">SHALL be selected from ValueSet CDAActMood</assert>
     </rule>
     <rule id="VitalSignsOrganizer-errors-code" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.26' and @extension='2015-08-01']]/cda:code">
       <assert test="count(@code)=1">Cardinality of @code is 1..1</assert>
@@ -14537,6 +14973,9 @@
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.134'">@root SHALL = '2.16.840.1.113883.10.20.22.4.134'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
     </rule>
+    <rule id="WoundCharacteristic-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.134' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
+    </rule>
     <rule id="WoundCharacteristic-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.134' and not(@extension)]]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
     </rule>
@@ -14581,6 +15020,9 @@
       <assert test="count(@root)=1">Cardinality of @root is 1..1</assert>
       <assert test="@root = '2.16.840.1.113883.10.20.22.4.133'">@root SHALL = '2.16.840.1.113883.10.20.22.4.133'</assert>
       <assert test="count(@extension)=0">Cardinality of @extension is 0..0</assert>
+    </rule>
+    <rule id="WoundMeasurementObservation-errors-classCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.133' and not(@extension)]]/@classCode">
+      <assert test="contains($CDAActClassObservation, .)">SHALL be selected from ValueSet CDAActClassObservation</assert>
     </rule>
     <rule id="WoundMeasurementObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.133' and not(@extension)]]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
@@ -17914,22 +18356,29 @@
   <let name="XActClassDocumentEntryAct" value="'ACCM ACSN ACT AEXPOS CONS CONTREG CTTEVENT DISPACT EXPOS INC INFRM LIST MPROT PCPR REG REV SPCTRT STORE TEXPOS TRFR TRNS'"/>
   <let name="XDocumentActMood" value="'APT ARQ DEF EVN INT PRMS PRP RQO RSK'"/>
   <let name="XActRelationshipEntryRelationship" value="'CAUS COMP GEVL MFST REFR RSON SAS SPRT SUBJ XCRPT'"/>
+  <let name="CDAActClassObservation" value="'CASE OUTB COND OBSSER OBSCOR ROIBND ROIOVL OBS ALRT CLNTRL CNOD DGIMG INVSTG SPCOBS'"/>
   <let name="XActMoodDocumentObservation" value="'APT ARQ DEF EVN GOL INT PRMS PRP RQO RSK'"/>
   <let name="AdvanceDirectivesCategories" value="'100821-8 42348-3 64298-3 81334-5 84095-9 86533-7 92664-2 93037-0'"/>
   <let name="ActStatus" value="'normal aborted active cancelled completed held new suspended nullified obsolete'"/>
   <let name="AdvanceDirectivesContentType" value="'103735009 108259003 225365006 229912004 25156005 271298009 281789004 281800008 363259005 385741000 385763009 386367000 405083000 52765003 61420007 71388002 75776-5 75779-9 75780-7 75781-5 75787-2 75788-0 75789-8 75790-6 75791-4 75792-2 75793-0 77352-3 78823007 81329-5 81330-3 81331-1 81332-9 81333-7 81349-3 81350-1 81353-5 81376-6 89666000'"/>
+  <let name="CDAParticipationType" value="'ADM ATND CALLBCK CON DIS ESC REF IND BEN COV HLD RCT RCV AUT ENT INF WIT IRCP NOT PRCP REFB REFT TRC PRF DIST PPRF SPRF DEV NRD RDV SBJ SPC DIR BBY CSM DON PRD LOC DST ELOC ORG RML VIA VRF AUTHEN LA RESP CST'"/>
   <let name="UspsTwoLetterAlphabeticCodes" value="'AL AK AS AZ AR CA CO CT DE DC FM FL GA GU HI ID IL IN IA KS KY LA ME MH MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND MP OH OK OR PW PA PR RI SC SD TN TX UT VT VI VA WA WV WI WY AE AP AA'"/>
+  <let name="CDARoleClassRoot" value="'LIC NOT PROV CON ECON NOK ASSIGNED COMPAR SGNOFF AGNT GUARD EMP MIL INVSBJ RESBJ CIT COVPTY CRINV CRSPNSR GUAR PAT PAYEE PAYOR POLHOLD QUAL SPNSR STD UNDWRT CAREGIVER PRS DST RET MANU THER SDLOC DSDLOC ISDLOC ACCESS BIRTHPL EXPR HLD HLTHCHRT IDENT MNT OWN RGPR TERR WRTE GEN GRIC INST SUBS SUBY IACT COLR FLVR PRSV STBL INGR ACTI ACTM ADTV BASE LOCE STOR SPEC ALQT ISLT CONT MBR PART ROL'"/>
   <let name="HealthcareAgentOrProxyChoices" value="'75783-1 75784-9 75785-6 81335-2 81343-6'"/>
   <let name="PersonalAndLegalRelationshipRoleType" value="'ADOPTF ADOPTM ADOPTP AUNT BRO BROINLAW CHILD CHLDADOPT CHLDFOST CHLDINLAW COUSN DAU DAUADOPT DAUC DAUFOST DAUINLAW DOMPART DPOWATT EXCEST EXT FAMMEMB FMRSPS FRND FTH FTHFOST FTHINLAW FTWIN FTWINBRO FTWINSIS GESTM GGRFTH GGRMTH GGRPRN GRFTH GRMTH GRNDCHILD GRNDDAU GRNDSON GRPRN GUADLTM GUARD HBRO HPOWATT HSIB HSIS HUSB INLAW ITWIN ITWINBRO ITWINSIS MAUNT MCOUSN MGGRFTH MGGRMTH MGGRPRN MGRFTH MGRMTH MGRPRN MTH MTHFOST MTHINLAW MUNCLE NBOR NBRO NCHILD NEPHEW NFTH NFTHF NIECE NIENEPH NMTH NMTHF NPRN NSIB NSIS ONESELF PAUNT PCOUSN PGGRFTH PGGRMTH PGGRPRN PGRFTH PGRMTH PGRPRN POWATT PRN PRNFOST PRNINLAW PUNCLE ROOM SIB SIBINLAW SIGOTHR SIS SISINLAW SON SONADOPT SONC SONFOST SONINLAW SPOWATT SPS STPBRO STPCHLD STPDAU STPFTH STPMTH STPPRN STPSIB STPSIS STPSON TWIN TWINBRO TWINSIS UNCLE WIFE'"/>
   <let name="XActRelationshipExternalReference" value="'ELNK REFR RPLC SPRT SUBJ XCRPT'"/>
   <let name="XActClassDocumentEntryOrganizer" value="'BATTERY CLUSTER'"/>
+  <let name="CDAActMood" value="'INT APT ARQ PRMS PRP RQO SLOT DEF EVN EVN.CRT GOL OPT PERM PERMRQ'"/>
   <let name="AgePQ_UCUM" value="'a d h min mo wk'"/>
   <let name="ProblemActStatusCode" value="'aborted active completed suspended'"/>
   <let name="AllergyClinicalStatus" value="'413322009 55561003 73425007'"/>
+  <let name="CDAObservationInterpretation" value="'B D U W &lt; &gt; A AA HH LL H L N I MS R S VS'"/>
   <let name="SocialHistoryType" value="'102487004 105421008 160476009 228272008 229819007 256235009 302160007 363908000 364393001 364703007 423514004 424483007 425400000 442133001 446996006 897148007'"/>
   <let name="BirthSex" value="'ASKU F M OTH UNK'"/>
   <let name="CarePlanDocumentType" value="'18776-5 64295-9 74156-1 77442-2 77443-0 77444-8 77445-5 77446-3 80739-6 80740-4 80741-2 80742-0 80743-8 80744-6 80745-3 80746-1 80747-9 80748-7 80749-5 80750-3 80751-1 80752-9 80753-7 80754-5 80755-2 80756-0 80757-8 80758-6 80759-4 80760-2 80761-0 80762-8 80763-6 80764-4 80765-1 80766-9 80767-7 80768-5 80769-3 80770-1 80771-9 80772-7 80773-5 80774-3 80775-0 80776-8 80777-6 80778-4 80779-2 80780-0 80781-8 80782-6 80783-4 80784-2 80785-9 80786-7 80787-5 80788-3 80789-1 80790-9 80791-7 80796-6 80797-4 80804-8 80818-8 81200-8 81957-3 82364-1 83635-3 83734-4 83895-3 84011-6 84034-8 84070-2 84094-2 84117-1 84124-7 84135-3 84136-1 84151-0 84164-3 84165-0 84172-6 84183-3 84185-8 84187-4 84197-3 84203-9 84210-4 84217-9 84244-3 84295-5 84306-0 84314-4 84337-5 85182-4 85186-5 85228-5 85254-1 87237-4 87253-1 87265-5 87629-2 89239-8 89240-6 90769-1 93023-0 93024-8 93902-5 94244-1 94318-3 95752-2 95759-7'"/>
   <let name="INDRoleclassCodes" value="'AGNT CAREGIVER ECON GUAR NOK PRS'"/>
+  <let name="CDARoleClassAssociative" value="'LIC NOT PROV CON ECON NOK ASSIGNED COMPAR SGNOFF AGNT GUARD EMP MIL INVSBJ RESBJ CIT COVPTY CRINV CRSPNSR GUAR PAT PAYEE PAYOR POLHOLD QUAL SPNSR STD UNDWRT CAREGIVER PRS DST RET MANU THER SDLOC DSDLOC ISDLOC ACCESS BIRTHPL EXPR HLD HLTHCHRT IDENT MNT OWN RGPR TERR WRTE'"/>
+  <let name="CDAActClass" value="'FCNTRCT COV CNTRCT CACT ACTN INFO STC CASE OUTB COND OBSSER OBSCOR ROIBND ROIOVL OBS ALRT CLNTRL CNOD DGIMG INVSTG SPCOBS SPLY DIET DOCCLIN CDALVLONE DOC COMPOSITION ENTRY BATTERY CLUSTER EXTRACT EHR ORGANIZER CATEGORY DOCBODY DOCSECT TOPIC FOLDER ACT ACCM CONS CTTEVENT INC INFRM PCPR REG SPCTRT ACCT ACSN ADJUD CONTREG DISPACT ENC INVE LIST MPROT PROC REV SBADM SUBST TRNS VERIF XACT'"/>
   <let name="X_ActRelationshipDocument" value="'APND RPLC XFRM'"/>
   <let name="ActStatus_1" value="'aborted active cancelled completed held new normal nullified obsolete suspended'"/>
   <let name="EntityClassRoot" value="'ENT HCE LIV NLIV ANM MIC PLNT PSN MAT CHEM FOOD MMAT CONT HOLD DEV CER MODDV ORG PUB STATE NAT PLC CITY COUNTRY COUNTY PROVINCE RGRP'"/>
@@ -17952,6 +18401,7 @@
   <let name="SPLDrugRouteOfAdministrationTerminology" value="'C132737 C28161 C38192 C38193 C38194 C38197 C38198 C38200 C38203 C38205 C38206 C38207 C38208 C38209 C38210 C38211 C38212 C38215 C38216 C38217 C38218 C38219 C38220 C38221 C38222 C38223 C38224 C38225 C38226 C38227 C38228 C38229 C38230 C38231 C38232 C38233 C38234 C38235 C38236 C38238 C38239 C38240 C38241 C38242 C38243 C38245 C38246 C38247 C38248 C38249 C38250 C38251 C38252 C38253 C38254 C38255 C38256 C38257 C38258 C38259 C38260 C38261 C38262 C38263 C38264 C38265 C38266 C38267 C38268 C38269 C38270 C38271 C38272 C38273 C38274 C38276 C38277 C38278 C38279 C38280 C38281 C38282 C38283 C38284 C38285 C38286 C38287 C38288 C38289 C38290 C38291 C38292 C38293 C38294 C38295 C38296 C38297 C38298 C38299 C38300 C38301 C38304 C38305 C38307 C38308 C38309 C38310 C38311 C38312 C38313 C38633 C38675 C38676 C38677 C48623 C65103 C79137 C79138 C79139 C79141 C79142 C79143 C79144 C79145'"/>
   <let name="MedicationRoute" value="'10547007 1078280005 12130007 1254769004 1259221004 127490009 127491008 127492001 1611000175109 16857009 26643006 34206005 37161004 372449004 372450004 372451000 372452007 372453002 372454008 372457001 372458006 372459003 372460008 372461007 372462000 372463005 372464004 372465003 372466002 372467006 372468001 372469009 372470005 372471009 372472002 372473007 372474001 372475000 372476004 37737002 37839007 38239002 404815008 404818005 404819002 404820008 416174007 417070009 417255000 417950001 417985001 417989007 418091004 418114005 418133000 418136008 418162004 418204005 418287000 418321004 418331006 418401004 418418000 418441008 418511008 418586008 418608002 418664002 418722009 418730005 418743005 418813001 418821007 418851001 418877009 418887008 418892005 418947002 418987007 419021003 419165009 419231003 419243002 419320008 419396008 419601003 419631009 419684008 419762003 419778001 419810008 419874009 419894000 419954003 419993007 420047004 420163009 420168000 420185003 420201002 420204005 420218003 420254004 420287000 420719007 428191002 429817007 432671000124106 445752009 445754005 445755006 445756007 445767008 445768003 445771006 445913005 445941009 446105004 446407004 446435000 446442000 446540005 447026006 447052000 447080003 447081004 447121004 447122006 447227007 447229005 447694001 447964005 448077001 448491004 448492006 448598008 45890007 46713006 47625008 54471007 54485002 58100008 58731000052100 58751000052109 58761000052107 58771000052103 58811000052103 58821000052106 58831000052108 60213007 6064005 62226000 66621000052103 697971008 711360002 711378007 714743009 718329006 72607000 764723001 766790006 78421000 876824003 90028008'"/>
   <let name="AdministrationUnitDoseForm" value="'C102405 C122629 C122631 C25397 C44278 C48491 C48501 C48536 C48537 C65060 C71204'"/>
+  <let name="CDAActRelationshipType" value="'RSON MITGT CIND PRCN TRIG COMP ARR CTRLV DEP OBJC OBJF OUTC GOAL RISK CHRG COST CREDIT DEBIT SAS SPRT SPRTBND PERT AUTH CAUS COVBY DRIV EXPL ITEMSLOC LIMIT MFST NAME PREV REFR REFV SUBJ SUMM XCRPT VRXCRPT FLFS OCCR OREF SCH RPLC SUCC SEQL APND DOC ELNK GEN GEVL INST MTCH OPTN REV UPDT XFRM'"/>
   <let name="RoleClassManufacturedProduct" value="'MANU THER'"/>
   <let name="CVXVaccinesAdministeredVaccineSet" value="'01 02 03 04 05 06 07 08 09 10 100 101 102 103 104 105 106 107 108 109 11 110 111 112 113 114 115 116 118 119 120 121 122 123 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 146 147 148 149 15 150 151 152 153 155 158 16 160 161 162 163 164 165 166 167 168 169 17 170 171 172 173 174 175 176 177 178 179 18 182 183 184 185 186 187 188 189 19 190 191 192 193 194 195 196 197 198 20 200 201 202 203 204 205 206 207 208 21 210 211 212 213 214 215 216 217 218 219 22 220 221 222 223 224 227 228 229 23 230 231 24 25 26 28 300 301 302 31 32 33 35 37 38 39 40 41 42 43 44 45 46 47 48 49 50 500 501 502 503 504 505 506 507 508 509 51 510 511 512 513 514 515 516 517 518 519 52 520 521 53 54 55 56 62 66 69 74 75 77 78 80 81 82 83 84 85 88 89 90 91 92 94'"/>
   <let name="NoImmunizationReason" value="'IMMUNE MEDPREC OSTOCK PATOBJ PHILISOP RELIG VACEFF VACSAF'"/>
@@ -17962,6 +18412,7 @@
   <let name="DeviceMagneticResonanceMRSafety" value="'C106045 C106046 C106047 C113844'"/>
   <let name="ResultStatus" value="'aborted active cancelled completed held suspended'"/>
   <let name="MedicationStatus" value="'aborted active completed nullified suspended'"/>
+  <let name="CDASetOperator" value="'A E H I P'"/>
   <let name="MedicationAdherence" value="'1156699004 275927006 275928001 457831000124109 702565001 asked-declined asked-unknown not-asked'"/>
   <let name="ActClassSupply" value="'SPLY DIET'"/>
   <let name="XDocumentSubstanceMood" value="'DEF EVN INT PRMS PRP RQO'"/>

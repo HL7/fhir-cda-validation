@@ -662,7 +662,7 @@ w: precise to at least the minute
                                 <low value="20120318"/>
                             </effectiveTime>
                             <!-- e: @operator SHALL = 'A' -->
-                            <effectiveTime xsi:type="PIVL_TS" institutionSpecified="true" operator="X">
+                            <effectiveTime xsi:type="PIVL_TS" institutionSpecified="true" operator="P">
                                 <period value="12" unit="h"/>
                             </effectiveTime>
                             <routeCode code="C38288" codeSystem="2.16.840.1.113883.3.26.1.1" codeSystemName="NCI Thesaurus" displayName="ORAL">
