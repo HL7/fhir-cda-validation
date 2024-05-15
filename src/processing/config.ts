@@ -1,7 +1,7 @@
 
 
 export const config = {
-  valueSetMemberLimit: 200,
+  valueSetMemberLimit: 500,
 }
 
 

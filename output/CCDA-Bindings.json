@@ -442,6 +442,13 @@
       "oid": "2.16.840.1.113883.1.11.19458"
     },
     {
+      "xpath": "cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.4' and @extension='2024-05-01']]/cda:code",
+      "strength": "required",
+      "valueSetId": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.11.20.9.31",
+      "name": "ConsultDocumentType",
+      "oid": "2.16.840.1.113883.11.20.9.31"
+    },
+    {
       "xpath": "cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.2' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/cda:performer/@typeCode",
       "strength": "required",
       "valueSetId": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.1.11.19601",
@@ -1182,6 +1189,13 @@
       "valueSetId": "http://terminology.hl7.org/ValueSet/v3-RoleClassManufacturedProduct",
       "name": "RoleClassManufacturedProduct",
       "oid": "2.16.840.1.113883.1.11.11580"
+    },
+    {
+      "xpath": "cda:manufacturedProduct[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.54' and @extension='2014-06-09']]/cda:manufacturedMaterial/cda:code",
+      "strength": "required",
+      "valueSetId": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1010.6",
+      "name": "CVXVaccinesAdministeredVaccineSet",
+      "oid": "2.16.840.1.113762.1.4.1010.6"
     },
     {
       "xpath": "cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.53' and @extension='2024-05-01']]/@moodCode",
@@ -3263,6 +3277,13 @@
       "oid": "2.16.840.1.113883.1.11.19447"
     },
     {
+      "xpath": "cda:participantRole[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.32' and not(@extension)]]/cda:code",
+      "strength": "required",
+      "valueSetId": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.1.11.20275",
+      "name": "HealthcareServiceLocation",
+      "oid": "2.16.840.1.113883.1.11.20275"
+    },
+    {
       "xpath": "cda:participantRole[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.32' and not(@extension)]]/cda:playingEntity/@classCode",
       "strength": "required",
       "valueSetId": "http://terminology.hl7.org/ValueSet/v3-EntityClassRoot",
@@ -3872,6 +3893,13 @@
       "valueSetId": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.11.20.12.1",
       "name": "PersonalAndLegalRelationshipRoleType",
       "oid": "2.16.840.1.113883.11.20.12.1"
+    },
+    {
+      "xpath": "cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.109' and not(@extension)]]/cda:value",
+      "strength": "preferred",
+      "valueSetId": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.11.20.9.49",
+      "name": "ResidenceAndAccommodationType",
+      "oid": "2.16.840.1.113883.11.20.9.49"
     },
     {
       "xpath": "cda:encounter[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.49' and @extension='2015-08-01']]/cda:code",

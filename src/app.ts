@@ -38,7 +38,7 @@ program
       }
       return parsedInt;
     },
-    200
+    500
   )
   .option(
     '-p --profile <string>',
