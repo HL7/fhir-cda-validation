@@ -7,7 +7,6 @@ import { ns } from "../model";
 import { filterConcept, flattenConcepts, getErrorMessage, valueSetOrCodeSystemToOID, vsUrlToNCName } from "../utils/helpers";
 import { groupBy } from "lodash";
 import { config } from "./config";
-import { UnsupportedValueSetError } from "../utils/errors";
 import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "fs";
 import path from "path";
 
@@ -15,6 +14,7 @@ interface LoadedValueSet {
   name: string,
   concepts: fhir5.ValueSetExpansionContains[],
   oid?: string,
+  unsupported?: boolean,
 }
 
 interface BindingLocation {
@@ -123,9 +123,9 @@ class TerminologyPool {
     }
   }
 
-  private saveValueSetToCache = async (vs: fhir5.ValueSet, originalId: string): Promise<string> => {
+  private saveValueSetToCache = async (vs: fhir5.ValueSet, originalId: string): Promise<string | void> => {
     if (!vs.expansion || !Array.isArray(vs.expansion.contains) || vs.expansion!.contains.length === 0) {
-      return '';
+      return;
     }
 
     // Get a unique-name for the value set
@@ -142,15 +142,6 @@ class TerminologyPool {
     const concepts = flattenConcepts(vs.expansion.contains)
       .filter(filterConcept);
 
-    if (concepts.length > config.valueSetMemberLimit) {
-      vs.expansion.contains = concepts;
-      throw this.unsupportedError(originalId, `ValueSet ${originalId} contains ${concepts.length} concepts. This is greater than the configured limit ${config.valueSetMemberLimit}, so this value set will not be included in the schematron`, 'too-many-concepts', concepts.length);
-    }
-
-    if (concepts.find(c => c.code?.includes("'"))) {
-      throw this.unsupportedError(originalId, `ValueSet ${originalId} contains codes with apostrophes, which is currently not supported.`, 'apostrophes-in-codes', concepts.length);
-    }
-
     // TODO - this is not needed unless we go the voc.xml route
     // await this.loadSystemOIDs(concepts);
 
@@ -160,53 +151,64 @@ class TerminologyPool {
       oid: valueSetOrCodeSystemToOID(vs),
       concepts
     }
+    
+    if (concepts.length > config.valueSetMemberLimit) {
+      vs.expansion.contains = concepts;
+      return this.unsupportedError(originalId, `ValueSet ${originalId} contains ${concepts.length} concepts. This is greater than the configured limit ${config.valueSetMemberLimit}, so this value set will not be included in the schematron`, 'too-many-concepts', concepts.length);
+    }
+
+    if (concepts.find(c => c.code?.includes("'"))) {
+      return this.unsupportedError(originalId, `ValueSet ${originalId} contains codes with apostrophes, which is currently not supported.`, 'apostrophes-in-codes', concepts.length);
+    }
     return uniqueName;
   }
 
-  private unsupportedError = (valueSetId: string, message: string, categoryMessage?: string, numberOfConcepts?: number): UnsupportedValueSetError => {
-    if (!this.unsupportedValueSets[valueSetId]) {
-      // Save so we get the same message next time
-      this.unsupportedValueSets[valueSetId] = message;
-
-      // Audit this as nonLoaded
-      let notSupportMessage = valueSetId;
-      if (!categoryMessage) {
-        // Technically should parse OperationOutcome better - but for now....
-        if (['not-supported', 'too-costly'].includes(message.split(':')[0])) {
-          categoryMessage = message.split(':')[0];
-          notSupportMessage += ` - ` + message;
-        } else categoryMessage = message.replace(valueSetId, '');
-      }
-      if (numberOfConcepts) notSupportMessage += ` (${numberOfConcepts})`;
-      if (!this.nonLoadedValueSets[categoryMessage]) {
-        this.nonLoadedValueSets[categoryMessage] = [notSupportMessage];
-      } else {
-        this.nonLoadedValueSets[categoryMessage].push(notSupportMessage);
-      }
+  private unsupportedError = (valueSetId: string, message: string, categoryMessage?: string, numberOfConcepts?: number): void => {
+    const loadedVs = this.loadedValueSets[valueSetId];
+    if (loadedVs) {
+      loadedVs.unsupported = true;
     }
 
-    return new UnsupportedValueSetError(message);
+    // Already been logged
+    if (this.unsupportedValueSets[valueSetId]) return;
+
+    // Save so we get the same message next time
+    this.unsupportedValueSets[valueSetId] = message;
+
+    // Audit this as nonLoaded
+    let notSupportMessage = valueSetId;
+    if (!categoryMessage) {
+      // Technically should parse OperationOutcome better - but for now....
+      if (['not-supported', 'too-costly'].includes(message.split(':')[0])) {
+        categoryMessage = message.split(':')[0];
+        notSupportMessage += ` - ` + message;
+      } else categoryMessage = message.replace(valueSetId, '');
+    }
+    if (numberOfConcepts) notSupportMessage += ` (${numberOfConcepts})`;
+    if (!this.nonLoadedValueSets[categoryMessage]) {
+      this.nonLoadedValueSets[categoryMessage] = [notSupportMessage];
+    } else {
+      this.nonLoadedValueSets[categoryMessage].push(notSupportMessage);
+    }
   }
 
   public getSavedValueSetName = (valueSetId: string): string | void => {
+    if (this.unsupportedValueSets[valueSetId]) return;
     return this.loadedValueSets[valueSetId]?.name;
   }
 
   public loadValueSet = async (valueSetId: string): Promise<string | void> => {
 
-    if (this.loadedValueSets[valueSetId]) return this.loadedValueSets[valueSetId].name;
+    if (this.unsupportedValueSets[valueSetId]) return;
 
-    const unsupportedReason = this.unsupportedValueSets[valueSetId];
-    if (unsupportedReason) {
-      throw new UnsupportedValueSetError(unsupportedReason);
-    }
+    if (this.loadedValueSets[valueSetId]) return this.loadedValueSets[valueSetId].name;
 
     const vs: fhir5.ValueSet = defs.fishForFHIR(valueSetId, Type.ValueSet);
     if (!vs) {
-      throw this.unsupportedError(valueSetId, `Value Set ${valueSetId} not found`, 'not-found');
+      return this.unsupportedError(valueSetId, `Value Set ${valueSetId} not found`, 'not-found');
     }
     if (!vs.url) {
-      throw this.unsupportedError(valueSetId, `Value Set ${valueSetId} needs a URL`, 'missing-url');
+      return this.unsupportedError(valueSetId, `Value Set ${valueSetId} needs a URL`, 'missing-url');
     }
     if (vs.expansion?.contains) {
       return this.saveValueSetToCache(vs, valueSetId);
@@ -215,7 +217,7 @@ class TerminologyPool {
       return this.saveValueSetToCache(this.apiCache[valueSetId], valueSetId);
     }
     if (!this.serverUrl) {
-      throw this.unsupportedError(valueSetId, `Value Set ${valueSetId} is not expanded and no terminology server was specified.`, 'run without terminology server');
+      return this.unsupportedError(valueSetId, `Value Set ${valueSetId} is not expanded and no terminology server was specified.`, 'run without terminology server');
     }
     
     logger.info(`Expanding ${valueSetId} from ${this.serverUrl}`);
@@ -237,7 +239,7 @@ class TerminologyPool {
       if (response.data.resourceType === 'ValueSet') {
         const contains = response.data.expansion?.contains;
         if (!Array.isArray(contains)) {
-          throw this.unsupportedError(valueSetId, `Response from ${this.serverUrl} did not contain any codes in its expansion.`);
+          return this.unsupportedError(valueSetId, `Response from ${this.serverUrl} did not contain any codes in its expansion.`);
         }
         this.apiCache[valueSetId] = response.data;
         return await this.saveValueSetToCache(response.data, valueSetId);
@@ -246,7 +248,7 @@ class TerminologyPool {
         console.log(response.data);
       }
     } catch (e: any) {
-      throw this.unsupportedError(valueSetId, getErrorMessage(e));
+      return this.unsupportedError(valueSetId, getErrorMessage(e));
     };
      
   }
@@ -269,7 +271,8 @@ class TerminologyPool {
 
   public toLets = () => {
     const letFragments = fragment();
-    for (const [url, { name, concepts }] of Object.entries(this.loadedValueSets)) {
+    for (const [url, { name, concepts, unsupported }] of Object.entries(this.loadedValueSets)) {
+      if (unsupported) continue;
       const codes = concepts.map(v => v.code).filter(Boolean).join(' ');
       letFragments.ele(ns.sch, 'let', { name: vsUrlToNCName(name), value: `'${codes}'` });
     }
@@ -287,7 +290,8 @@ class TerminologyPool {
         ele: 'http://www.lantanagroup.com/voc'
       }
     }).ele('valueSets');
-    for (const [url, { name, concepts }] of Object.entries(this.loadedValueSets)) {
+    for (const [url, { name, concepts, unsupported }] of Object.entries(this.loadedValueSets)) {
+      if (unsupported) continue;
       const valueSetFragment = fragment().ele('valueSet', { url, name });
       for (const { code, system } of concepts) {
         if (!code || !system) continue;

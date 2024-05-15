@@ -13,10 +13,3 @@ export class ProfiledToSubProfile extends Error {
     this.name = 'ProfiledToSubProfileError';
   }
 }
-
-export class UnsupportedValueSetError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'UnsupportedValueSetError';
-  }
-}

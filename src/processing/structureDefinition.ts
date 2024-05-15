@@ -6,7 +6,7 @@ import { logger } from "../utils/logger";
 import { cdaTypeFromDef, cdaTypeToFilter, profileFromDef, profileName, templateIdContext, templateIdContextFromProfile, typeFilter, xmlNameFromDefs } from "../utils/cdaUtil";
 import { getErrorMessage } from "../utils/helpers";
 import { voc } from "./terminology";
-import { ProfiledToSubProfile, UnsupportedValueSetError } from "../utils/errors";
+import { ProfiledToSubProfile } from "../utils/errors";
 
 interface ProcessingResult {
   errors: string[];
@@ -267,14 +267,7 @@ export class StructureDefinition {
     }
 
     // TODO - might be worth limiting to only bindings known at the diff level
-    try {
-      await this.processBinding(element);
-    } catch (e) {
-      // Swallow this one - we'll log later
-      if (!(e instanceof UnsupportedValueSetError)) {
-        throw e;
-      }
-    }
+    await this.processBinding(element);
     
     // TODO - simplification - attach at parent if element is required
 
@@ -488,7 +481,6 @@ export class StructureDefinition {
     voc.saveBinding(this.contextsToXpath[this.idToContext(element.id)], valueSet, strength!);
 
     if (!vsName)  {
-      logger.warn(`Error loading value set ${valueSet}`);
       return;
     }
 

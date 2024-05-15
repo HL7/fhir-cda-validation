@@ -3,7 +3,7 @@ import { StructureDefinition } from "./structureDefinition";
 import { logger } from "../utils/logger";
 import { getErrorMessage, pipe } from "../utils/helpers";
 import { cdaTypeToFilter, ofType, sdFromCdaType, templateIdContextFromProfile, typeFilter, xmlNameFromDefs } from "../utils/cdaUtil";
-import { UnsupportedInvariantError, UnsupportedValueSetError } from "../utils/errors";
+import { UnsupportedInvariantError } from "../utils/errors";
 import { voc } from "./terminology";
 
 interface InvariantResponse {
@@ -41,7 +41,7 @@ export const processInvariant = async (inv: fhir5.ElementDefinitionConstraint, s
       }
     } : {};
   } catch (e) {
-    if (e instanceof UnsupportedInvariantError || e instanceof UnsupportedValueSetError) {
+    if (e instanceof UnsupportedInvariantError) {
       return {
         Unsupported: e.message
       };
@@ -407,7 +407,7 @@ export const convertExpression = (originalExpression: string, originalSd: Struct
     memberOf: (valueSet: string) => {
       const vsName = voc.getSavedValueSetName(valueSet);
       if (!vsName) {
-        throw new UnsupportedValueSetError(`Cannot calculate memberOf, Value Set ${valueSet} is not loaded.`);
+        throw new UnsupportedInvariantError(`Cannot calculate memberOf, Value Set ${valueSet} is not loaded.`);
       }
       return `[contains($${vsName}, .)]`
     },
