@@ -154,16 +154,16 @@ class TerminologyPool {
     
     if (concepts.length > config.valueSetMemberLimit) {
       vs.expansion.contains = concepts;
-      return this.unsupportedError(originalId, `ValueSet ${originalId} contains ${concepts.length} concepts. This is greater than the configured limit ${config.valueSetMemberLimit}, so this value set will not be included in the schematron`, 'too-many-concepts', concepts.length);
+      return this.unsupportedValueSet(originalId, 'too-many-concepts', concepts.length);
     }
 
     if (concepts.find(c => c.code?.includes("'"))) {
-      return this.unsupportedError(originalId, `ValueSet ${originalId} contains codes with apostrophes, which is currently not supported.`, 'apostrophes-in-codes', concepts.length);
+      return this.unsupportedValueSet(originalId, 'apostrophes-in-codes', concepts.length);
     }
     return uniqueName;
   }
 
-  private unsupportedError = (valueSetId: string, message: string, categoryMessage?: string, numberOfConcepts?: number): void => {
+  private unsupportedValueSet = (valueSetId: string, reason: string, numberOfConcepts?: number): void => {
     const loadedVs = this.loadedValueSets[valueSetId];
     if (loadedVs) {
       loadedVs.unsupported = true;
@@ -172,24 +172,25 @@ class TerminologyPool {
     // Already been logged
     if (this.unsupportedValueSets[valueSetId]) return;
 
+    // Audit this as nonLoaded
+    let message = valueSetId;
+
+    // Technically should parse OperationOutcome better - but for now....
+    const colonSplit = reason.split(':');
+    if (['not-supported', 'too-costly'].includes(colonSplit[0])) {
+      message += ` - ${reason}`;
+      reason = colonSplit[0];
+    }
+    
+    if (numberOfConcepts) message += ` (${numberOfConcepts})`;
+    if (!this.nonLoadedValueSets[reason]) {
+      this.nonLoadedValueSets[reason] = [message];
+    } else {
+      this.nonLoadedValueSets[reason].push(message);
+    }
+
     // Save so we get the same message next time
     this.unsupportedValueSets[valueSetId] = message;
-
-    // Audit this as nonLoaded
-    let notSupportMessage = valueSetId;
-    if (!categoryMessage) {
-      // Technically should parse OperationOutcome better - but for now....
-      if (['not-supported', 'too-costly'].includes(message.split(':')[0])) {
-        categoryMessage = message.split(':')[0];
-        notSupportMessage += ` - ` + message;
-      } else categoryMessage = message.replace(valueSetId, '');
-    }
-    if (numberOfConcepts) notSupportMessage += ` (${numberOfConcepts})`;
-    if (!this.nonLoadedValueSets[categoryMessage]) {
-      this.nonLoadedValueSets[categoryMessage] = [notSupportMessage];
-    } else {
-      this.nonLoadedValueSets[categoryMessage].push(notSupportMessage);
-    }
   }
 
   public getSavedValueSetName = (valueSetId: string): string | void => {
@@ -205,10 +206,10 @@ class TerminologyPool {
 
     const vs: fhir5.ValueSet = defs.fishForFHIR(valueSetId, Type.ValueSet);
     if (!vs) {
-      return this.unsupportedError(valueSetId, `Value Set ${valueSetId} not found`, 'not-found');
+      return this.unsupportedValueSet(valueSetId, 'not-found');
     }
     if (!vs.url) {
-      return this.unsupportedError(valueSetId, `Value Set ${valueSetId} needs a URL`, 'missing-url');
+      return this.unsupportedValueSet(valueSetId, 'missing-url');
     }
     if (vs.expansion?.contains) {
       return this.saveValueSetToCache(vs, valueSetId);
@@ -217,7 +218,7 @@ class TerminologyPool {
       return this.saveValueSetToCache(this.apiCache[valueSetId], valueSetId);
     }
     if (!this.serverUrl) {
-      return this.unsupportedError(valueSetId, `Value Set ${valueSetId} is not expanded and no terminology server was specified.`, 'run without terminology server');
+      return this.unsupportedValueSet(valueSetId, 'no-tx-server');
     }
     
     logger.info(`Expanding ${valueSetId} from ${this.serverUrl}`);
@@ -239,7 +240,7 @@ class TerminologyPool {
       if (response.data.resourceType === 'ValueSet') {
         const contains = response.data.expansion?.contains;
         if (!Array.isArray(contains)) {
-          return this.unsupportedError(valueSetId, `Response from ${this.serverUrl} did not contain any codes in its expansion.`);
+          return this.unsupportedValueSet(valueSetId, `Response from ${this.serverUrl} did not contain any codes in its expansion.`);
         }
         this.apiCache[valueSetId] = response.data;
         return await this.saveValueSetToCache(response.data, valueSetId);
@@ -248,7 +249,7 @@ class TerminologyPool {
         console.log(response.data);
       }
     } catch (e: any) {
-      return this.unsupportedError(valueSetId, getErrorMessage(e));
+      return this.unsupportedValueSet(valueSetId, getErrorMessage(e));
     };
      
   }
