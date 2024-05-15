@@ -198,6 +198,11 @@ export class StructureDefinition {
       return 'missing id';
     }
 
+    // We don't need extra rules for templateId when we're in the context of templateId already...
+    if (element.id.startsWith(`${this.root()}.templateId`)) {
+      return;
+    }
+
     // Not a real element
     if (element.extension?.find(e => e.url === 'http://hl7.org/fhir/tools/StructureDefinition/xml-choice-group')?.valueBoolean) {
       return;
