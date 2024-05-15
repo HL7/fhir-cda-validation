@@ -207,10 +207,11 @@ export const templateIdContext = (identifier: string) => {
 }
 
 // Generate XPath for a templateId given the URL of a profile
-export const templateIdContextFromProfile = (profile: string): string | undefined => {
+export const templateIdContextFromProfile = (profile: string, silent = false): string | undefined => {
   // TODO - fshForFHIR creates a clone - should we cache?
   const sd: fhir5.StructureDefinition = defs.fishForFHIR(profile, Type.Type, Type.Logical, Type.Profile);
   if (!sd) {
+    if (silent) return;
     throw new Error(`Cannot find definition for ${profile}`);
   }
   
@@ -219,11 +220,13 @@ export const templateIdContextFromProfile = (profile: string): string | undefine
   if (!parsedSD.elementDefAtId(`${parsedSD.root()}.templateId`)) {
     // Possibly just check for required elements?
     // throw new Error(`Profile ${profile} does not contain templateId; needs to be handled elsewhere.`);
+    if (silent) return;
     throw new ProfiledToSubProfile(profile);
   }
   
   const identifier = sd.identifier?.[0].value;
   if (!identifier) {
+    if (silent) return;
     throw new Error(`Profile ${profile} does not have an identifier`);
   }
 

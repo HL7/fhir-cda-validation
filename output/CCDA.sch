@@ -963,6 +963,7 @@
   <pattern id="AllergyIntoleranceObservation-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.4.7:2014-06-09-->
     <rule id="AllergyIntoleranceObservation-errors-root" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.7' and @extension='2014-06-09']]">
+      <assert test="cda:templateId[@root='2.16.840.1.113883.10.20.24.3.90' and @extension='2014-06-09']">SHALL conform to (contain the templateId of) SubstanceOrDeviceAllergyIntoleranceObservation</assert>
       <assert test="count(cda:templateId)&gt;=2">Cardinality of templateId is 2..*</assert>
       <assert test="count(cda:templateId[(@root = '2.16.840.1.113883.10.20.22.4.7') and (@extension = '2014-06-09')])=1">Cardinality of templateId:allergy is 1..1</assert>
       <assert test="count(@negationInd) &lt;= 1">Cardinality of @negationInd is 0..1</assert>
@@ -1371,6 +1372,7 @@
   <pattern id="BasicIndustryObservation-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.4.504:2023-05-01-->
     <rule id="BasicIndustryObservation-errors-root" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.504' and @extension='2023-05-01']]">
+      <assert test="cda:templateId[@root='2.16.840.1.113883.10.20.22.4.38' and @extension='2022-06-01']">SHALL conform to (contain the templateId of) SocialHistoryObservation</assert>
       <assert test="count(cda:templateId)&gt;=2">Cardinality of templateId is 2..*</assert>
       <assert test="count(cda:templateId[(@root = '2.16.840.1.113883.10.20.22.4.504') and (@extension = '2023-05-01')])=1">Cardinality of templateId:basic-industry-obs is 1..1</assert>
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
@@ -1410,6 +1412,7 @@
   <pattern id="BasicOccupationObservation-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.4.503:2023-05-01-->
     <rule id="BasicOccupationObservation-errors-root" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.503' and @extension='2023-05-01']]">
+      <assert test="cda:templateId[@root='2.16.840.1.113883.10.20.22.4.38' and @extension='2022-06-01']">SHALL conform to (contain the templateId of) SocialHistoryObservation</assert>
       <assert test="count(cda:templateId)&gt;=2">Cardinality of templateId is 2..*</assert>
       <assert test="count(cda:templateId[(@root = '2.16.840.1.113883.10.20.22.4.503') and (@extension = '2023-05-01')])=1">Cardinality of templateId:basic-occupation-obs is 1..1</assert>
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
@@ -1591,6 +1594,7 @@
   <pattern id="CarePlan-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.1.15:2024-05-01-->
     <rule id="CarePlan-errors-root" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.15' and @extension='2024-05-01']]">
+      <assert test="cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']">SHALL conform to (contain the templateId of) USRealmHeader</assert>
       <assert test="not(cda:setId) or cda:versionNumber">If setId is present versionNumber **SHALL** be present (CONF:4537-6380).</assert>
       <assert test="not(cda:versionNumber) or cda:setId">If versionNumber is present setId **SHALL** be present (CONF:4537-6387).</assert>
       <assert test="count(cda:templateId)&gt;=2">Cardinality of templateId is 2..*</assert>
@@ -2529,6 +2533,7 @@
   <pattern id="ConsultationNote-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.1.4:2024-05-01-->
     <rule id="ConsultationNote-errors-root" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.4' and @extension='2024-05-01']]">
+      <assert test="cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']">SHALL conform to (contain the templateId of) USRealmHeader</assert>
       <assert test="not(cda:setId) or cda:versionNumber">If setId is present versionNumber **SHALL** be present (CONF:4537-6380).</assert>
       <assert test="not(cda:versionNumber) or cda:setId">If versionNumber is present setId **SHALL** be present (CONF:4537-6387).</assert>
       <assert test="count(cda:templateId)&gt;=2">Cardinality of templateId is 2..*</assert>
@@ -2803,6 +2808,7 @@
   <pattern id="ContinuityofCareDocumentCCD-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.1.2:2024-05-01-->
     <rule id="ContinuityofCareDocumentCCD-errors-root" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.2' and @extension='2024-05-01']]">
+      <assert test="cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']">SHALL conform to (contain the templateId of) USRealmHeader</assert>
       <assert test="not(cda:setId) or cda:versionNumber">If setId is present versionNumber **SHALL** be present (CONF:4537-6380).</assert>
       <assert test="not(cda:versionNumber) or cda:setId">If versionNumber is present setId **SHALL** be present (CONF:4537-6387).</assert>
       <assert test="count(cda:templateId)&gt;=2">Cardinality of templateId is 2..*</assert>
@@ -3536,6 +3542,7 @@
   <pattern id="DischargeSummary-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.1.8:2024-05-01-->
     <rule id="DischargeSummary-errors-root" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.8' and @extension='2024-05-01']]">
+      <assert test="cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']">SHALL conform to (contain the templateId of) USRealmHeader</assert>
       <assert test="not(cda:setId) or cda:versionNumber">If setId is present versionNumber **SHALL** be present (CONF:4537-6380).</assert>
       <assert test="not(cda:versionNumber) or cda:setId">If versionNumber is present setId **SHALL** be present (CONF:4537-6387).</assert>
       <assert test="count(cda:templateId)&gt;=2">Cardinality of templateId is 2..*</assert>
@@ -4687,6 +4694,7 @@
   <pattern id="GenderIdentityObservation-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.34.3.45:2023-05-01-->
     <rule id="GenderIdentityObservation-errors-root" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.34.3.45' and @extension='2023-05-01']]">
+      <assert test="cda:templateId[@root='2.16.840.1.113883.10.20.22.4.38' and @extension='2022-06-01']">SHALL conform to (contain the templateId of) SocialHistoryObservation</assert>
       <assert test="count(cda:templateId)&gt;=2">Cardinality of templateId is 2..*</assert>
       <assert test="count(cda:templateId[(@root = '2.16.840.1.113883.10.20.34.3.45') and (@extension = '2023-05-01')])=1">Cardinality of templateId:gender-identity-obs is 1..1</assert>
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
@@ -5247,6 +5255,7 @@
   <pattern id="HistoryandPhysical-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.1.3:2024-05-01-->
     <rule id="HistoryandPhysical-errors-root" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.3' and @extension='2024-05-01']]">
+      <assert test="cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']">SHALL conform to (contain the templateId of) USRealmHeader</assert>
       <assert test="not(cda:setId) or cda:versionNumber">If setId is present versionNumber **SHALL** be present (CONF:4537-6380).</assert>
       <assert test="not(cda:versionNumber) or cda:setId">If versionNumber is present setId **SHALL** be present (CONF:4537-6387).</assert>
       <assert test="count(cda:templateId)&gt;=2">Cardinality of templateId is 2..*</assert>
@@ -6379,6 +6388,7 @@
   <pattern id="LongitudinalCareWoundObservation-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.4.114:2015-08-01-->
     <rule id="LongitudinalCareWoundObservation-errors-root" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.114' and @extension='2015-08-01']]">
+      <assert test="cda:templateId[@root='2.16.840.1.113883.10.20.22.4.4' and @extension='2024-05-01']">SHALL conform to (contain the templateId of) ProblemObservation</assert>
       <assert test="count(cda:templateId)&gt;=2">Cardinality of templateId is 2..*</assert>
       <assert test="count(cda:templateId[(@root = '2.16.840.1.113883.10.20.22.4.114') and (@extension = '2015-08-01')])=1">Cardinality of templateId:Longitudinal-care-wound-obs is 1..1</assert>
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
@@ -7961,6 +7971,7 @@
   <pattern id="OperativeNote-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.1.7:2024-05-01-->
     <rule id="OperativeNote-errors-root" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.7' and @extension='2024-05-01']]">
+      <assert test="cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']">SHALL conform to (contain the templateId of) USRealmHeader</assert>
       <assert test="not(cda:setId) or cda:versionNumber">If setId is present versionNumber **SHALL** be present (CONF:4537-6380).</assert>
       <assert test="not(cda:versionNumber) or cda:setId">If versionNumber is present setId **SHALL** be present (CONF:4537-6387).</assert>
       <assert test="count(cda:templateId)&gt;=2">Cardinality of templateId is 2..*</assert>
@@ -10666,6 +10677,7 @@
   <pattern id="ProcedureNote-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.1.6:2024-05-01-->
     <rule id="ProcedureNote-errors-root" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.6' and @extension='2024-05-01']]">
+      <assert test="cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']">SHALL conform to (contain the templateId of) USRealmHeader</assert>
       <assert test="not(cda:setId) or cda:versionNumber">If setId is present versionNumber **SHALL** be present (CONF:4537-6380).</assert>
       <assert test="not(cda:versionNumber) or cda:setId">If versionNumber is present setId **SHALL** be present (CONF:4537-6387).</assert>
       <assert test="count(cda:templateId)&gt;=2">Cardinality of templateId is 2..*</assert>
@@ -11140,6 +11152,7 @@
   <pattern id="ProgressNote-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.1.9:2024-05-01-->
     <rule id="ProgressNote-errors-root" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.9' and @extension='2024-05-01']]">
+      <assert test="cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']">SHALL conform to (contain the templateId of) USRealmHeader</assert>
       <assert test="not(cda:setId) or cda:versionNumber">If setId is present versionNumber **SHALL** be present (CONF:4537-6380).</assert>
       <assert test="not(cda:versionNumber) or cda:setId">If versionNumber is present setId **SHALL** be present (CONF:4537-6387).</assert>
       <assert test="count(cda:templateId)&gt;=2">Cardinality of templateId is 2..*</assert>
@@ -11702,6 +11715,7 @@
   <pattern id="ReferralNote-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.1.14:2024-05-01-->
     <rule id="ReferralNote-errors-root" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.14' and @extension='2024-05-01']]">
+      <assert test="cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']">SHALL conform to (contain the templateId of) USRealmHeader</assert>
       <assert test="not(cda:setId) or cda:versionNumber">If setId is present versionNumber **SHALL** be present (CONF:4537-6380).</assert>
       <assert test="not(cda:versionNumber) or cda:setId">If versionNumber is present setId **SHALL** be present (CONF:4537-6387).</assert>
       <assert test="count(cda:templateId)&gt;=2">Cardinality of templateId is 2..*</assert>
@@ -12954,6 +12968,7 @@
   <pattern id="SexualOrientationObservation-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.4.501:2023-05-01-->
     <rule id="SexualOrientationObservation-errors-root" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.501' and @extension='2023-05-01']]">
+      <assert test="cda:templateId[@root='2.16.840.1.113883.10.20.22.4.38' and @extension='2022-06-01']">SHALL conform to (contain the templateId of) SocialHistoryObservation</assert>
       <assert test="count(cda:templateId)&gt;=2">Cardinality of templateId is 2..*</assert>
       <assert test="count(cda:templateId[(@root = '2.16.840.1.113883.10.20.22.4.501') and (@extension = '2023-05-01')])=1">Cardinality of templateId:sexual-orientation-obs is 1..1</assert>
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
@@ -13623,6 +13638,7 @@
   <pattern id="TransferSummary-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.1.13:2024-05-01-->
     <rule id="TransferSummary-errors-root" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.13' and @extension='2024-05-01']]">
+      <assert test="cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']">SHALL conform to (contain the templateId of) USRealmHeader</assert>
       <assert test="not(cda:setId) or cda:versionNumber">If setId is present versionNumber **SHALL** be present (CONF:4537-6380).</assert>
       <assert test="not(cda:versionNumber) or cda:setId">If versionNumber is present setId **SHALL** be present (CONF:4537-6387).</assert>
       <assert test="count(cda:templateId)&gt;=2">Cardinality of templateId is 2..*</assert>
@@ -13983,6 +13999,7 @@
   <pattern id="TribalAffiliationObservation-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.4.506:2023-05-01-->
     <rule id="TribalAffiliationObservation-errors-root" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.506' and @extension='2023-05-01']]">
+      <assert test="cda:templateId[@root='2.16.840.1.113883.10.20.22.4.38' and @extension='2022-06-01']">SHALL conform to (contain the templateId of) SocialHistoryObservation</assert>
       <assert test="count(cda:templateId)&gt;=2">Cardinality of templateId is 2..*</assert>
       <assert test="count(cda:templateId[(@root = '2.16.840.1.113883.10.20.22.4.506') and (@extension = '2023-05-01')])=1">Cardinality of templateId:tribal-affiliation-obs is 1..1</assert>
       <assert test="count(@classCode)=1">Cardinality of @classCode is 1..1</assert>
@@ -14624,6 +14641,7 @@
   <pattern id="USRealmHeaderforPatientGeneratedDocument-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.29.1:2024-05-01-->
     <rule id="USRealmHeaderforPatientGeneratedDocument-errors-root" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]">
+      <assert test="cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']">SHALL conform to (contain the templateId of) USRealmHeader</assert>
       <assert test="not(cda:setId) or cda:versionNumber">If setId is present versionNumber **SHALL** be present (CONF:4537-6380).</assert>
       <assert test="not(cda:versionNumber) or cda:setId">If versionNumber is present setId **SHALL** be present (CONF:4537-6387).</assert>
       <assert test="count(cda:templateId)&gt;=2">Cardinality of templateId is 2..*</assert>
@@ -14760,6 +14778,7 @@
   <pattern id="UnstructuredDocument-errors">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.1.10:2024-05-01-->
     <rule id="UnstructuredDocument-errors-root" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.10' and @extension='2024-05-01']]">
+      <assert test="cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']">SHALL conform to (contain the templateId of) USRealmHeader</assert>
       <assert test="not(cda:setId) or cda:versionNumber">If setId is present versionNumber **SHALL** be present (CONF:4537-6380).</assert>
       <assert test="not(cda:versionNumber) or cda:setId">If versionNumber is present setId **SHALL** be present (CONF:4537-6387).</assert>
       <assert test="count(cda:templateId)&gt;=2">Cardinality of templateId is 2..*</assert>

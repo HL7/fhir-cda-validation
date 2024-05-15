@@ -152,6 +152,15 @@ export class StructureDefinition {
     this.errorRules['.'] = new Rule(`${sd.name}-errors-root`, `${templateRoot}[${templateIdContextExp}]`);
     this.warningRules['.'] = new Rule(`${sd.name}-warnings-root`, `${templateRoot}[${templateIdContextExp}]`);
 
+    // Require parent templateId (this is because we're mainly processing differential; not snapshot)
+    if (this.sd.baseDefinition) {
+      const parentTemplateId = templateIdContextFromProfile(this.sd.baseDefinition, true);
+      if (parentTemplateId) {
+        const parentName = profileName(this.sd.baseDefinition);
+        this.errorRules['.'].assert(parentTemplateId, `SHALL conform to (contain the templateId of) ${parentName}`);
+      }
+    }
+
     // TODO - functionalize
     const results: ProcessingResult = {
       errors: [],
