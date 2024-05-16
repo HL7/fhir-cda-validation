@@ -12,9 +12,11 @@ const printer = printf(info => {
     case 'warn':
       // (179, 98, 0) = dark dark orange
       level = chalk.whiteBright.bgRgb(179, 98, 0)(`${info.level} `);
+      if (!info.silent) noticeLogs.push(info.message);
       break;
     case 'error':
       level = chalk.whiteBright.bgRed(`${info.level}`);
+      if (!info.silent) errorLogs.push(info.message);
       break;
     case 'debug':
       level = chalk.whiteBright.bgBlue(`${info.level}`);
@@ -34,5 +36,5 @@ export const logMessage = (level: string, message: string): void => {
   logger.log(level, message);
 };
 
+export const errorLogs: string[] = [];
 export const noticeLogs: string[] = [];
-export const logNotice = (message: string) => noticeLogs.push(message);

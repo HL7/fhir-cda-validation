@@ -2,7 +2,7 @@ import { Pattern } from "../model/pattern";
 import { Rule } from "../model/rule";
 import { processInvariant } from "./invariant";
 import { ns, nsPrefix } from "../model";
-import { logNotice, logger } from "../utils/logger";
+import { logger } from "../utils/logger";
 import { cdaTypeFromDef, cdaTypeToFilter, profileFromDef, profileName, templateIdContext, templateIdContextFromProfile, typeFilter, xmlNameFromDefs } from "../utils/cdaUtil";
 import { getErrorMessage } from "../utils/helpers";
 import { voc } from "./terminology";
@@ -10,7 +10,6 @@ import { ProfiledToSubProfile } from "../utils/errors";
 
 interface ProcessingResult {
   errors: string[];
-  notices: string[];
   unhandledInvariants: Record<string, fhir5.ElementDefinitionConstraint[]>;
   subProfileContexts?: Record<string, string[]>;
   errorPattern?: Pattern;
@@ -22,14 +21,12 @@ type RuleMap = Record<string, Rule>;
 
 const subTemplateResult = (): ProcessingResult => ({
   errors: [],
-  notices: [],
   unhandledInvariants: {},
   isSubTemplate: true
 });
 
 const errorResult = (error: string): ProcessingResult => ({
   errors: [error],
-  notices: [],
   unhandledInvariants: {},
 });
 
@@ -93,7 +90,6 @@ export class StructureDefinition {
 
     const results: ProcessingResult = {
       errors: [],
-      notices: [],
       unhandledInvariants: {},
       errorPattern: templateErrorPattern,
       warningPattern: templateWarningPattern,
@@ -107,8 +103,7 @@ export class StructureDefinition {
         continue;
       }
       try {
-        const message = await this.processElementDefinition(snapDef, results);
-        if (message) results.notices.push(message);
+        await this.processElementDefinition(snapDef, results);
       } catch (e) { 
         results.errors.push(`${sd.name}: ${getErrorMessage(e)}`);
       }
@@ -164,7 +159,6 @@ export class StructureDefinition {
     // TODO - functionalize
     const results: ProcessingResult = {
       errors: [],
-      notices: [],
       unhandledInvariants: {},
       subProfileContexts: this.subProfileContexts,
       errorPattern: templateErrorPattern,
@@ -179,8 +173,7 @@ export class StructureDefinition {
         continue;
       }
       try {
-        const message = await this.processElementDefinition(snapDef, results);
-        if (message) results.notices.push(message);
+        await this.processElementDefinition(snapDef, results);
       } catch (e) { 
         results.errors.push(`${sd.name}: ${getErrorMessage(e)}`);
       }
@@ -193,9 +186,10 @@ export class StructureDefinition {
   }
 
 
-  processElementDefinition = async (element: fhir5.ElementDefinition, results: ProcessingResult): Promise<string | void> => {
+  processElementDefinition = async (element: fhir5.ElementDefinition, results: ProcessingResult): Promise<void> => {
     if (!element.id) {
-      return 'missing id';
+      logger.warn(`Skipping element with path ${element.path} in ${this.sd.name} because it is missing an id field`);
+      return;
     }
 
     // We don't need extra rules for templateId when we're in the context of templateId already...
@@ -238,7 +232,7 @@ export class StructureDefinition {
     const max = element.max ?? element.base?.max ?? '';
     const min = element.min ?? element.base?.min ?? 0;
     const maxInt = parseInt(max);
-    if (isNaN(maxInt) && max !== '*') logNotice(`Element ${element.id} in ${this.sd.name} had an invalid max value (${max})`);
+    if (isNaN(maxInt) && max !== '*') logger.warn(`Element ${element.id} in ${this.sd.name} had an invalid max value (${max})`);
     const required = (min > 0);
     const prohibited = (max === '0');
     if (min > 0 || element.max !== '*') {

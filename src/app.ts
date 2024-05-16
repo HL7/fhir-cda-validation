@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { logger } from "./utils/logger";
+import { logger, noticeLogs as notices } from "./utils/logger";
 import { sch } from "./model";
 import { StructureDefinition } from "./processing/structureDefinition";
 import { loadDefs } from "./utils/definitions";
@@ -52,7 +52,7 @@ updateConfigFromOptions(options);
 
 
 if (!inputIg) {
-  logger.warn('No IG specified; using C-CDA 3.0 by default');
+  logger.warn('No IG specified; using C-CDA 3.0 by default', { silent: true });
   inputIg = 'hl7.cda.us.ccda@current';
   options.dependency = [
     'hl7.terminology#5.2.0',
@@ -86,7 +86,6 @@ async function main() {
   const ig: fhir5.ImplementationGuide = deps.allImplementationGuides(inputIg)[0];
 
   const errors: string[] = [];
-  const notices: string[] = [];
   const unhandledInvariants: Record<string, fhir5.ElementDefinitionConstraint[]> = {};
 
   const schematron = new sch.Schematron();
@@ -114,7 +113,6 @@ async function main() {
     mergeWith(unhandledInvariants, processingResult.unhandledInvariants, (o, s) => Array.isArray(o) ? o.concat(s) : o);
     mergeWith(subProfileContexts, processingResult.subProfileContexts, (o, s) => Array.isArray(o) ? o.concat(s) : o);
     errors.push(...processingResult.errors);
-    notices.push(...processingResult.notices);
   };
 
   logger.info('Processing sub-profiles');
@@ -127,16 +125,14 @@ async function main() {
     if (processingResult.warningPattern) schematron.addWarningPattern(processingResult.warningPattern);
     merge(unhandledInvariants, processingResult.unhandledInvariants);
     errors.push(...processingResult.errors);
-    notices.push(...processingResult.notices);
   };
-
 
   errors.map(logger.error);
   notices.map(logger.warn);
   for (const [key, value] of Object.entries(unhandledInvariants)) {
     unhandledInvariants[key] = uniqWith(value, isEqual);
     const details = printFailingInvariants ? "\n" + value.map(v => v.expression).join("\n") : '';
-    logger.warn(`${key} (${value.length} instances)${details}`);
+    logger.warn(`${key} (${value.length} instances)${details}`, { silent: true });
   }
 
   logger.info('Writing output files...');
