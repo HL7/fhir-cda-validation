@@ -2,7 +2,7 @@ import { Pattern } from "../model/pattern";
 import { Rule } from "../model/rule";
 import { processInvariant } from "./invariant";
 import { ns, nsPrefix } from "../model";
-import { logger } from "../utils/logger";
+import { logNotice, logger } from "../utils/logger";
 import { cdaTypeFromDef, cdaTypeToFilter, profileFromDef, profileName, templateIdContext, templateIdContextFromProfile, typeFilter, xmlNameFromDefs } from "../utils/cdaUtil";
 import { getErrorMessage } from "../utils/helpers";
 import { voc } from "./terminology";
@@ -237,14 +237,17 @@ export class StructureDefinition {
     // Cardinality
     const max = element.max ?? element.base?.max ?? '';
     const min = element.min ?? element.base?.min ?? 0;
+    const maxInt = parseInt(max);
+    if (isNaN(maxInt) && max !== '*') logNotice(`Element ${element.id} in ${this.sd.name} had an invalid max value (${max})`);
     const required = (min > 0);
     const prohibited = (max === '0');
     if (min > 0 || element.max !== '*') {
       const val = `count(${nodeXml})`;
-      const assertion = min === parseInt(max) ? `${val}=${min}`
-        : max === '0' ? `${val}=0`
-          : !isNaN(parseInt(max)) ? ( min > 0 ? `${val} >= ${min} and ${val} <= ${max}` : `${val} <= ${max}`)
-            : `${val}>=${min}`;
+      let assertion;
+      if (min === maxInt) assertion = `${val}=${min}`;
+      else if (max === '0') assertion = `${val}=0`;
+      else if (!isNaN(maxInt)) assertion = (min > 0 ? `${val} >= ${min} and ${val} <= ${max}` : `${val} <= ${max}`);
+      else assertion = `${val}>=${min}`;
       this.errorRule(element.id, true).assert(assertion, `Cardinality of ${nodeDisplay} is ${min}..${max}`);
     }
 
