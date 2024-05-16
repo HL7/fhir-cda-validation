@@ -965,8 +965,6 @@ w: precise to at least the minute
                             <templateId root="2.16.840.1.113883.10.20.22.4.26" extension="2015-08-01" />
                             <id nullFlavor="UNK"/>
                             <!-- e: 74728-7 
-                                e: Cardinality of @code is 1..1
-                                e: Cardinality of @codeSystem is 1..1
                                 e: Cardinality of effectiveTime is 1..1
                             -->
                             <code nullFlavor="UNK"/>

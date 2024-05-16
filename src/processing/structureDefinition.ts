@@ -223,6 +223,9 @@ export class StructureDefinition {
     if (!nodeXml) return; // Would've already logged a warning
     const nodeDisplay = this.xmlNodeName(element, true);
 
+    // Fixed value (look up before cardinality check; might save us an assertion)
+    const fixed = this.fixedValue(element);
+
     // Cardinality
     const max = element.max ?? element.base?.max ?? '';
     const min = element.min ?? element.base?.min ?? 0;
@@ -230,7 +233,12 @@ export class StructureDefinition {
     if (isNaN(maxInt) && max !== '*') logger.warn(`Element ${element.id} in ${this.sd.name} had an invalid max value (${max})`);
     const required = (min > 0);
     const prohibited = (max === '0');
-    if (min > 0 || element.max !== '*') {
+
+    // Certain cases we don't need to bother with cardinality
+    let skip = (required && fixed && maxInt === 1);
+    if (min === 0 && element.max === '*') skip = true;
+
+    if (!skip) {
       const val = `count(${nodeXml})`;
       let assertion;
       if (min === maxInt) assertion = `${val}=${min}`;
@@ -242,10 +250,7 @@ export class StructureDefinition {
 
     // TODO - can probably skip cardinality check for attributes <= 1
 
-    // TODO - if fixed and required; can skip the required cardinality check
-
     // Fixed values
-    const fixed = this.fixedValue(element);
     if (fixed) {
       if (required) {
         this.errorRule(element.id, true).assert(`${nodeXml} = '${fixed}'`, `${nodeDisplay} SHALL = '${fixed}'`);
@@ -254,7 +259,6 @@ export class StructureDefinition {
       }
     }
 
-    // TODO - if profile - must have templateId (the easy CDA way to match!) or else add to context
     // (Also - stop throwing errors for profiles to data types.... hmm....)
     const profiles = profileFromDef(element);
     if (profiles.length > 0) {
