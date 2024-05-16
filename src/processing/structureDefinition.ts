@@ -237,6 +237,7 @@ export class StructureDefinition {
     // Certain cases we don't need to bother with cardinality
     let skip = (required && fixed && maxInt === 1);
     if (min === 0 && element.max === '*') skip = true;
+    if (this.isAttribute(element) && min === 0 && maxInt === 1) skip = true;
 
     if (!skip) {
       const val = `count(${nodeXml})`;
@@ -247,8 +248,6 @@ export class StructureDefinition {
       else assertion = `${val}>=${min}`;
       this.errorRule(element.id, true).assert(assertion, `Cardinality of ${nodeDisplay} is ${min}..${max}`);
     }
-
-    // TODO - can probably skip cardinality check for attributes <= 1
 
     // Fixed values
     if (fixed) {
@@ -338,6 +337,8 @@ export class StructureDefinition {
     return thisContext;
   }
 
+  isAttribute = (element: fhir5.ElementDefinition) => (element.representation || []).includes('xmlAttr');
+
   xmlNodeName = (elementOrId?: fhir5.ElementDefinition | string, displayOnly = false): string | void | 0 => {
     const element = typeof elementOrId === 'string' ? this.elementDefAtId(elementOrId) : elementOrId
     if (!element) {
@@ -362,7 +363,7 @@ export class StructureDefinition {
     const xmlName = element.extension?.find(e => e.url === 'http://hl7.org/fhir/tools/StructureDefinition/xml-name')?.valueString || nameFromId;
     const xmlNS = element.extension?.find(e => e.url === 'http://hl7.org/fhir/tools/StructureDefinition/xml-namespace')?.valueUri || ns.cda;
 
-    if (representation.includes('xmlAttr')) {
+    if (this.isAttribute(element)) {
       return `@${xmlName}`;
     }
 

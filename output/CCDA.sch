@@ -591,7 +591,6 @@
     </rule>
     <rule id="AdvanceDirectiveObservation-errors-participant-verifier.time" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.48' and @extension='2022-02-14']]/cda:participant[(@typeCode = 'VRF')]/cda:time">
       <assert test="not(((cda:low | cda:high | cda:width | cda:center)))">Interval fields SHALL not be present</assert>
-      <assert test="count(@value) &lt;= 1">Cardinality of @value is 0..1</assert>
     </rule>
     <rule id="AdvanceDirectiveObservation-errors-participant-verifier.participantRole" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.48' and @extension='2022-02-14']]/cda:participant[(@typeCode = 'VRF')]/cda:participantRole">
       <assert test="count(cda:code) &lt;= 1">Cardinality of code is 0..1</assert>
@@ -702,7 +701,6 @@
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.2.21.1:2022-02-14-->
     <rule id="AdvanceDirectivesSection-errors-root" context="cda:section[cda:templateId[@root='2.16.840.1.113883.10.20.22.2.21.1' and @extension='2022-02-14']]">
       <assert test="@nullFlavor or cda:entry[cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.108' and @extension='2022-02-14']]]">If section/@nullFlavor is not present, SHALL contain at least one Advance Directive Organizer</assert>
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
       <assert test="count(cda:code)=1">Cardinality of code is 1..1</assert>
       <assert test="count(cda:title)=1">Cardinality of title is 1..1</assert>
       <assert test="count(cda:text)=1">Cardinality of text is 1..1</assert>
@@ -765,7 +763,6 @@
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.2.6.1:2015-08-01-->
     <rule id="AllergiesAndIntolerancesSection-errors-root" context="cda:section[cda:templateId[@root='2.16.840.1.113883.10.20.22.2.6.1' and @extension='2015-08-01']]">
       <assert test="@nullFlavor or cda:entry[cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.30' and @extension='2015-08-01']]]">If section/@nullFlavor is not present, SHALL contain at least one Allergy Concern Act</assert>
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
       <assert test="count(cda:code)=1">Cardinality of code is 1..1</assert>
       <assert test="count(cda:title)=1">Cardinality of title is 1..1</assert>
       <assert test="count(cda:text)=1">Cardinality of text is 1..1</assert>
@@ -844,7 +841,6 @@
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.4.7:2014-06-09-->
     <rule id="AllergyIntoleranceObservation-errors-root" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.7' and @extension='2014-06-09']]">
       <assert test="cda:templateId[@root='2.16.840.1.113883.10.20.24.3.90' and @extension='2014-06-09']">SHALL conform to (contain the templateId of) SubstanceOrDeviceAllergyIntoleranceObservation</assert>
-      <assert test="count(@negationInd) &lt;= 1">Cardinality of @negationInd is 0..1</assert>
       <assert test="count(cda:effectiveTime)=1">Cardinality of effectiveTime is 1..1</assert>
     </rule>
     <rule id="AllergyIntoleranceObservation-errors-participant-consumable.participantRole.playingEntity" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.7' and @extension='2014-06-09']]/cda:participant[(@typeCode = 'CSM')]/cda:participantRole/cda:playingEntity">
@@ -1125,7 +1121,6 @@
       <assert test="@codeSystem = '2.16.840.1.113883.6.1'">@codeSystem SHALL = '2.16.840.1.113883.6.1'</assert>
     </rule>
     <rule id="AverageBloodPressureOrganizer-errors-component-systolic.observation.value" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.512' and @extension='2024-05-01']]/cda:component[(cda:observation/cda:code/@code = '96608-5')]/cda:observation/cda:value">
-      <assert test="count(@unit) &lt;= 1">Cardinality of @unit is 0..1</assert>
       <assert test="not(@unit) or @unit = 'mm[Hg]'">@unit, if present, SHALL = 'mm[Hg]'</assert>
     </rule>
     <rule id="AverageBloodPressureOrganizer-errors-component-diastolic" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.512' and @extension='2024-05-01']]/cda:component[(cda:observation/cda:code/@code = '96609-3')]">
@@ -1139,7 +1134,6 @@
       <assert test="@codeSystem = '2.16.840.1.113883.6.1'">@codeSystem SHALL = '2.16.840.1.113883.6.1'</assert>
     </rule>
     <rule id="AverageBloodPressureOrganizer-errors-component-diastolic.observation.value" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.512' and @extension='2024-05-01']]/cda:component[(cda:observation/cda:code/@code = '96609-3')]/cda:observation/cda:value">
-      <assert test="count(@unit) &lt;= 1">Cardinality of @unit is 0..1</assert>
       <assert test="not(@unit) or @unit = 'mm[Hg]'">@unit, if present, SHALL = 'mm[Hg]'</assert>
     </rule>
   </pattern>
@@ -1250,7 +1244,6 @@
     </rule>
     <rule id="BirthSexObservation-errors-effectiveTime" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.200' and @extension='2024-05-01']]/cda:effectiveTime">
       <assert test="not(((cda:low | cda:high | cda:width | cda:center)))">Interval fields SHALL not be present</assert>
-      <assert test="count(@value) &lt;= 1">Cardinality of @value is 0..1</assert>
     </rule>
     <rule id="BirthSexObservation-errors-value" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.200' and @extension='2024-05-01']]/cda:value">
       <assert test="@nullFlavor or contains($BirthSex, @code)">SHALL be selected from ValueSet BirthSex</assert>
@@ -1266,8 +1259,6 @@
     <rule id="BrandNameObservation-errors-code" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.301' and @extension='2019-06-21']]/cda:code">
       <assert test="@code = 'C71898'">@code SHALL = 'C71898'</assert>
       <assert test="@codeSystem = '2.16.840.1.113883.3.26.1.1'">@codeSystem SHALL = '2.16.840.1.113883.3.26.1.1'</assert>
-      <assert test="count(@codeSystemName) &lt;= 1">Cardinality of @codeSystemName is 0..1</assert>
-      <assert test="count(@displayName) &lt;= 1">Cardinality of @displayName is 0..1</assert>
     </rule>
     <rule id="BrandNameObservation-errors-text" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.301' and @extension='2019-06-21']]/cda:text">
       <assert test="count(cda:reference) &lt;= 1">Cardinality of reference is 0..1</assert>
@@ -1391,9 +1382,6 @@
     </rule>
     <rule id="CarePlan-errors-participant-verifier.associatedEntity.classCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.15' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'VRF')]/cda:associatedEntity/@classCode">
       <assert test="contains($CDARoleClassAssociative, .)">SHALL be selected from ValueSet CDARoleClassAssociative</assert>
-    </rule>
-    <rule id="CarePlan-errors-participant-verifier.associatedEntity.code" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.15' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'VRF')]/cda:associatedEntity/cda:code">
-      <assert test="count(@code) &lt;= 1">Cardinality of @code is 0..1</assert>
     </rule>
     <rule id="CarePlan-errors-participant-indirect" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.15' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'IND')]">
       <assert test="cda:associatedEntity/cda:associatedPerson or cda:associatedEntity/cda:scopingOrganization">**SHALL** contain associatedEntity/associatedPerson *AND/OR* associatedEntity/scopingOrganization (CONF:4537-10006).</assert>
@@ -1569,9 +1557,6 @@
       <assert test="count(cda:id)&gt;=1">Cardinality of id is 1..*</assert>
       <assert test="count(cda:assignedPerson) &lt;= 1">Cardinality of assignedPerson is 0..1</assert>
       <assert test="count(cda:representedOrganization) &lt;= 1">Cardinality of representedOrganization is 0..1</assert>
-    </rule>
-    <rule id="CareTeamMemberAct-errors-performer.assignedEntity.id" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.500.1' and @extension='2024-05-01']]/cda:performer/cda:assignedEntity/cda:id">
-      <assert test="count(@root) &lt;= 1">Cardinality of @root is 0..1</assert>
     </rule>
     <rule id="CareTeamMemberAct-errors-performer.assignedEntity.addr" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.500.1' and @extension='2024-05-01']]/cda:performer/cda:assignedEntity/cda:addr">
       <assert test="@nullFlavor or count(cda:city) = 1">SHALL contain exactly one [1..1] city (CONF:81-7292).</assert>
@@ -1939,8 +1924,6 @@
     <rule id="CatalogNumberObservation-errors-code" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.302' and @extension='2019-06-21']]/cda:code">
       <assert test="@code = 'C99286'">@code SHALL = 'C99286'</assert>
       <assert test="@codeSystem = '2.16.840.1.113883.3.26.1.1'">@codeSystem SHALL = '2.16.840.1.113883.3.26.1.1'</assert>
-      <assert test="count(@codeSystemName) &lt;= 1">Cardinality of @codeSystemName is 0..1</assert>
-      <assert test="count(@displayName) &lt;= 1">Cardinality of @displayName is 0..1</assert>
     </rule>
     <rule id="CatalogNumberObservation-errors-text" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.302' and @extension='2019-06-21']]/cda:text">
       <assert test="count(cda:reference) &lt;= 1">Cardinality of reference is 0..1</assert>
@@ -2046,8 +2029,6 @@
     <rule id="CompanyNameObservation-errors-code" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.303' and @extension='2019-06-21']]/cda:code">
       <assert test="@code = 'C54131'">@code SHALL = 'C54131'</assert>
       <assert test="@codeSystem = '2.16.840.1.113883.3.26.1.1'">@codeSystem SHALL = '2.16.840.1.113883.3.26.1.1'</assert>
-      <assert test="count(@codeSystemName) &lt;= 1">Cardinality of @codeSystemName is 0..1</assert>
-      <assert test="count(@displayName) &lt;= 1">Cardinality of @displayName is 0..1</assert>
     </rule>
     <rule id="CompanyNameObservation-errors-text" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.303' and @extension='2019-06-21']]/cda:text">
       <assert test="count(cda:reference) &lt;= 1">Cardinality of reference is 0..1</assert>
@@ -2679,7 +2660,6 @@
       <assert test="contains($XDocumentActMood, .)">SHALL be selected from ValueSet XDocumentActMood</assert>
     </rule>
     <rule id="DateOfDiagnosisAct-errors-code" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.502' and @extension='2022-06-01']]/cda:code">
-      <assert test="count(@code) &lt;= 1">Cardinality of @code is 0..1</assert>
       <assert test="not(@code) or @code = '77975-1'">@code, if present, SHALL = '77975-1'</assert>
       <assert test="@codeSystem = '2.16.840.1.113883.6.1'">@codeSystem SHALL = '2.16.840.1.113883.6.1'</assert>
     </rule>
@@ -2761,8 +2741,6 @@
     <rule id="DeviceIdentifierObservation-errors-code" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.304' and @extension='2022-06-01']]/cda:code">
       <assert test="@code = 'C101722'">@code SHALL = 'C101722'</assert>
       <assert test="@codeSystem = '2.16.840.1.113883.3.26.1.1'">@codeSystem SHALL = '2.16.840.1.113883.3.26.1.1'</assert>
-      <assert test="count(@codeSystemName) &lt;= 1">Cardinality of @codeSystemName is 0..1</assert>
-      <assert test="count(@displayName) &lt;= 1">Cardinality of @displayName is 0..1</assert>
     </rule>
     <rule id="DeviceIdentifierObservation-errors-text" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.304' and @extension='2022-06-01']]/cda:text">
       <assert test="count(cda:reference) &lt;= 1">Cardinality of reference is 0..1</assert>
@@ -2773,7 +2751,6 @@
     <rule id="DeviceIdentifierObservation-errors-value" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.304' and @extension='2022-06-01']]/cda:value">
       <assert test="@displayable = 'true'">@displayable SHALL = 'true'</assert>
       <assert test="count(@root)=1">Cardinality of @root is 1..1</assert>
-      <assert test="count(@extension) &lt;= 1">Cardinality of @extension is 0..1</assert>
     </rule>
   </pattern>
   <pattern id="DisabilityStatusObservation-errors">
@@ -2898,7 +2875,6 @@
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.2.11.1:2015-08-01-->
     <rule id="DischargeMedicationsSection-errors-root" context="cda:section[cda:templateId[@root='2.16.840.1.113883.10.20.22.2.11.1' and @extension='2015-08-01']]">
       <assert test="@nullFlavor or cda:entry[cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.35' and @extension='2016-03-01']]]">If section/@nullFlavor is not present, SHALL contain at least one Discharge Medication</assert>
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
       <assert test="count(cda:code)=1">Cardinality of code is 1..1</assert>
       <assert test="count(cda:title)=1">Cardinality of title is 1..1</assert>
       <assert test="count(cda:text)=1">Cardinality of text is 1..1</assert>
@@ -3192,8 +3168,6 @@
     <rule id="DistinctIdentificationCodeObservation-errors-code" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.308' and @extension='2019-06-21']]/cda:code">
       <assert test="@code = 'C113843'">@code SHALL = 'C113843'</assert>
       <assert test="@codeSystem = '2.16.840.1.113883.3.26.1.1'">@codeSystem SHALL = '2.16.840.1.113883.3.26.1.1'</assert>
-      <assert test="count(@codeSystemName) &lt;= 1">Cardinality of @codeSystemName is 0..1</assert>
-      <assert test="count(@displayName) &lt;= 1">Cardinality of @displayName is 0..1</assert>
     </rule>
     <rule id="DistinctIdentificationCodeObservation-errors-text" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.308' and @extension='2019-06-21']]/cda:text">
       <assert test="count(cda:reference) &lt;= 1">Cardinality of reference is 0..1</assert>
@@ -3399,7 +3373,6 @@
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.2.22.1:2015-08-01-->
     <rule id="EncountersSection-errors-root" context="cda:section[cda:templateId[@root='2.16.840.1.113883.10.20.22.2.22.1' and @extension='2015-08-01']]">
       <assert test="@nullFlavor or cda:entry[cda:encounter[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.49' and @extension='2015-08-01']]]">If section/@nullFlavor is not present, SHALL contain at least one Encounter Activity</assert>
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
       <assert test="count(cda:code)=1">Cardinality of code is 1..1</assert>
       <assert test="count(cda:title)=1">Cardinality of title is 1..1</assert>
       <assert test="count(cda:text)=1">Cardinality of text is 1..1</assert>
@@ -3445,7 +3418,6 @@
     </rule>
     <rule id="EntryReference-errors-statusCode" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.122' and not(@extension)]]/cda:statusCode">
       <assert test="@nullFlavor or contains($ActStatus, @code)">SHALL be selected from ValueSet ActStatus</assert>
-      <assert test="count(@code) &lt;= 1">Cardinality of @code is 0..1</assert>
     </rule>
   </pattern>
   <pattern id="EstimatedDateofDelivery-errors">
@@ -3510,8 +3482,6 @@
     <rule id="ExpirationDateObservation-errors-code" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.309' and @extension='2019-06-21']]/cda:code">
       <assert test="@code = 'C101670'">@code SHALL = 'C101670'</assert>
       <assert test="@codeSystem = '2.16.840.1.113883.3.26.1.1'">@codeSystem SHALL = '2.16.840.1.113883.3.26.1.1'</assert>
-      <assert test="count(@codeSystemName) &lt;= 1">Cardinality of @codeSystemName is 0..1</assert>
-      <assert test="count(@displayName) &lt;= 1">Cardinality of @displayName is 0..1</assert>
     </rule>
     <rule id="ExpirationDateObservation-errors-text" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.309' and @extension='2019-06-21']]/cda:text">
       <assert test="count(cda:reference) &lt;= 1">Cardinality of reference is 0..1</assert>
@@ -4014,7 +3984,6 @@
     <!--urn:oid:2.16.840.1.113883.10.20.22.2.60-->
     <rule id="GoalsSection-errors-root" context="cda:section[cda:templateId[@root='2.16.840.1.113883.10.20.22.2.60' and not(@extension)]]">
       <assert test="@nullFlavor or cda:entry[cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.121' and @extension='2022-06-01']]]">If section/@nullFlavor is not present, SHALL contain at least one Goal Observation</assert>
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
       <assert test="count(cda:code)=1">Cardinality of code is 1..1</assert>
       <assert test="count(cda:title)=1">Cardinality of title is 1..1</assert>
       <assert test="count(cda:text)=1">Cardinality of text is 1..1</assert>
@@ -4195,7 +4164,6 @@
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.2.58:2015-08-01-->
     <rule id="HealthConcernsSection-errors-root" context="cda:section[cda:templateId[@root='2.16.840.1.113883.10.20.22.2.58' and @extension='2015-08-01']]">
       <assert test="@nullFlavor or cda:entry[cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.132' and @extension='2022-06-01']]]">If section/@nullFlavor is not present, SHALL contain at least one Health Concern Act</assert>
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
       <assert test="count(cda:code)=1">Cardinality of code is 1..1</assert>
       <assert test="count(cda:title)=1">Cardinality of title is 1..1</assert>
       <assert test="count(cda:text)=1">Cardinality of text is 1..1</assert>
@@ -4227,7 +4195,6 @@
     <!--urn:oid:2.16.840.1.113883.10.20.22.2.61-->
     <rule id="HealthStatusEvaluationsandOutcomesSection-errors-root" context="cda:section[cda:templateId[@root='2.16.840.1.113883.10.20.22.2.61' and not(@extension)]]">
       <assert test="@nullFlavor or cda:entry[cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.144' and not(@extension)]]]">If section/@nullFlavor is not present, SHALL contain at least one Outcome Observation</assert>
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
       <assert test="count(cda:code)=1">Cardinality of code is 1..1</assert>
       <assert test="count(cda:title)=1">Cardinality of title is 1..1</assert>
       <assert test="count(cda:text)=1">Cardinality of text is 1..1</assert>
@@ -4712,13 +4679,9 @@
     </rule>
     <rule id="ImmunizationActivity-errors-repeatNumber" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.52' and @extension='2015-08-01']]/cda:repeatNumber">
       <assert test="not(((cda:low | cda:high | cda:width | cda:center)))">Interval fields SHALL not be present</assert>
-      <assert test="count(@value) &lt;= 1">Cardinality of @value is 0..1</assert>
     </rule>
     <rule id="ImmunizationActivity-errors-routeCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.52' and @extension='2015-08-01']]/cda:routeCode">
       <assert test="@nullFlavor or contains($SPLDrugRouteOfAdministrationTerminology, @code)">SHALL be selected from ValueSet SPLDrugRouteOfAdministrationTerminology</assert>
-    </rule>
-    <rule id="ImmunizationActivity-errors-doseQuantity" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.52' and @extension='2015-08-01']]/cda:doseQuantity">
-      <assert test="count(@unit) &lt;= 1">Cardinality of @unit is 0..1</assert>
     </rule>
     <rule id="ImmunizationActivity-errors-administrationUnitCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.52' and @extension='2015-08-01']]/cda:administrationUnitCode">
       <assert test="@nullFlavor or contains($AdministrationUnitDoseForm, @code)">SHALL be selected from ValueSet AdministrationUnitDoseForm</assert>
@@ -4892,7 +4855,6 @@
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.2.2.1:2015-08-01-->
     <rule id="ImmunizationsSection-errors-root" context="cda:section[cda:templateId[@root='2.16.840.1.113883.10.20.22.2.2.1' and @extension='2015-08-01']]">
       <assert test="@nullFlavor or cda:entry[cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.52' and @extension='2015-08-01']]]">If section/@nullFlavor is not present, SHALL contain at least one Immunization Activity</assert>
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
       <assert test="count(cda:code)=1">Cardinality of code is 1..1</assert>
       <assert test="count(cda:title)=1">Cardinality of title is 1..1</assert>
       <assert test="count(cda:text)=1">Cardinality of text is 1..1</assert>
@@ -4919,8 +4881,6 @@
     <rule id="ImplantableDeviceStatusObservation-errors-code" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.305' and @extension='2019-06-21']]/cda:code">
       <assert test="@code = 'C160939'">@code SHALL = 'C160939'</assert>
       <assert test="@codeSystem = '2.16.840.1.113883.3.26.1.1'">@codeSystem SHALL = '2.16.840.1.113883.3.26.1.1'</assert>
-      <assert test="count(@codeSystemName) &lt;= 1">Cardinality of @codeSystemName is 0..1</assert>
-      <assert test="count(@displayName) &lt;= 1">Cardinality of @displayName is 0..1</assert>
     </rule>
     <rule id="ImplantableDeviceStatusObservation-errors-text" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.305' and @extension='2019-06-21']]/cda:text">
       <assert test="count(cda:reference) &lt;= 1">Cardinality of reference is 0..1</assert>
@@ -4996,7 +4956,6 @@
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.2.45:2014-06-09-->
     <rule id="InstructionsSection-errors-root" context="cda:section[cda:templateId[@root='2.16.840.1.113883.10.20.22.2.45' and @extension='2014-06-09']]">
       <assert test="@nullFlavor or cda:entry[cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.20' and @extension='2014-06-09']]]">If section/@nullFlavor is not present, SHALL contain at least one Instruction</assert>
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
       <assert test="count(cda:code)=1">Cardinality of code is 1..1</assert>
       <assert test="count(cda:title)=1">Cardinality of title is 1..1</assert>
       <assert test="count(cda:text)=1">Cardinality of text is 1..1</assert>
@@ -5200,8 +5159,6 @@
     <rule id="LatexSafetyObservation-errors-code" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.314' and @extension='2019-06-21']]/cda:code">
       <assert test="@code = 'C160938'">@code SHALL = 'C160938'</assert>
       <assert test="@codeSystem = '2.16.840.1.113883.3.26.1.1'">@codeSystem SHALL = '2.16.840.1.113883.3.26.1.1'</assert>
-      <assert test="count(@codeSystemName) &lt;= 1">Cardinality of @codeSystemName is 0..1</assert>
-      <assert test="count(@displayName) &lt;= 1">Cardinality of @displayName is 0..1</assert>
     </rule>
     <rule id="LatexSafetyObservation-errors-text" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.314' and @extension='2019-06-21']]/cda:text">
       <assert test="count(cda:reference) &lt;= 1">Cardinality of reference is 0..1</assert>
@@ -5304,8 +5261,6 @@
     <rule id="LotOrBatchNumberObservation-errors-code" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.315' and @extension='2019-06-21']]/cda:code">
       <assert test="@code = 'C101672'">@code SHALL = 'C101672'</assert>
       <assert test="@codeSystem = '2.16.840.1.113883.3.26.1.1'">@codeSystem SHALL = '2.16.840.1.113883.3.26.1.1'</assert>
-      <assert test="count(@codeSystemName) &lt;= 1">Cardinality of @codeSystemName is 0..1</assert>
-      <assert test="count(@displayName) &lt;= 1">Cardinality of @displayName is 0..1</assert>
     </rule>
     <rule id="LotOrBatchNumberObservation-errors-text" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.315' and @extension='2019-06-21']]/cda:text">
       <assert test="count(cda:reference) &lt;= 1">Cardinality of reference is 0..1</assert>
@@ -5324,8 +5279,6 @@
     <rule id="MRISafetyObservation-errors-code" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.318' and @extension='2019-06-21']]/cda:code">
       <assert test="@code = 'C106044'">@code SHALL = 'C106044'</assert>
       <assert test="@codeSystem = '2.16.840.1.113883.3.26.1.1'">@codeSystem SHALL = '2.16.840.1.113883.3.26.1.1'</assert>
-      <assert test="count(@codeSystemName) &lt;= 1">Cardinality of @codeSystemName is 0..1</assert>
-      <assert test="count(@displayName) &lt;= 1">Cardinality of @displayName is 0..1</assert>
     </rule>
     <rule id="MRISafetyObservation-errors-text" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.318' and @extension='2019-06-21']]/cda:text">
       <assert test="count(cda:reference) &lt;= 1">Cardinality of reference is 0..1</assert>
@@ -5351,8 +5304,6 @@
     <rule id="ManufacturingDateObservation-errors-code" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.316' and @extension='2019-06-21']]/cda:code">
       <assert test="@code = 'C101669'">@code SHALL = 'C101669'</assert>
       <assert test="@codeSystem = '2.16.840.1.113883.3.26.1.1'">@codeSystem SHALL = '2.16.840.1.113883.3.26.1.1'</assert>
-      <assert test="count(@codeSystemName) &lt;= 1">Cardinality of @codeSystemName is 0..1</assert>
-      <assert test="count(@displayName) &lt;= 1">Cardinality of @displayName is 0..1</assert>
     </rule>
     <rule id="ManufacturingDateObservation-errors-text" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.316' and @extension='2019-06-21']]/cda:text">
       <assert test="count(cda:reference) &lt;= 1">Cardinality of reference is 0..1</assert>
@@ -5504,7 +5455,6 @@
     </rule>
     <rule id="MedicationActivity-errors-effectiveTime-duration" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09']]/cda:effectiveTime[@xsi:type='IVL_TS' or cda:low or cda:high or @value]">
       <assert test="(@value or cda:low) and (not((@value and cda:low)))">This effectiveTime **SHALL** contain either a low or a @value but not both (CONF:1098-32890).</assert>
-      <assert test="count(@value) &lt;= 1">Cardinality of @value is 0..1</assert>
       <assert test="count(cda:low) &lt;= 1">Cardinality of low is 0..1</assert>
       <assert test="count(cda:high) &lt;= 1">Cardinality of high is 0..1</assert>
     </rule>
@@ -5522,9 +5472,6 @@
     </rule>
     <rule id="MedicationActivity-errors-routeCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09']]/cda:routeCode">
       <assert test="@nullFlavor or contains($SPLDrugRouteOfAdministrationTerminology, @code)">SHALL be selected from ValueSet SPLDrugRouteOfAdministrationTerminology</assert>
-    </rule>
-    <rule id="MedicationActivity-errors-doseQuantity" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09']]/cda:doseQuantity">
-      <assert test="count(@unit) &lt;= 1">Cardinality of @unit is 0..1</assert>
     </rule>
     <rule id="MedicationActivity-errors-rateQuantity" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09']]/cda:rateQuantity">
       <assert test="count(@unit)=1">Cardinality of @unit is 1..1</assert>
@@ -5802,7 +5749,6 @@
     </rule>
     <rule id="MedicationFreeTextSig-errors-text.reference" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.147' and not(@extension)]]/cda:text/cda:reference">
       <assert test="not(@value) or @value[starts-with(., '#')]">If reference/@value is present, it SHALL begin with a '#' and SHALL point to its corresponding narrative</assert>
-      <assert test="count(@value) &lt;= 1">Cardinality of @value is 0..1</assert>
     </rule>
     <rule id="MedicationFreeTextSig-errors-statusCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.147' and not(@extension)]]/cda:statusCode">
       <assert test="@nullFlavor or contains($ActStatus, @code)">SHALL be selected from ValueSet ActStatus</assert>
@@ -5912,7 +5858,6 @@
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.2.1.1:2014-06-09-->
     <rule id="MedicationsSection-errors-root" context="cda:section[cda:templateId[@root='2.16.840.1.113883.10.20.22.2.1.1' and @extension='2014-06-09']]">
       <assert test="@nullFlavor or cda:entry[cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09']]]">If section/@nullFlavor is not present, SHALL contain at least one Medication Activity</assert>
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
       <assert test="count(cda:code)=1">Cardinality of code is 1..1</assert>
       <assert test="count(cda:title)=1">Cardinality of title is 1..1</assert>
       <assert test="count(cda:text)=1">Cardinality of text is 1..1</assert>
@@ -6055,8 +6000,6 @@
     <rule id="ModelNumberObservation-errors-code" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.317' and @extension='2019-06-21']]/cda:code">
       <assert test="@code = 'C99285'">@code SHALL = 'C99285'</assert>
       <assert test="@codeSystem = '2.16.840.1.113883.3.26.1.1'">@codeSystem SHALL = '2.16.840.1.113883.3.26.1.1'</assert>
-      <assert test="count(@codeSystemName) &lt;= 1">Cardinality of @codeSystemName is 0..1</assert>
-      <assert test="count(@displayName) &lt;= 1">Cardinality of @displayName is 0..1</assert>
     </rule>
     <rule id="ModelNumberObservation-errors-text" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.317' and @extension='2019-06-21']]/cda:text">
       <assert test="count(cda:reference) &lt;= 1">Cardinality of reference is 0..1</assert>
@@ -6144,7 +6087,6 @@
     </rule>
     <rule id="NoteActivity-errors-text" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.202' and @extension='2016-11-01']]/cda:text">
       <assert test="not(@mediaType) or (@representation = 'B64' and text()[normalize-space()])">If @mediaType is present, the text SHALL contain exactly one [1..1] @representation="B64" and mixed content corresponding to the contents of the note (CONF:3250-16912).</assert>
-      <assert test="count(@mediaType) &lt;= 1">Cardinality of @mediaType is 0..1</assert>
       <assert test="count(cda:reference)=1">Cardinality of reference is 1..1</assert>
     </rule>
     <rule id="NoteActivity-errors-text.reference" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.202' and @extension='2016-11-01']]/cda:text/cda:reference">
@@ -6154,9 +6096,6 @@
     </rule>
     <rule id="NoteActivity-errors-statusCode" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.202' and @extension='2016-11-01']]/cda:statusCode">
       <assert test="@nullFlavor or contains($ActStatus, @code)">SHALL be selected from ValueSet ActStatus</assert>
-    </rule>
-    <rule id="NoteActivity-errors-effectiveTime" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.202' and @extension='2016-11-01']]/cda:effectiveTime">
-      <assert test="count(@value) &lt;= 1">Cardinality of @value is 0..1</assert>
     </rule>
     <rule id="NoteActivity-errors-author" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.202' and @extension='2016-11-01']]/cda:author">
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.119' and not(@extension)])">author SHALL conform to AuthorParticipation</assert>
@@ -6187,7 +6126,6 @@
     <rule id="NoteActivity-errors-entryRelationship-encounter" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.202' and @extension='2016-11-01']]/cda:entryRelationship[(cda:encounter)]">
       <assert test="@typeCode = 'COMP'">@typeCode SHALL = 'COMP'</assert>
       <assert test="@inversionInd = 'true'">@inversionInd SHALL = 'true'</assert>
-      <assert test="count(@negationInd) &lt;= 1">Cardinality of @negationInd is 0..1</assert>
       <assert test="count(cda:encounter)=1">Cardinality of encounter is 1..1</assert>
     </rule>
     <rule id="NoteActivity-errors-entryRelationship-encounter.typeCode" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.202' and @extension='2016-11-01']]/cda:entryRelationship[(cda:encounter)]/@typeCode">
@@ -7082,9 +7020,6 @@
     <rule id="PlannedImmunizationActivity-errors-routeCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.120' and not(@extension)]]/cda:routeCode">
       <assert test="@nullFlavor or contains($SPLDrugRouteOfAdministrationTerminology, @code)">SHALL be selected from ValueSet SPLDrugRouteOfAdministrationTerminology</assert>
     </rule>
-    <rule id="PlannedImmunizationActivity-errors-doseQuantity" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.120' and not(@extension)]]/cda:doseQuantity">
-      <assert test="count(@unit) &lt;= 1">Cardinality of @unit is 0..1</assert>
-    </rule>
     <rule id="PlannedImmunizationActivity-errors-consumable" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.120' and not(@extension)]]/cda:consumable">
       <assert test="count(cda:manufacturedProduct)=1">Cardinality of manufacturedProduct is 1..1</assert>
     </rule>
@@ -7349,7 +7284,6 @@
     </rule>
     <rule id="PlannedMedicationActivity-errors-effectiveTime-duration" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.42' and @extension='2014-06-09']]/cda:effectiveTime[@xsi:type='IVL_TS' or cda:low or cda:high or @value]">
       <assert test="(@value or cda:low) and (not((@value and cda:low)))">This effectiveTime **SHALL** contain either a low or a @value but not both (CONF:1098-32890).</assert>
-      <assert test="count(@value) &lt;= 1">Cardinality of @value is 0..1</assert>
       <assert test="count(cda:low) &lt;= 1">Cardinality of low is 0..1</assert>
       <assert test="count(cda:high) &lt;= 1">Cardinality of high is 0..1</assert>
     </rule>
@@ -7367,12 +7301,6 @@
     </rule>
     <rule id="PlannedMedicationActivity-errors-routeCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.42' and @extension='2014-06-09']]/cda:routeCode">
       <assert test="@nullFlavor or contains($SPLDrugRouteOfAdministrationTerminology, @code)">SHALL be selected from ValueSet SPLDrugRouteOfAdministrationTerminology</assert>
-    </rule>
-    <rule id="PlannedMedicationActivity-errors-doseQuantity" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.42' and @extension='2014-06-09']]/cda:doseQuantity">
-      <assert test="count(@unit) &lt;= 1">Cardinality of @unit is 0..1</assert>
-    </rule>
-    <rule id="PlannedMedicationActivity-errors-rateQuantity" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.42' and @extension='2014-06-09']]/cda:rateQuantity">
-      <assert test="count(@unit) &lt;= 1">Cardinality of @unit is 0..1</assert>
     </rule>
     <rule id="PlannedMedicationActivity-errors-administrationUnitCode" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.42' and @extension='2014-06-09']]/cda:administrationUnitCode">
       <assert test="@nullFlavor or contains($AdministrationUnitDoseForm, @code)">SHALL be selected from ValueSet AdministrationUnitDoseForm</assert>
@@ -7713,9 +7641,6 @@
     <rule id="PolicyActivity-errors-moodCode" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.61' and @extension='2024-05-01']]/@moodCode">
       <assert test="contains($XDocumentActMood, .)">SHALL be selected from ValueSet XDocumentActMood</assert>
     </rule>
-    <rule id="PolicyActivity-errors-code" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.61' and @extension='2024-05-01']]/cda:code">
-      <assert test="count(@code) &lt;= 1">Cardinality of @code is 0..1</assert>
-    </rule>
     <rule id="PolicyActivity-errors-text" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.61' and @extension='2024-05-01']]/cda:text">
       <assert test="count(cda:reference) &lt;= 1">Cardinality of reference is 0..1</assert>
     </rule>
@@ -7810,9 +7735,6 @@
       <assert test="count(cda:code)=1">Cardinality of code is 1..1</assert>
       <assert test="count(cda:addr) &lt;= 1">Cardinality of addr is 0..1</assert>
       <assert test="count(cda:playingEntity) &lt;= 1">Cardinality of playingEntity is 0..1</assert>
-    </rule>
-    <rule id="PolicyActivity-errors-participant-coverage-target.participantRole.code" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.61' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'COV')]/cda:participantRole/cda:code">
-      <assert test="count(@code) &lt;= 1">Cardinality of @code is 0..1</assert>
     </rule>
     <rule id="PolicyActivity-errors-participant-coverage-target.participantRole.addr" context="cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.61' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'COV')]/cda:participantRole/cda:addr">
       <assert test="@nullFlavor or count(cda:city) = 1">SHALL contain exactly one [1..1] city (CONF:81-7292).</assert>
@@ -8214,7 +8136,6 @@
     <rule id="ProblemObservation-errors-root" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.4' and @extension='2024-05-01']]">
       <assert test="@classCode = 'OBS'">@classCode SHALL = 'OBS'</assert>
       <assert test="@moodCode = 'EVN'">@moodCode SHALL = 'EVN'</assert>
-      <assert test="count(@negationInd) &lt;= 1">Cardinality of @negationInd is 0..1</assert>
       <assert test="count(cda:id)&gt;=1">Cardinality of id is 1..*</assert>
       <assert test="count(cda:code)=1">Cardinality of code is 1..1</assert>
       <assert test="count(cda:text) &lt;= 1">Cardinality of text is 0..1</assert>
@@ -8247,9 +8168,6 @@
     <rule id="ProblemObservation-errors-effectiveTime" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.4' and @extension='2024-05-01']]/cda:effectiveTime">
       <assert test="count(cda:low)=1">Cardinality of low is 1..1</assert>
       <assert test="count(cda:high) &lt;= 1">Cardinality of high is 0..1</assert>
-    </rule>
-    <rule id="ProblemObservation-errors-value" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.4' and @extension='2024-05-01']]/cda:value">
-      <assert test="count(@code) &lt;= 1">Cardinality of @code is 0..1</assert>
     </rule>
     <rule id="ProblemObservation-errors-author" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.4' and @extension='2024-05-01']]/cda:author">
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.119' and not(@extension)])">author SHALL conform to AuthorParticipation</assert>
@@ -8330,7 +8248,6 @@
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.2.5.1:2015-08-01-->
     <rule id="ProblemSection-errors-root" context="cda:section[cda:templateId[@root='2.16.840.1.113883.10.20.22.2.5.1' and @extension='2015-08-01']]">
       <assert test="@nullFlavor or cda:entry[cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.3' and @extension='2024-05-01']]]">If section/@nullFlavor is not present, SHALL contain at least one Problem Concern Act</assert>
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
       <assert test="count(cda:code)=1">Cardinality of code is 1..1</assert>
       <assert test="count(cda:title)=1">Cardinality of title is 1..1</assert>
       <assert test="count(cda:text)=1">Cardinality of text is 1..1</assert>
@@ -8433,7 +8350,6 @@
     <rule id="ProcedureActivityProcedure-errors-effectiveTime" context="cda:procedure[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01']]/cda:effectiveTime">
       <assert test="not(cda:center) or (not(cda:low) and not(cda:high))">Center cannot co-exist with low or high</assert>
       <assert test="not(@value) or string-length(@value) &gt;= 8">If a time interval contains @value, then it shall be precise to at least the day.</assert>
-      <assert test="count(@value) &lt;= 1">Cardinality of @value is 0..1</assert>
       <assert test="count(cda:low) &lt;= 1">Cardinality of low is 0..1</assert>
       <assert test="count(cda:high) &lt;= 1">Cardinality of high is 0..1</assert>
     </rule>
@@ -9038,7 +8954,6 @@
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.2.7.1:2014-06-09-->
     <rule id="ProceduresSection-errors-root" context="cda:section[cda:templateId[@root='2.16.840.1.113883.10.20.22.2.7.1' and @extension='2014-06-09']]">
       <assert test="@nullFlavor or cda:entry[cda:procedure[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01']]]">If section/@nullFlavor is not present, SHALL contain at least one Procedure Activity Procedure</assert>
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
       <assert test="count(cda:code)=1">Cardinality of code is 1..1</assert>
       <assert test="count(cda:title)=1">Cardinality of title is 1..1</assert>
       <assert test="count(cda:text)=1">Cardinality of text is 1..1</assert>
@@ -9338,7 +9253,6 @@
     </rule>
     <rule id="ProgressTowardGoalObservation-errors-effectiveTime" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.110' and not(@extension)]]/cda:effectiveTime">
       <assert test="not(((cda:low | cda:high | cda:width | cda:center)))">Interval fields SHALL not be present</assert>
-      <assert test="count(@value) &lt;= 1">Cardinality of @value is 0..1</assert>
     </rule>
     <rule id="ProgressTowardGoalObservation-errors-value" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.110' and not(@extension)]]/cda:value">
       <assert test="@nullFlavor or contains($GoalAchievement, @code)">SHALL be selected from ValueSet GoalAchievement</assert>
@@ -9396,9 +9310,7 @@
       <assert test="count(cda:representedOrganization) &lt;= 1">Cardinality of representedOrganization is 0..1</assert>
     </rule>
     <rule id="ProvenanceAuthorParticipation-errors-assignedAuthor.id-npi" context="cda:author[cda:templateId[@root='2.16.840.1.113883.10.20.22.5.6' and @extension='2019-10-01']]/cda:assignedAuthor/cda:id[(@root = '2.16.840.1.113883.4.6')]">
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
       <assert test="@root = '2.16.840.1.113883.4.6'">@root SHALL = '2.16.840.1.113883.4.6'</assert>
-      <assert test="count(@extension) &lt;= 1">Cardinality of @extension is 0..1</assert>
     </rule>
     <rule id="ProvenanceAuthorParticipation-errors-assignedAuthor.addr" context="cda:author[cda:templateId[@root='2.16.840.1.113883.10.20.22.5.6' and @extension='2019-10-01']]/cda:assignedAuthor/cda:addr">
       <assert test="@nullFlavor or count(cda:city) = 1">SHALL contain exactly one [1..1] city (CONF:81-7292).</assert>
@@ -9416,20 +9328,15 @@
     </rule>
     <rule id="ProvenanceAuthorParticipation-errors-assignedAuthor.representedOrganization" context="cda:author[cda:templateId[@root='2.16.840.1.113883.10.20.22.5.6' and @extension='2019-10-01']]/cda:assignedAuthor/cda:representedOrganization">
       <assert test="@nullFlavor = 'NA' or (cda:id[@root = '2.16.840.1.113883.4.2'] and cda:id[@root = '2.16.840.1.113883.4.6'] and cda:name)">If the author is not a clinician, set nullFlavor='NA'. Otherwise, the taxId, npi, and name are required.</assert>
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
       <assert test="count(cda:id[(@root = '2.16.840.1.113883.4.2')]) &lt;= 1">Cardinality of id:taxId is 0..1</assert>
       <assert test="count(cda:id[(@root = '2.16.840.1.113883.4.6')]) &lt;= 1">Cardinality of id:npi is 0..1</assert>
       <assert test="count(cda:name) &lt;= 1">Cardinality of name is 0..1</assert>
     </rule>
     <rule id="ProvenanceAuthorParticipation-errors-assignedAuthor.representedOrganization.id-taxId" context="cda:author[cda:templateId[@root='2.16.840.1.113883.10.20.22.5.6' and @extension='2019-10-01']]/cda:assignedAuthor/cda:representedOrganization/cda:id[(@root = '2.16.840.1.113883.4.2')]">
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
       <assert test="@root = '2.16.840.1.113883.4.2'">@root SHALL = '2.16.840.1.113883.4.2'</assert>
-      <assert test="count(@extension) &lt;= 1">Cardinality of @extension is 0..1</assert>
     </rule>
     <rule id="ProvenanceAuthorParticipation-errors-assignedAuthor.representedOrganization.id-npi" context="cda:author[cda:templateId[@root='2.16.840.1.113883.10.20.22.5.6' and @extension='2019-10-01']]/cda:assignedAuthor/cda:representedOrganization/cda:id[(@root = '2.16.840.1.113883.4.6')]">
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
       <assert test="@root = '2.16.840.1.113883.4.6'">@root SHALL = '2.16.840.1.113883.4.6'</assert>
-      <assert test="count(@extension) &lt;= 1">Cardinality of @extension is 0..1</assert>
     </rule>
   </pattern>
   <pattern id="ReactionObservation-errors">
@@ -9904,8 +9811,6 @@
     </rule>
     <rule id="ResultObservation-errors-code" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.2' and @extension='2023-05-01']]/cda:code">
       <assert test="count(((@code | @nullFlavor))) = 1">SHALL contain either a @code attribute or a @nullFlavor attribute, but not both.</assert>
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
-      <assert test="count(@code) &lt;= 1">Cardinality of @code is 0..1</assert>
     </rule>
     <rule id="ResultObservation-errors-text" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.2' and @extension='2023-05-01']]/cda:text">
       <assert test="count(cda:reference) &lt;= 1">Cardinality of reference is 0..1</assert>
@@ -10009,7 +9914,6 @@
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.2.3.1:2015-08-01-->
     <rule id="ResultsSection-errors-root" context="cda:section[cda:templateId[@root='2.16.840.1.113883.10.20.22.2.3.1' and @extension='2015-08-01']]">
       <assert test="@nullFlavor or cda:entry[cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.1' and @extension='2023-05-01']]]">If section/@nullFlavor is not present, SHALL contain at least one Result Organizer</assert>
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
       <assert test="count(cda:code)=1">Cardinality of code is 1..1</assert>
       <assert test="count(cda:title)=1">Cardinality of title is 1..1</assert>
       <assert test="count(cda:text)=1">Cardinality of text is 1..1</assert>
@@ -10519,8 +10423,6 @@
     <rule id="SerialNumberObservation-errors-code" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.319' and @extension='2019-06-21']]/cda:code">
       <assert test="@code = 'C101671'">@code SHALL = 'C101671'</assert>
       <assert test="@codeSystem = '2.16.840.1.113883.3.26.1.1'">@codeSystem SHALL = '2.16.840.1.113883.3.26.1.1'</assert>
-      <assert test="count(@codeSystemName) &lt;= 1">Cardinality of @codeSystemName is 0..1</assert>
-      <assert test="count(@displayName) &lt;= 1">Cardinality of @displayName is 0..1</assert>
     </rule>
     <rule id="SerialNumberObservation-errors-text" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.319' and @extension='2019-06-21']]/cda:text">
       <assert test="count(cda:reference) &lt;= 1">Cardinality of reference is 0..1</assert>
@@ -10633,7 +10535,6 @@
     </rule>
     <rule id="SexObservation-errors-effectiveTime" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.507' and @extension='2023-07-01']]/cda:effectiveTime">
       <assert test="not(((cda:low | cda:high | cda:width | cda:center)))">Interval fields SHALL not be present</assert>
-      <assert test="count(@value) &lt;= 1">Cardinality of @value is 0..1</assert>
     </rule>
     <rule id="SexObservation-errors-value" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.507' and @extension='2023-07-01']]/cda:value">
       <assert test="count(@nullFlavor)=0">Cardinality of @nullFlavor is 0..0</assert>
@@ -10711,7 +10612,6 @@
       <assert test="@code = 'completed'">@code SHALL = 'completed'</assert>
     </rule>
     <rule id="SmokingStatus-errors-effectiveTime" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.511' and @extension='2024-05-01']]/cda:effectiveTime">
-      <assert test="count(@value) &lt;= 1">Cardinality of @value is 0..1</assert>
       <assert test="count(cda:low) &lt;= 1">Cardinality of low is 0..1</assert>
       <assert test="count(cda:high) &lt;= 1">Cardinality of high is 0..1</assert>
     </rule>
@@ -10757,10 +10657,6 @@
     </rule>
     <rule id="SmokingStatusMeaningfulUse-errors-effectiveTime" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.78' and @extension='2024-05-01']]/cda:effectiveTime">
       <assert test="not(((cda:low | cda:high | cda:width | cda:center)))">Interval fields SHALL not be present</assert>
-      <assert test="count(@value) &lt;= 1">Cardinality of @value is 0..1</assert>
-    </rule>
-    <rule id="SmokingStatusMeaningfulUse-errors-value" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.78' and @extension='2024-05-01']]/cda:value">
-      <assert test="count(@code) &lt;= 1">Cardinality of @code is 0..1</assert>
     </rule>
     <rule id="SmokingStatusMeaningfulUse-errors-author" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.78' and @extension='2024-05-01']]/cda:author">
       <assert test="(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.119' and not(@extension)])">author SHALL conform to AuthorParticipation</assert>
@@ -11524,7 +11420,6 @@
     </rule>
     <rule id="TribalAffiliationObservation-errors-effectiveTime" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.506' and @extension='2023-05-01']]/cda:effectiveTime">
       <assert test="not(((cda:low | cda:high | cda:width | cda:center)))">Interval fields SHALL not be present</assert>
-      <assert test="count(@value) &lt;= 1">Cardinality of @value is 0..1</assert>
     </rule>
   </pattern>
   <pattern id="UDIOrganizer-errors">
@@ -11549,7 +11444,6 @@
       <assert test="count(@root)=1">Cardinality of @root is 1..1</assert>
     </rule>
     <rule id="UDIOrganizer-errors-code" context="cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.311' and @extension='2019-06-21']]/cda:code">
-      <assert test="count(@code) &lt;= 1">Cardinality of @code is 0..1</assert>
       <assert test="not(@code) or @code = '74711-3'">@code, if present, SHALL = '74711-3'</assert>
       <assert test="@codeSystem = '2.16.840.1.113883.6.1'">@codeSystem SHALL = '2.16.840.1.113883.6.1'</assert>
     </rule>
@@ -11634,9 +11528,6 @@
       <assert test="@nullFlavor or (cda:country and cda:country/text()[normalize-space()] != 'US' and cda:country/text()[normalize-space()] != 'USA') or cda:postalCode[@nullFlavor or text()[normalize-space()][(string-length(normalize-space()) = 5 and translate(., '0123456789', '0000000000') = '00000') or (string-length(normalize-space()) = 10 and translate(., '0123456789', '0000000000') = '00000-0000')]]">If the country is US, the postalCode element is required but SHOULD have @nullFlavor if the postalCode is unknown. If country is not specified, it's assumed to be US. If country is something other than US, the postalCode MAY be present but MAY be bound to different vocabularies (CONF:81-10025).</assert>
       <assert test="(not(cda:state) or count(cda:state) = 1) and (not(cda:city) or count(cda:city) = 1) and (not(cda:postalCode) or count(cda:postalCode) = 1) and (not(cda:country) or count(cda:country) = 1)">SHALL have at most one of each: state, city, postalCode, and country</assert>
     </rule>
-    <rule id="USRealmHeader-errors-recordTarget.patientRole.telecom" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:recordTarget/cda:patientRole/cda:telecom">
-      <assert test="count(@use) &lt;= 1">Cardinality of @use is 0..1</assert>
-    </rule>
     <rule id="USRealmHeader-errors-recordTarget.patientRole.telecom.use" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:recordTarget/cda:patientRole/cda:telecom/@use">
       <assert test="contains($TelecomUseUSRealmHeader, .)">SHALL be selected from ValueSet TelecomUseUSRealmHeader</assert>
     </rule>
@@ -11700,9 +11591,6 @@
       <assert test="@nullFlavor or (cda:country and cda:country/text()[normalize-space()] != 'US' and cda:country/text()[normalize-space()] != 'USA') or cda:postalCode[@nullFlavor or text()[normalize-space()][(string-length(normalize-space()) = 5 and translate(., '0123456789', '0000000000') = '00000') or (string-length(normalize-space()) = 10 and translate(., '0123456789', '0000000000') = '00000-0000')]]">If the country is US, the postalCode element is required but SHOULD have @nullFlavor if the postalCode is unknown. If country is not specified, it's assumed to be US. If country is something other than US, the postalCode MAY be present but MAY be bound to different vocabularies (CONF:81-10025).</assert>
       <assert test="(not(cda:state) or count(cda:state) = 1) and (not(cda:city) or count(cda:city) = 1) and (not(cda:postalCode) or count(cda:postalCode) = 1) and (not(cda:country) or count(cda:country) = 1)">SHALL have at most one of each: state, city, postalCode, and country</assert>
     </rule>
-    <rule id="USRealmHeader-errors-recordTarget.patientRole.patient.guardian.telecom" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:recordTarget/cda:patientRole/cda:patient/cda:guardian/cda:telecom">
-      <assert test="count(@use) &lt;= 1">Cardinality of @use is 0..1</assert>
-    </rule>
     <rule id="USRealmHeader-errors-recordTarget.patientRole.patient.guardian.telecom.use" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:recordTarget/cda:patientRole/cda:patient/cda:guardian/cda:telecom/@use">
       <assert test="contains($TelecomUseUSRealmHeader, .)">SHALL be selected from ValueSet TelecomUseUSRealmHeader</assert>
     </rule>
@@ -11744,12 +11632,6 @@
       <assert test="count(cda:telecom)&gt;=1">Cardinality of telecom is 1..*</assert>
       <assert test="count(cda:addr)&gt;=1">Cardinality of addr is 1..*</assert>
     </rule>
-    <rule id="USRealmHeader-errors-recordTarget.patientRole.providerOrganization.id" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:recordTarget/cda:patientRole/cda:providerOrganization/cda:id">
-      <assert test="count(@root) &lt;= 1">Cardinality of @root is 0..1</assert>
-    </rule>
-    <rule id="USRealmHeader-errors-recordTarget.patientRole.providerOrganization.telecom" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:recordTarget/cda:patientRole/cda:providerOrganization/cda:telecom">
-      <assert test="count(@use) &lt;= 1">Cardinality of @use is 0..1</assert>
-    </rule>
     <rule id="USRealmHeader-errors-recordTarget.patientRole.providerOrganization.telecom.use" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:recordTarget/cda:patientRole/cda:providerOrganization/cda:telecom/@use">
       <assert test="contains($TelecomUseUSRealmHeader, .)">SHALL be selected from ValueSet TelecomUseUSRealmHeader</assert>
     </rule>
@@ -11779,9 +11661,7 @@
       <assert test="count(cda:assignedAuthoringDevice) &lt;= 1">Cardinality of assignedAuthoringDevice is 0..1</assert>
     </rule>
     <rule id="USRealmHeader-errors-author.assignedAuthor.id-npi" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:author/cda:assignedAuthor/cda:id[(@root = '2.16.840.1.113883.4.6')]">
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
       <assert test="@root = '2.16.840.1.113883.4.6'">@root SHALL = '2.16.840.1.113883.4.6'</assert>
-      <assert test="count(@extension) &lt;= 1">Cardinality of @extension is 0..1</assert>
     </rule>
     <rule id="USRealmHeader-errors-author.assignedAuthor.code" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:author/cda:assignedAuthor/cda:code">
       <assert test="count(@nullFlavor)=0">Cardinality of @nullFlavor is 0..0</assert>
@@ -11794,9 +11674,6 @@
       <assert test="@nullFlavor or (cda:country and cda:country/text()[normalize-space()] != 'US' and cda:country/text()[normalize-space()] != 'USA') or cda:state[@nullFlavor or text()[normalize-space()][contains($UspsTwoLetterAlphabeticCodes, .)]]">If the country is US, the state element is required and SHALL be selected from ValueSet StateValueSet but SHOULD have @nullFlavor if the state is unknown. If country is not specified, it's assumed to be US. If country is something other than US, the state MAY be present but MAY be bound to different vocabularies (CONF:81-10024).</assert>
       <assert test="@nullFlavor or (cda:country and cda:country/text()[normalize-space()] != 'US' and cda:country/text()[normalize-space()] != 'USA') or cda:postalCode[@nullFlavor or text()[normalize-space()][(string-length(normalize-space()) = 5 and translate(., '0123456789', '0000000000') = '00000') or (string-length(normalize-space()) = 10 and translate(., '0123456789', '0000000000') = '00000-0000')]]">If the country is US, the postalCode element is required but SHOULD have @nullFlavor if the postalCode is unknown. If country is not specified, it's assumed to be US. If country is something other than US, the postalCode MAY be present but MAY be bound to different vocabularies (CONF:81-10025).</assert>
       <assert test="(not(cda:state) or count(cda:state) = 1) and (not(cda:city) or count(cda:city) = 1) and (not(cda:postalCode) or count(cda:postalCode) = 1) and (not(cda:country) or count(cda:country) = 1)">SHALL have at most one of each: state, city, postalCode, and country</assert>
-    </rule>
-    <rule id="USRealmHeader-errors-author.assignedAuthor.telecom" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:author/cda:assignedAuthor/cda:telecom">
-      <assert test="count(@use) &lt;= 1">Cardinality of @use is 0..1</assert>
     </rule>
     <rule id="USRealmHeader-errors-author.assignedAuthor.telecom.use" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:author/cda:assignedAuthor/cda:telecom/@use">
       <assert test="contains($TelecomUseUSRealmHeader, .)">SHALL be selected from ValueSet TelecomUseUSRealmHeader</assert>
@@ -11826,9 +11703,6 @@
       <assert test="count(cda:telecom)&gt;=1">Cardinality of telecom is 1..*</assert>
       <assert test="count(cda:assignedPerson)=1">Cardinality of assignedPerson is 1..1</assert>
     </rule>
-    <rule id="USRealmHeader-errors-dataEnterer.assignedEntity.id" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:dataEnterer/cda:assignedEntity/cda:id">
-      <assert test="count(@root) &lt;= 1">Cardinality of @root is 0..1</assert>
-    </rule>
     <rule id="USRealmHeader-errors-dataEnterer.assignedEntity.addr" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:dataEnterer/cda:assignedEntity/cda:addr">
       <assert test="@nullFlavor or count(cda:city) = 1">SHALL contain exactly one [1..1] city (CONF:81-7292).</assert>
       <assert test="@nullFlavor or (count(cda:streetAddressLine) &gt;= 1 and count(cda:streetAddressLine) &lt;= 4)">SHALL contain at least one and not more than 4 streetAddressLine (CONF:81-7291).</assert>
@@ -11836,9 +11710,6 @@
       <assert test="@nullFlavor or (cda:country and cda:country/text()[normalize-space()] != 'US' and cda:country/text()[normalize-space()] != 'USA') or cda:state[@nullFlavor or text()[normalize-space()][contains($UspsTwoLetterAlphabeticCodes, .)]]">If the country is US, the state element is required and SHALL be selected from ValueSet StateValueSet but SHOULD have @nullFlavor if the state is unknown. If country is not specified, it's assumed to be US. If country is something other than US, the state MAY be present but MAY be bound to different vocabularies (CONF:81-10024).</assert>
       <assert test="@nullFlavor or (cda:country and cda:country/text()[normalize-space()] != 'US' and cda:country/text()[normalize-space()] != 'USA') or cda:postalCode[@nullFlavor or text()[normalize-space()][(string-length(normalize-space()) = 5 and translate(., '0123456789', '0000000000') = '00000') or (string-length(normalize-space()) = 10 and translate(., '0123456789', '0000000000') = '00000-0000')]]">If the country is US, the postalCode element is required but SHOULD have @nullFlavor if the postalCode is unknown. If country is not specified, it's assumed to be US. If country is something other than US, the postalCode MAY be present but MAY be bound to different vocabularies (CONF:81-10025).</assert>
       <assert test="(not(cda:state) or count(cda:state) = 1) and (not(cda:city) or count(cda:city) = 1) and (not(cda:postalCode) or count(cda:postalCode) = 1) and (not(cda:country) or count(cda:country) = 1)">SHALL have at most one of each: state, city, postalCode, and country</assert>
-    </rule>
-    <rule id="USRealmHeader-errors-dataEnterer.assignedEntity.telecom" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:dataEnterer/cda:assignedEntity/cda:telecom">
-      <assert test="count(@use) &lt;= 1">Cardinality of @use is 0..1</assert>
     </rule>
     <rule id="USRealmHeader-errors-dataEnterer.assignedEntity.telecom.use" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:dataEnterer/cda:assignedEntity/cda:telecom/@use">
       <assert test="contains($TelecomUseUSRealmHeader, .)">SHALL be selected from ValueSet TelecomUseUSRealmHeader</assert>
@@ -11891,12 +11762,6 @@
       <assert test="count(cda:telecom)=1">Cardinality of telecom is 1..1</assert>
       <assert test="count(cda:addr)=1">Cardinality of addr is 1..1</assert>
     </rule>
-    <rule id="USRealmHeader-errors-custodian.assignedCustodian.representedCustodianOrganization.id" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:custodian/cda:assignedCustodian/cda:representedCustodianOrganization/cda:id">
-      <assert test="count(@root) &lt;= 1">Cardinality of @root is 0..1</assert>
-    </rule>
-    <rule id="USRealmHeader-errors-custodian.assignedCustodian.representedCustodianOrganization.telecom" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:custodian/cda:assignedCustodian/cda:representedCustodianOrganization/cda:telecom">
-      <assert test="count(@use) &lt;= 1">Cardinality of @use is 0..1</assert>
-    </rule>
     <rule id="USRealmHeader-errors-custodian.assignedCustodian.representedCustodianOrganization.telecom.use" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:custodian/cda:assignedCustodian/cda:representedCustodianOrganization/cda:telecom/@use">
       <assert test="contains($TelecomUseUSRealmHeader, .)">SHALL be selected from ValueSet TelecomUseUSRealmHeader</assert>
     </rule>
@@ -11944,9 +11809,6 @@
       <assert test="count(cda:telecom)&gt;=1">Cardinality of telecom is 1..*</assert>
       <assert test="count(cda:assignedPerson)=1">Cardinality of assignedPerson is 1..1</assert>
     </rule>
-    <rule id="USRealmHeader-errors-legalAuthenticator.assignedEntity.id" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:legalAuthenticator/cda:assignedEntity/cda:id">
-      <assert test="count(@root) &lt;= 1">Cardinality of @root is 0..1</assert>
-    </rule>
     <rule id="USRealmHeader-errors-legalAuthenticator.assignedEntity.addr" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:legalAuthenticator/cda:assignedEntity/cda:addr">
       <assert test="@nullFlavor or count(cda:city) = 1">SHALL contain exactly one [1..1] city (CONF:81-7292).</assert>
       <assert test="@nullFlavor or (count(cda:streetAddressLine) &gt;= 1 and count(cda:streetAddressLine) &lt;= 4)">SHALL contain at least one and not more than 4 streetAddressLine (CONF:81-7291).</assert>
@@ -11954,9 +11816,6 @@
       <assert test="@nullFlavor or (cda:country and cda:country/text()[normalize-space()] != 'US' and cda:country/text()[normalize-space()] != 'USA') or cda:state[@nullFlavor or text()[normalize-space()][contains($UspsTwoLetterAlphabeticCodes, .)]]">If the country is US, the state element is required and SHALL be selected from ValueSet StateValueSet but SHOULD have @nullFlavor if the state is unknown. If country is not specified, it's assumed to be US. If country is something other than US, the state MAY be present but MAY be bound to different vocabularies (CONF:81-10024).</assert>
       <assert test="@nullFlavor or (cda:country and cda:country/text()[normalize-space()] != 'US' and cda:country/text()[normalize-space()] != 'USA') or cda:postalCode[@nullFlavor or text()[normalize-space()][(string-length(normalize-space()) = 5 and translate(., '0123456789', '0000000000') = '00000') or (string-length(normalize-space()) = 10 and translate(., '0123456789', '0000000000') = '00000-0000')]]">If the country is US, the postalCode element is required but SHOULD have @nullFlavor if the postalCode is unknown. If country is not specified, it's assumed to be US. If country is something other than US, the postalCode MAY be present but MAY be bound to different vocabularies (CONF:81-10025).</assert>
       <assert test="(not(cda:state) or count(cda:state) = 1) and (not(cda:city) or count(cda:city) = 1) and (not(cda:postalCode) or count(cda:postalCode) = 1) and (not(cda:country) or count(cda:country) = 1)">SHALL have at most one of each: state, city, postalCode, and country</assert>
-    </rule>
-    <rule id="USRealmHeader-errors-legalAuthenticator.assignedEntity.telecom" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:legalAuthenticator/cda:assignedEntity/cda:telecom">
-      <assert test="count(@use) &lt;= 1">Cardinality of @use is 0..1</assert>
     </rule>
     <rule id="USRealmHeader-errors-legalAuthenticator.assignedEntity.telecom.use" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:legalAuthenticator/cda:assignedEntity/cda:telecom/@use">
       <assert test="contains($TelecomUseUSRealmHeader, .)">SHALL be selected from ValueSet TelecomUseUSRealmHeader</assert>
@@ -11987,12 +11846,6 @@
       <assert test="count(cda:telecom)&gt;=1">Cardinality of telecom is 1..*</assert>
       <assert test="count(cda:assignedPerson)=1">Cardinality of assignedPerson is 1..1</assert>
     </rule>
-    <rule id="USRealmHeader-errors-authenticator.assignedEntity.id" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:authenticator/cda:assignedEntity/cda:id">
-      <assert test="count(@root) &lt;= 1">Cardinality of @root is 0..1</assert>
-    </rule>
-    <rule id="USRealmHeader-errors-authenticator.assignedEntity.code" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:authenticator/cda:assignedEntity/cda:code">
-      <assert test="count(@code) &lt;= 1">Cardinality of @code is 0..1</assert>
-    </rule>
     <rule id="USRealmHeader-errors-authenticator.assignedEntity.addr" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:authenticator/cda:assignedEntity/cda:addr">
       <assert test="@nullFlavor or count(cda:city) = 1">SHALL contain exactly one [1..1] city (CONF:81-7292).</assert>
       <assert test="@nullFlavor or (count(cda:streetAddressLine) &gt;= 1 and count(cda:streetAddressLine) &lt;= 4)">SHALL contain at least one and not more than 4 streetAddressLine (CONF:81-7291).</assert>
@@ -12000,9 +11853,6 @@
       <assert test="@nullFlavor or (cda:country and cda:country/text()[normalize-space()] != 'US' and cda:country/text()[normalize-space()] != 'USA') or cda:state[@nullFlavor or text()[normalize-space()][contains($UspsTwoLetterAlphabeticCodes, .)]]">If the country is US, the state element is required and SHALL be selected from ValueSet StateValueSet but SHOULD have @nullFlavor if the state is unknown. If country is not specified, it's assumed to be US. If country is something other than US, the state MAY be present but MAY be bound to different vocabularies (CONF:81-10024).</assert>
       <assert test="@nullFlavor or (cda:country and cda:country/text()[normalize-space()] != 'US' and cda:country/text()[normalize-space()] != 'USA') or cda:postalCode[@nullFlavor or text()[normalize-space()][(string-length(normalize-space()) = 5 and translate(., '0123456789', '0000000000') = '00000') or (string-length(normalize-space()) = 10 and translate(., '0123456789', '0000000000') = '00000-0000')]]">If the country is US, the postalCode element is required but SHOULD have @nullFlavor if the postalCode is unknown. If country is not specified, it's assumed to be US. If country is something other than US, the postalCode MAY be present but MAY be bound to different vocabularies (CONF:81-10025).</assert>
       <assert test="(not(cda:state) or count(cda:state) = 1) and (not(cda:city) or count(cda:city) = 1) and (not(cda:postalCode) or count(cda:postalCode) = 1) and (not(cda:country) or count(cda:country) = 1)">SHALL have at most one of each: state, city, postalCode, and country</assert>
-    </rule>
-    <rule id="USRealmHeader-errors-authenticator.assignedEntity.telecom" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:authenticator/cda:assignedEntity/cda:telecom">
-      <assert test="count(@use) &lt;= 1">Cardinality of @use is 0..1</assert>
     </rule>
     <rule id="USRealmHeader-errors-authenticator.assignedEntity.telecom.use" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:authenticator/cda:assignedEntity/cda:telecom/@use">
       <assert test="contains($TelecomUseUSRealmHeader, .)">SHALL be selected from ValueSet TelecomUseUSRealmHeader</assert>
@@ -12051,9 +11901,6 @@
     <rule id="USRealmHeader-errors-documentationOf.serviceEvent.performer.typeCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/cda:performer/@typeCode">
       <assert test="contains($X_ServiceEventPerformer, .)">SHALL be selected from ValueSet X_ServiceEventPerformer</assert>
     </rule>
-    <rule id="USRealmHeader-errors-documentationOf.serviceEvent.performer.functionCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/cda:performer/cda:functionCode">
-      <assert test="count(@code) &lt;= 1">Cardinality of @code is 0..1</assert>
-    </rule>
     <rule id="USRealmHeader-errors-documentationOf.serviceEvent.performer.time" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/cda:performer/cda:time">
       <assert test="not(cda:center) or (not(cda:low) and not(cda:high))">Center cannot co-exist with low or high</assert>
       <assert test="not(@value) or string-length(@value) &gt;= 8">If a time interval contains @value, then it shall be precise to at least the day.</assert>
@@ -12061,9 +11908,6 @@
     <rule id="USRealmHeader-errors-documentationOf.serviceEvent.performer.assignedEntity" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/cda:performer/cda:assignedEntity">
       <assert test="count(cda:id)&gt;=1">Cardinality of id is 1..*</assert>
       <assert test="count(cda:code) &lt;= 1">Cardinality of code is 0..1</assert>
-    </rule>
-    <rule id="USRealmHeader-errors-documentationOf.serviceEvent.performer.assignedEntity.id" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/cda:performer/cda:assignedEntity/cda:id">
-      <assert test="count(@root) &lt;= 1">Cardinality of @root is 0..1</assert>
     </rule>
     <rule id="USRealmHeader-errors-authorization" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:authorization">
       <assert test="count(cda:consent)=1">Cardinality of consent is 1..1</assert>
@@ -12152,9 +11996,6 @@
     <rule id="USRealmHeaderforPatientGeneratedDocument-errors-informant-non-provider.relatedEntity" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]/cda:informant[(cda:relatedEntity) and not(cda:assignedEntity)]/cda:relatedEntity">
       <assert test="count(cda:code) &lt;= 1">Cardinality of code is 0..1</assert>
     </rule>
-    <rule id="USRealmHeaderforPatientGeneratedDocument-errors-informant-non-provider.relatedEntity.code" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]/cda:informant[(cda:relatedEntity) and not(cda:assignedEntity)]/cda:relatedEntity/cda:code">
-      <assert test="count(@code) &lt;= 1">Cardinality of @code is 0..1</assert>
-    </rule>
     <rule id="USRealmHeaderforPatientGeneratedDocument-errors-custodian" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]/cda:custodian">
       <assert test="count(cda:assignedCustodian)=1">Cardinality of assignedCustodian is 1..1</assert>
     </rule>
@@ -12167,18 +12008,12 @@
     <rule id="USRealmHeaderforPatientGeneratedDocument-errors-informationRecipient" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]/cda:informationRecipient">
       <assert test="count(cda:intendedRecipient)=1">Cardinality of intendedRecipient is 1..1</assert>
     </rule>
-    <rule id="USRealmHeaderforPatientGeneratedDocument-errors-informationRecipient.intendedRecipient.id" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]/cda:informationRecipient/cda:intendedRecipient/cda:id">
-      <assert test="count(@root) &lt;= 1">Cardinality of @root is 0..1</assert>
-    </rule>
     <rule id="USRealmHeaderforPatientGeneratedDocument-errors-legalAuthenticator" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]/cda:legalAuthenticator">
       <assert test="count(cda:assignedEntity)=1">Cardinality of assignedEntity is 1..1</assert>
     </rule>
     <rule id="USRealmHeaderforPatientGeneratedDocument-errors-legalAuthenticator.assignedEntity" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]/cda:legalAuthenticator/cda:assignedEntity">
       <assert test="count(cda:id)&gt;=1">Cardinality of id is 1..*</assert>
       <assert test="count(cda:code) &lt;= 1">Cardinality of code is 0..1</assert>
-    </rule>
-    <rule id="USRealmHeaderforPatientGeneratedDocument-errors-legalAuthenticator.assignedEntity.code" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]/cda:legalAuthenticator/cda:assignedEntity/cda:code">
-      <assert test="count(@code) &lt;= 1">Cardinality of @code is 0..1</assert>
     </rule>
     <rule id="USRealmHeaderforPatientGeneratedDocument-errors-authenticator" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]/cda:authenticator">
       <assert test="count(cda:assignedEntity)=1">Cardinality of assignedEntity is 1..1</assert>
@@ -12213,9 +12048,6 @@
     <rule id="USRealmHeaderforPatientGeneratedDocument-errors-documentationOf.serviceEvent.performer" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/cda:performer">
       <assert test="count(cda:functionCode) &lt;= 1">Cardinality of functionCode is 0..1</assert>
       <assert test="count(cda:assignedEntity)=1">Cardinality of assignedEntity is 1..1</assert>
-    </rule>
-    <rule id="USRealmHeaderforPatientGeneratedDocument-errors-documentationOf.serviceEvent.performer.functionCode" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/cda:performer/cda:functionCode">
-      <assert test="count(@code) &lt;= 1">Cardinality of @code is 0..1</assert>
     </rule>
     <rule id="USRealmHeaderforPatientGeneratedDocument-errors-documentationOf.serviceEvent.performer.functionCode.code" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/cda:performer/cda:functionCode/@code">
       <assert test="contains($ParticipationFunction, .)">SHALL be selected from ValueSet ParticipationFunction</assert>
@@ -12255,7 +12087,6 @@
     </rule>
     <rule id="UnstructuredDocument-errors-component.nonXMLBody.text" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.10' and @extension='2024-05-01']]/cda:component/cda:nonXMLBody/cda:text">
       <assert test="not(not(cda:reference/@value)) or (@representation = 'B64' and @mediaType)">If the text element does not contain a reference element with a value attribute, then it **SHALL** contain exactly one [1..1] @representation="B64" and exactly one [1..1] @mediaType (CONF:1198-7624).</assert>
-      <assert test="count(@mediaType) &lt;= 1">Cardinality of @mediaType is 0..1</assert>
     </rule>
     <rule id="UnstructuredDocument-errors-component.nonXMLBody.text.mediaType" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.10' and @extension='2024-05-01']]/cda:component/cda:nonXMLBody/cda:text/@mediaType">
       <assert test="contains($SupportedFileFormats, .)">SHALL be selected from ValueSet SupportedFileFormats</assert>
@@ -12281,9 +12112,6 @@
     </rule>
     <rule id="VitalSignObservation-errors-moodCode" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.27' and @extension='2014-06-09']]/@moodCode">
       <assert test="contains($XActMoodDocumentObservation, .)">SHALL be selected from ValueSet XActMoodDocumentObservation</assert>
-    </rule>
-    <rule id="VitalSignObservation-errors-code" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.27' and @extension='2014-06-09']]/cda:code">
-      <assert test="count(@code) &lt;= 1">Cardinality of @code is 0..1</assert>
     </rule>
     <rule id="VitalSignObservation-errors-text" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.27' and @extension='2014-06-09']]/cda:text">
       <assert test="count(cda:reference) &lt;= 1">Cardinality of reference is 0..1</assert>
@@ -12357,7 +12185,6 @@
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.2.4.1:2015-08-01-->
     <rule id="VitalSignsSection-errors-root" context="cda:section[cda:templateId[@root='2.16.840.1.113883.10.20.22.2.4.1' and @extension='2015-08-01']]">
       <assert test="@nullFlavor or cda:entry[cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.26' and @extension='2015-08-01']]] or cda:entry[cda:organizer[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.512' and @extension='2024-05-01']]]">If section/@nullFlavor is not present, SHALL contain at least one Vital Signs Organizer or Average Blood Pressure Organizer</assert>
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
       <assert test="count(cda:code)=1">Cardinality of code is 1..1</assert>
       <assert test="count(cda:title)=1">Cardinality of title is 1..1</assert>
       <assert test="count(cda:text)=1">Cardinality of text is 1..1</assert>
@@ -12456,7 +12283,6 @@
       <assert test="@nullFlavor or (cda:country and cda:country/text()[normalize-space()] != 'US' and cda:country/text()[normalize-space()] != 'USA') or cda:state[@nullFlavor or text()[normalize-space()][contains($UspsTwoLetterAlphabeticCodes, .)]]">If the country is US, the state element is required and SHALL be selected from ValueSet StateValueSet but SHOULD have @nullFlavor if the state is unknown. If country is not specified, it's assumed to be US. If country is something other than US, the state MAY be present but MAY be bound to different vocabularies (CONF:81-10024).</assert>
       <assert test="@nullFlavor or (cda:country and cda:country/text()[normalize-space()] != 'US' and cda:country/text()[normalize-space()] != 'USA') or cda:postalCode[@nullFlavor or text()[normalize-space()][(string-length(normalize-space()) = 5 and translate(., '0123456789', '0000000000') = '00000') or (string-length(normalize-space()) = 10 and translate(., '0123456789', '0000000000') = '00000-0000')]]">If the country is US, the postalCode element is required but SHOULD have @nullFlavor if the postalCode is unknown. If country is not specified, it's assumed to be US. If country is something other than US, the postalCode MAY be present but MAY be bound to different vocabularies (CONF:81-10025).</assert>
       <assert test="(not(cda:state) or count(cda:state) = 1) and (not(cda:city) or count(cda:city) = 1) and (not(cda:postalCode) or count(cda:postalCode) = 1) and (not(cda:country) or count(cda:country) = 1)">SHALL have at most one of each: state, city, postalCode, and country</assert>
-      <assert test="count(@nullFlavor) &lt;= 1">Cardinality of @nullFlavor is 0..1</assert>
       <assert test="count(cda:country) &lt;= 1">Cardinality of country is 0..1</assert>
       <assert test="count(cda:state) &lt;= 1">Cardinality of state is 0..1</assert>
       <assert test="count(cda:city) &lt;= 1">Cardinality of city is 0..1</assert>
@@ -12468,7 +12294,6 @@
     <!--urn:oid:2.16.840.1.113883.10.20.22.5.4-->
     <rule id="USRealmDateTime-errors-root" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.15' and @extension='2024-05-01']]/cda:authenticator/cda:time | cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:effectiveTime | cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:author/cda:time | cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:dataEnterer/cda:time | cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:legalAuthenticator/cda:time | cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:authenticator/cda:time">
       <assert test="@nullFlavor or string-length(@value) &gt;= 8">**SHALL** be precise to at least the day</assert>
-      <assert test="count(@value) &lt;= 1">Cardinality of @value is 0..1</assert>
     </rule>
   </pattern>
   <pattern id="USRealmDateTimeInterval-errors">
@@ -12476,7 +12301,6 @@
     <rule id="USRealmDateTimeInterval-errors-root" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.15' and @extension='2024-05-01']]/cda:participant[(@typeCode = 'VRF')]/cda:time | cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.15' and @extension='2024-05-01']]/cda:documentationOf[(cda:serviceEvent/@classCode = 'PCPR')]/cda:serviceEvent/cda:effectiveTime | cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.15' and @extension='2024-05-01']]/cda:componentOf/cda:encompassingEncounter/cda:effectiveTime | cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.4' and @extension='2024-05-01']]/cda:componentOf/cda:encompassingEncounter/cda:effectiveTime | cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.2' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/cda:effectiveTime | cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.8' and @extension='2024-05-01']]/cda:componentOf/cda:encompassingEncounter/cda:effectiveTime | cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.3' and @extension='2024-05-01']]/cda:componentOf/cda:encompassingEncounter/cda:effectiveTime | cda:act[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.202' and @extension='2016-11-01']]/cda:participant[(@typeCode = 'LA')]/cda:time | cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.7' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/cda:effectiveTime | cda:procedure[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.14' and @extension='2024-05-01']]/cda:effectiveTime | cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.6' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/cda:effectiveTime | cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.9' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/cda:effectiveTime | cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.9' and @extension='2024-05-01']]/cda:componentOf/cda:encompassingEncounter/cda:effectiveTime | cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:participant/cda:time | cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/cda:effectiveTime | cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:documentationOf/cda:serviceEvent/cda:performer/cda:time | cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:componentOf/cda:encompassingEncounter/cda:effectiveTime">
       <assert test="not(cda:center) or (not(cda:low) and not(cda:high))">Center cannot co-exist with low or high</assert>
       <assert test="not(@value) or string-length(@value) &gt;= 8">If a time interval contains @value, then it shall be precise to at least the day.</assert>
-      <assert test="count(@value) &lt;= 1">Cardinality of @value is 0..1</assert>
       <assert test="count(cda:low) &lt;= 1">Cardinality of low is 0..1</assert>
       <assert test="count(cda:high) &lt;= 1">Cardinality of high is 0..1</assert>
     </rule>
@@ -12489,7 +12313,6 @@
       <assert test="@nullFlavor or cda:given">SHALL contain at least one [1..*] given (CONF:81-7157).</assert>
       <assert test="(not(cda:suffix) or count(cda:suffix) = 1)">There may be at most one suffix</assert>
       <assert test="not(text()[normalize-space()])">**SHALL NOT** have mixed content except for white space (CONF:81-7278).</assert>
-      <assert test="count(@use) &lt;= 1">Cardinality of @use is 0..1</assert>
       <assert test="count(cda:validTime) &lt;= 1">Cardinality of validTime is 0..1</assert>
     </rule>
   </pattern>
