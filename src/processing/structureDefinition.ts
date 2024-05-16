@@ -9,7 +9,6 @@ import { voc } from "./terminology";
 import { ProfiledToSubProfile } from "../utils/errors";
 
 interface ProcessingResult {
-  errors: string[];
   unhandledInvariants: Record<string, fhir5.ElementDefinitionConstraint[]>;
   subProfileContexts?: Record<string, string[]>;
   errorPattern?: Pattern;
@@ -20,13 +19,11 @@ interface ProcessingResult {
 type RuleMap = Record<string, Rule>;
 
 const subTemplateResult = (): ProcessingResult => ({
-  errors: [],
   unhandledInvariants: {},
   isSubTemplate: true
 });
 
 const errorResult = (error: string): ProcessingResult => ({
-  errors: [error],
   unhandledInvariants: {},
 });
 
@@ -48,12 +45,14 @@ export class StructureDefinition {
   private contextsToXpath: Record<string, string> = {};
   private templateUri?: string;
   private subProfileContexts: Record<string, string[]> = {};
+  readonly name: string;
 
   constructor(sd: fhir5.StructureDefinition, updateRoot = false) {
     if (!sd.snapshot) {
       throw new Error(`Missing snapshot on ${sd.name}`);
     }
     this.sd = sd as PopulatedStructureDefinition;
+    this.name = sd.name;
 
     this.templateUri = this.sd.identifier?.[0].value;
 
@@ -89,7 +88,6 @@ export class StructureDefinition {
     this.warningRules['.'] = new Rule(`${sd.name}-warnings-root`, xPathContext);
 
     const results: ProcessingResult = {
-      errors: [],
       unhandledInvariants: {},
       errorPattern: templateErrorPattern,
       warningPattern: templateWarningPattern,
@@ -105,7 +103,7 @@ export class StructureDefinition {
       try {
         await this.processElementDefinition(snapDef, results);
       } catch (e) { 
-        results.errors.push(`${sd.name}: ${getErrorMessage(e)}`);
+        logger.error(`${sd.name}: ${getErrorMessage(e)}`);
       }
     };
 
@@ -158,7 +156,6 @@ export class StructureDefinition {
 
     // TODO - functionalize
     const results: ProcessingResult = {
-      errors: [],
       unhandledInvariants: {},
       subProfileContexts: this.subProfileContexts,
       errorPattern: templateErrorPattern,
@@ -175,7 +172,7 @@ export class StructureDefinition {
       try {
         await this.processElementDefinition(snapDef, results);
       } catch (e) { 
-        results.errors.push(`${sd.name}: ${getErrorMessage(e)}`);
+        logger.error(`${sd.name}: ${getErrorMessage(e)}`);
       }
     };
 
@@ -215,8 +212,6 @@ export class StructureDefinition {
         } else {
           this.errorRule(element.id).assertions.push(invRule.Processed.Assertion);
         }
-      } else if (invRule.Error) {
-        results.errors.push(invRule.Error);
       } else if (invRule.Unsupported) {
         (results.unhandledInvariants[invRule.Unsupported] ||= []).push(constraint);
       }

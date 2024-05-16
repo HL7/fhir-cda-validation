@@ -7,7 +7,6 @@ import { UnsupportedInvariantError } from "../utils/errors";
 import { voc } from "./terminology";
 
 interface InvariantResponse {
-  Error?: string,
   Unsupported?: string,
   Processed?: {
     Assertion: Assert,
@@ -27,7 +26,7 @@ export const processInvariant = async (inv: fhir5.ElementDefinitionConstraint, s
       await Promise.all([...vsMatch].map(async (m) => voc.loadValueSet(m[1])));
     }
     catch (e) {
-      logger.error(getErrorMessage(e))
+      logger.error(`Error in invariant ${inv.key} from ${sd.name}: ${getErrorMessage(e)}`);
     }
   }
 
@@ -46,11 +45,9 @@ export const processInvariant = async (inv: fhir5.ElementDefinitionConstraint, s
         Unsupported: e.message
       };
     }
-    logger.info(`${inv.key}: ${inv.expression}`);
-    logger.error(getErrorMessage(e));
-    return {
-      Error: getErrorMessage(e)
-    }
+    logger.debug(`${inv.key}: ${inv.expression}`);
+    logger.error(`Error in invariant ${inv.key} from ${sd.name}: ${getErrorMessage(e)}`);
+    return {};
   }
 }
 
