@@ -250,7 +250,7 @@ export class StructureDefinition {
     }
 
     // Fixed values
-    if (fixed) {
+    if (fixed && !this.ignoreValueAt.includes(element)) {
       if (required) {
         this.errorRule(element.id, true).assert(`${nodeXml} = '${fixed}'`, `${nodeDisplay} SHALL = '${fixed}'`);
       } else {
@@ -259,7 +259,7 @@ export class StructureDefinition {
     }
 
     // (Also - stop throwing errors for profiles to data types.... hmm....)
-    const profiles = profileFromDef(element);
+    const profiles = this.ignoreProfileAt.includes(element) ? [] : profileFromDef(element);
     if (profiles.length > 0) {
       try {
         const context = profiles.map(p => `(${templateIdContextFromProfile(p)})`).join(' or ');
@@ -382,6 +382,11 @@ export class StructureDefinition {
     return `${prefix}:${xmlName}${sliceContext}`;
   }
 
+  // Set during slice filtering - if the context is already defined by profile or value, 
+  // there's no reason to add an assertion requiring that profile or value later
+  private ignoreProfileAt: fhir5.ElementDefinition[] = [];
+  private ignoreValueAt: fhir5.ElementDefinition[] = [];
+
   // Called on the slice-definition element
   sliceFilter = (id: string): string => {
     const sliceRoot = id.split(':').slice(0, -1).join(':');
@@ -411,11 +416,13 @@ export class StructureDefinition {
           if (value!.includes('"') || value!.includes("'")) {
             throw new Error(`Unexpected quoted value (${value}) for slice ${id} at path ${d.path}`);
           }
+          this.ignoreValueAt.push(pathDef);
           return pathDef.max === '0' ? `not(${xPath})` : `(${xPath} = '${value}')`
         case 'profile':
           const profiles = profileFromDef(pathDef);
           if (profiles.length === 0) return `not(${xPath})`;
           const templateContext = profiles.map(p => `(${templateIdContextFromProfile(p)})`).join(' or ');
+          this.ignoreProfileAt.push(pathDef);
           return `${xPath}[${templateContext}]`;
         default:
           throw new Error(`Slicing type ${d.type} not yet supported`);
