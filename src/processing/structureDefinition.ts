@@ -275,7 +275,7 @@ export class StructureDefinition {
       
     }
 
-    // TODO - might be worth limiting to only bindings known at the diff level
+    // No need to record / handle bindings if we're enforcing a fixed value
     if (!fixed) {
       await this.processBinding(element);
     }
