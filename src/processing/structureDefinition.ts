@@ -83,7 +83,7 @@ export class StructureDefinition {
     const templateErrorPattern = new Pattern(`${sd.name}-errors`, this.templateUri);
     const templateWarningPattern = new Pattern(`${sd.name}-warnings`, this.templateUri);
 
-    this.contextsToXpath['.'] = `(${xPathContext})`;
+    this.contextsToXpath['.'] = `${xPathContext}`;
     this.errorRules['.'] = new Rule(`${sd.name}-errors-root`, xPathContext);
     this.warningRules['.'] = new Rule(`${sd.name}-warnings-root`, xPathContext);
 
@@ -108,10 +108,10 @@ export class StructureDefinition {
     };
 
     // TODO - sub-template contexts aren't working
-    // templateErrorPattern.rules = [...new Map(Object.values(this.errorRules).map(v => [v.context, v])).values()];
-    // templateWarningPattern.rules = [...new Map(Object.values(this.warningRules).map(v => [v.context, v])).values()];
-    templateErrorPattern.rules = [this.errorRules['.']];
-    templateWarningPattern.rules = [this.warningRules['.']];
+    templateErrorPattern.rules = [...new Map(Object.values(this.errorRules).map(v => [v.context, v])).values()];
+    templateWarningPattern.rules = [...new Map(Object.values(this.warningRules).map(v => [v.context, v])).values()];
+    // templateErrorPattern.rules = [this.errorRules['.']];
+    // templateWarningPattern.rules = [this.warningRules['.']];
 
     return results;
   }
@@ -325,7 +325,11 @@ export class StructureDefinition {
       throw new Error(`Cannot generate context for ${id}.`);
     }
 
-    const newXpath = this.contextsToXpath[parentContext] + '/' + nodeName;
+    // Splitting is for sub-profiles whose root context is a union of several paths
+    const newXpath = this.contextsToXpath[parentContext]
+      .split(' | ')
+      .map(oneContext => `${oneContext}/${nodeName}`)
+      .join(' | ');
     this.contextsToXpath[thisContext] = newXpath;
 
     this.errorRules[thisContext] = new Rule(`${this.sd.name}-errors-${thisContext}`, newXpath);
