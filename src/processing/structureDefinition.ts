@@ -276,7 +276,9 @@ export class StructureDefinition {
     }
 
     // TODO - might be worth limiting to only bindings known at the diff level
-    await this.processBinding(element);
+    if (!fixed) {
+      await this.processBinding(element);
+    }
     
     // TODO - simplification - attach at parent if element is required
 
