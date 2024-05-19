@@ -23,10 +23,6 @@ const subTemplateResult = (): ProcessingResult => ({
   isSubTemplate: true
 });
 
-const errorResult = (error: string): ProcessingResult => ({
-  unhandledInvariants: {},
-});
-
 type PopulatedStructureDefinition = fhir5.StructureDefinition & {
   snapshot: NonNullable<fhir4.StructureDefinition['snapshot']>
 }
@@ -91,12 +87,14 @@ export class StructureDefinition {
 
       const templateRoot = this.xmlNodeName(this.root());
       if (!templateRoot) {
-        return errorResult(`Cannot determine root XML node of ${sd.name} ${JSON.stringify(sd.extension)}`);
+        logger.error(`Cannot determine root XML node of ${sd.name} ${JSON.stringify(sd.extension)}`);
+        return;
       }
 
       const templateIdContextExp = templateIdContext(templateId);
       if (!templateIdContextExp) {
-        return errorResult(`Unable to determine context for ${sd.name}`);
+        logger.error(`Unable to determine context for ${sd.name}`);
+        return;
       }
 
       xPathContext = `${templateRoot}[${templateIdContextExp}]`;
