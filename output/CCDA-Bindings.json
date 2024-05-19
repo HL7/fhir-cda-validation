@@ -2424,7 +2424,7 @@
     {
       "xpath": "cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:recordTarget/cda:patientRole/cda:patient/cda:languageCommunication/cda:languageCode",
       "strength": "required",
-      "valueSetId": "http://hl7.org/fhir/ValueSet/all-languages"
+      "valueSetId": "http://hl7.org/fhir/us/core/ValueSet/simple-language"
     },
     {
       "xpath": "cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1' and @extension='2024-05-01']]/cda:recordTarget/cda:patientRole/cda:patient/cda:languageCommunication/cda:modeCode",
@@ -2522,6 +2522,11 @@
       "valueSetId": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.11.20.12.1",
       "name": "PersonalAndLegalRelationshipRoleType",
       "oid": "2.16.840.1.113883.11.20.12.1"
+    },
+    {
+      "xpath": "cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]/cda:recordTarget/cda:patientRole/cda:patient/cda:languageCommunication/cda:languageCode",
+      "strength": "required",
+      "valueSetId": "http://hl7.org/fhir/ValueSet/all-languages"
     },
     {
       "xpath": "cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]/cda:participant/@typeCode",

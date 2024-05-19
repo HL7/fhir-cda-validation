@@ -9231,6 +9231,7 @@
       <assert test="@nullFlavor or contains($PersonalAndLegalRelationshipRoleType, @code)">SHALL be selected from ValueSet PersonalAndLegalRelationshipRoleType</assert>
     </rule>
     <rule id="USRealmHeaderforPatientGeneratedDocument-errors-recordTarget.patientRole.patient.languageCommunication" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]/cda:recordTarget/cda:patientRole/cda:patient/cda:languageCommunication">
+      <assert test="count(cda:languageCode)=1">Cardinality of languageCode is 1..1</assert>
       <assert test="count(cda:preferenceInd) &lt;= 1">Cardinality of preferenceInd is 0..1</assert>
     </rule>
     <rule id="USRealmHeaderforPatientGeneratedDocument-errors-author" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]/cda:author">
@@ -12696,6 +12697,10 @@
       <assert test="cda:telecom">SHOULD contain telecom</assert>
       <assert test="cda:id">SHOULD contain id</assert>
       <assert test="cda:code">SHOULD contain code</assert>
+    </rule>
+    <rule id="USRealmHeaderforPatientGeneratedDocument-warnings-recordTarget.patientRole.patient.languageCommunication" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]/cda:recordTarget/cda:patientRole/cda:patient/cda:languageCommunication">
+      <assert test="cda:proficiencyLevelCode">SHOULD contain proficiencyLevelCode</assert>
+      <assert test="cda:preferenceInd">SHOULD contain preferenceInd</assert>
     </rule>
     <rule id="USRealmHeaderforPatientGeneratedDocument-warnings-author.assignedAuthor" context="cda:ClinicalDocument[cda:templateId[@root='2.16.840.1.113883.10.20.29.1' and @extension='2024-05-01']]/cda:author/cda:assignedAuthor">
       <assert test="cda:id[@root = '2.16.840.1.113883.4.6']">SHOULD contain an id with root='2.16.840.1.113883.4.6' (NPI)</assert>

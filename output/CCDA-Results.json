@@ -71,6 +71,7 @@
       "http://hl7.org/cda/stds/core/ValueSet/CDASignatureCode - not-supported: Unable to provide support for code system http://terminology.hl7.org/CodeSystem/v3-ParticipationSignature version 2.1.0 (known versions = 3.0.0)",
       "http://hl7.org/cda/us/ccda/ValueSet/2.16.840.1.113883.3.88.12.80.33 - not-supported: Unable to provide support for code system https://www.nubc.org/CodeSystem/PatDischargeStatus",
       "http://terminology.hl7.org/ValueSet/v2-0493 - not-supported: Unable to provide support for code system http://terminology.hl7.org/CodeSystem/v2-0493 version 2.2.0 (known versions = 2.0.0)",
+      "http://hl7.org/fhir/us/core/ValueSet/simple-language - not-supported: Language valuesets cannot be expanded as they are based on a grammar",
       "http://hl7.org/cda/stds/core/ValueSet/CDAPostalAddressUse - not-supported: Unable to provide support for code system http://terminology.hl7.org/CodeSystem/v3-AddressUse version 2.1.0 (known versions = 3.0.1)",
       "http://hl7.org/cda/stds/core/ValueSet/CDAEntityNameUse - not-supported: Unable to provide support for code system http://terminology.hl7.org/CodeSystem/v3-EntityNameUse version 2.1.0 (known versions = 3.0.0)"
     ],

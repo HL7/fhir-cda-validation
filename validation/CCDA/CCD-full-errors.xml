@@ -58,13 +58,15 @@ w: precise to at least the minute
             <!-- HP is "primary home" from HL7 AddressUse 2.16.840.1.113883.5.1119 -->
             <patient>
                 <name use="L">
-                    <!-- e: No PN name part may have a qualifier of LS -->
-                    <given qualifier="LS">Eve</given>
+                    <!-- e: SHALL be selected from ValueSet EntityPersonNamePartQualifier -->
+                    <given qualifier="XYZ">Eve</given>
                     <!-- The "SP" is "Spouse" from HL7 Code System EntityNamePartQualifier 2.16.840.1.113883.5.43 -->
                     <family qualifier="SP">Betterhalf</family>
                     <!-- e: There may be at most one suffix -->
                     <suffix>one</suffix>
                     <suffix>two</suffix>
+                    <!-- e: No PN name part may have a qualifier of LS -->
+                    <delimiter qualifier="LS"></delimiter>
                 </name>
                 <administrativeGenderCode code="F" displayName="Female" codeSystem="2.16.840.1.113883.5.1" codeSystemName="AdministrativeGender"/>
                 <!-- Date of birth need only be precise to the day -->
