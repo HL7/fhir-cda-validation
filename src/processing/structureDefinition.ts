@@ -76,74 +76,39 @@ export class StructureDefinition {
     rootEd.extension = Object.assign(rootEd.extension || [], this.sd.extension || []);
   }
 
-  processSubTemplate = async (xPathContext: string): Promise<ProcessingResult> => {
-    const sd = this.sd;
-    this.updateRoot();
-
-    const templateErrorPattern = new Pattern(`${sd.name}-errors`, this.templateUri);
-    const templateWarningPattern = new Pattern(`${sd.name}-warnings`, this.templateUri);
-
-    this.contextsToXpath['.'] = `${xPathContext}`;
-    this.errorRules['.'] = new Rule(`${sd.name}-errors-root`, xPathContext);
-    this.warningRules['.'] = new Rule(`${sd.name}-warnings-root`, xPathContext);
-
-    const results: ProcessingResult = {
-      unhandledInvariants: {},
-      errorPattern: templateErrorPattern,
-      warningPattern: templateWarningPattern,
-    }
-
-    for (const diffDef of sd.differential!.element) {
-      if (!diffDef.id) continue; 
-      const snapDef = this.elementDefAtId(diffDef.id);
-      if (!snapDef) {
-        logger.warn(`No corresponding snapshot definition for differential ${diffDef.id}. Skipping...`);
-        continue;
-      }
-      try {
-        await this.processElementDefinition(snapDef, results);
-      } catch (e) { 
-        logger.error(`${sd.name}: ${getErrorMessage(e)}`);
-      }
-    };
-
-    // TODO - sub-template contexts aren't working
-    templateErrorPattern.rules = [...new Map(Object.values(this.errorRules).map(v => [v.context, v])).values()];
-    templateWarningPattern.rules = [...new Map(Object.values(this.warningRules).map(v => [v.context, v])).values()];
-    // templateErrorPattern.rules = [this.errorRules['.']];
-    // templateWarningPattern.rules = [this.warningRules['.']];
-
-    return results;
-  }
-
-  process = async () => {
+  process = async (xPathContext?: string) => {
     const sd = this.sd;
     const templateId = this.templateUri;
 
-    if (!templateId || !this.elementDefAtId(`${this.root()}.templateId`)) {
-      return subTemplateResult();
-      // return errorResult(`No template identifier for this StructureDefinition (${sd.name}). It can only be used as part of other StructureDefinitions.`);
-    }
-
     this.updateRoot();
 
-    const templateRoot = this.xmlNodeName(this.root());
-    if (!templateRoot) {
-      return errorResult(`Cannot determine root XML node of ${sd.name} ${JSON.stringify(sd.extension)}`);
-    }
+    // If passed in, this is a sub-template; otherwise, we need to look up the root context.
+    if (!xPathContext) {
+      if (!templateId || !this.elementDefAtId(`${this.root()}.templateId`)) {
+        return subTemplateResult();
+        // return errorResult(`No template identifier for this StructureDefinition (${sd.name}). It can only be used as part of other StructureDefinitions.`);
+      }
 
-    const templateIdContextExp = templateIdContext(templateId);
-    if (!templateIdContextExp) {
-      throw new Error(`Unable to determine context for ${sd.name}`);
+      const templateRoot = this.xmlNodeName(this.root());
+      if (!templateRoot) {
+        return errorResult(`Cannot determine root XML node of ${sd.name} ${JSON.stringify(sd.extension)}`);
+      }
+
+      const templateIdContextExp = templateIdContext(templateId);
+      if (!templateIdContextExp) {
+        return errorResult(`Unable to determine context for ${sd.name}`);
+      }
+
+      xPathContext = `${templateRoot}[${templateIdContextExp}]`;
     }
 
     const templateErrorPattern = new Pattern(`${sd.name}-errors`, templateId);
     const templateWarningPattern = new Pattern(`${sd.name}-warnings`, templateId);
 
-    this.contextsToXpath['.'] = `${templateRoot}[${templateIdContextExp}]`;
+    this.contextsToXpath['.'] = xPathContext;
 
-    this.errorRules['.'] = new Rule(`${sd.name}-errors-root`, `${templateRoot}[${templateIdContextExp}]`);
-    this.warningRules['.'] = new Rule(`${sd.name}-warnings-root`, `${templateRoot}[${templateIdContextExp}]`);
+    this.errorRules['.'] = new Rule(`${sd.name}-errors-root`, xPathContext);
+    this.warningRules['.'] = new Rule(`${sd.name}-warnings-root`, xPathContext);
 
     // Require parent templateId (this is because we're mainly processing differential; not snapshot)
     if (this.sd.baseDefinition) {

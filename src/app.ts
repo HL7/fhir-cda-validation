@@ -118,7 +118,7 @@ async function main() {
     const context = subProfileContexts[sd.url];
     if (!context) continue;  // Profiled to something we don't recognize (or to something like a datatype)
 
-    const processingResult = await new StructureDefinition(sd).processSubTemplate(context.join(' | '));
+    const processingResult = await new StructureDefinition(sd).process(context.join(' | '));
     if (processingResult.errorPattern) schematron.addErrorPattern(processingResult.errorPattern);
     if (processingResult.warningPattern) schematron.addWarningPattern(processingResult.warningPattern);
     merge(unhandledInvariants, processingResult.unhandledInvariants);
