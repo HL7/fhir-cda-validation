@@ -82,7 +82,6 @@ export class StructureDefinition {
     if (!xPathContext) {
       if (!templateId || !this.elementDefAtId(`${this.root()}.templateId`)) {
         return subTemplateResult();
-        // return errorResult(`No template identifier for this StructureDefinition (${sd.name}). It can only be used as part of other StructureDefinitions.`);
       }
 
       const templateRoot = this.xmlNodeName(this.root());
@@ -117,7 +116,6 @@ export class StructureDefinition {
       }
     }
 
-    // TODO - functionalize
     const results: ProcessingResult = {
       unhandledInvariants: {},
       subProfileContexts: this.subProfileContexts,
@@ -162,10 +160,7 @@ export class StructureDefinition {
       return;
     }
 
-    // const context = this.idToContext(element.id);
-
     const pathSegments = element.id.split('.');
-    
 
     for (const constraint of element.constraint || []) {
       const invRule = await processInvariant(constraint, this, element.id);
@@ -242,8 +237,6 @@ export class StructureDefinition {
     if (!fixed) {
       await this.processBinding(element);
     }
-    
-    // TODO - simplification - attach at parent if element is required
 
     // If slicing is closed - don't allow any other instances of this node that do not conform to one of the slices
     if (element.slicing?.rules === 'closed') {
@@ -257,6 +250,16 @@ export class StructureDefinition {
 
   elementDefAtId = (id: string): fhir5.ElementDefinition | undefined => this.sd.snapshot.element.find(e => e.id === id);
 
+  /**
+   * Core function to figure out the context (xpath attribute of rule) given an ElementDefinition id
+   * It does this by recursively appending the output of xmlNodeName to the context of the element's parent
+   * The root context is set by StructureDefinition.process() according to either a templateId or a 
+   * set of sub-contexts (for things like addr or name)
+   *
+   * @param {string} id
+   * @param {boolean} [parent=false] if true - get the context of the parent element, not this element
+   * @memberof StructureDefinition
+   */
   idToContext = (id: string, parent = false): string => {
     const pathSegments = id.split('.').slice(0, parent ? -1 : undefined);
 
@@ -308,6 +311,16 @@ export class StructureDefinition {
 
   isAttribute = (element: fhir5.ElementDefinition) => (element.representation || []).includes('xmlAttr');
 
+  /**
+   * Generate the xml xpath for a single node. Will prefix with namespace if needed.
+   * Handles attributes (as @nodeName) and nodes which are xml-text.
+   * 
+   * Will return null or 0 for elements that are not "real" (e.g. "item" elements for multi-choice fields in AD or EN)
+   *
+   * @param {(fhir5.ElementDefinition | string)} [elementOrId]
+   * @param {boolean} [displayOnly=false] Get the name of the element for message (not xpath) purposes
+   * @memberof StructureDefinition
+   */
   xmlNodeName = (elementOrId?: fhir5.ElementDefinition | string, displayOnly = false): string | void | 0 => {
     const element = typeof elementOrId === 'string' ? this.elementDefAtId(elementOrId) : elementOrId
     if (!element) {
