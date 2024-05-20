@@ -3,7 +3,7 @@ import { Rule } from "../model/rule";
 import { processInvariant } from "./invariant";
 import { ns, nsPrefix } from "../model";
 import { logger } from "../utils/logger";
-import { cdaTypeFromDef, cdaTypeToFilter, profileFromDef, profileName, templateIdContext, templateIdContextFromProfile, typeFilter, xmlNameFromDefs } from "../utils/cdaUtil";
+import { cdaTypeFromDef, dateRules, profileFromDef, profileName, templateIdContext, templateIdContextFromProfile, typeFilter, xmlNameFromDefs } from "../utils/cdaUtil";
 import { getErrorMessage } from "../utils/helpers";
 import { voc } from "./terminology";
 import { ProfiledToSubProfile } from "../utils/errors";
@@ -246,6 +246,16 @@ export class StructureDefinition {
       this.errorRule(element.id, true).assert(`count(${nodeXml}[not(${sliceXPaths.join(' or ')})]) = 0`, `Slicing is closed, each ${nodeDisplay} must conform to one of the following slices: ${sliceNames}`);
     }
 
+    // Apply specific type-rules
+    const cdaType = cdaTypeFromDef(element);
+    if (cdaType.includes('ts-simple') && dateRules(element).includes('tz-for-time')) {
+      // Could use matches() but avoiding XPath2.0 functions where possible
+      const sign = `substring(${nodeXml}, string-length(${nodeXml}) - 4, 1) = '+' or substring(${nodeXml}, string-length(${nodeXml}) - 4, 1) = '-'`;
+      const hour = `number(substring(${nodeXml}, string-length(${nodeXml}) - 3, 2)) >= 0 and number(substring(${nodeXml}, string-length(${nodeXml}) - 3, 2)) <= 12 and string-length(substring(${nodeXml}, string-length(${nodeXml}) - 3, 2)) = 2`;
+      const min = `number(substring(${nodeXml}, string-length(${nodeXml}) - 1, 2)) >= 0 and number(substring(${nodeXml}, string-length(${nodeXml}) - 1, 2)) <= 59 and string-length(substring(${nodeXml}, string-length(${nodeXml}) - 1, 2)) = 2`;
+      const tzOffset = [sign, hour, min].map(x => `(${x})`).join(' and ');
+      this.errorRule(element.id, true).assert(`not(${nodeXml}) or string-length(${nodeXml}) <= 8 or (${tzOffset})`, 'Timestamps more precise than the day SHALL include a timezone offset (+/- HHMM)');
+    }
   }
 
   elementDefAtId = (id: string): fhir5.ElementDefinition | undefined => this.sd.snapshot.element.find(e => e.id === id);

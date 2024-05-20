@@ -26,7 +26,8 @@ w: precise to at least the minute
     <code code="x" displayName="Summarization of Episode Note" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
     <!-- Title of this document -->
     <title>Patient Summary</title>
-    <effectiveTime value="20230501114559-0500"/>
+    <!-- e: Timestamps more precise than the day SHALL include a timezone offset -->
+    <effectiveTime value="20230501114559"/>
     <confidentialityCode code="N" displayName="normal" codeSystem="2.16.840.1.113883.5.25" codeSystemName="Confidentiality"/>
     <languageCode code="en-US"/>
     <setId extension="sTT988" root="2.16.840.1.113883.19.5.99999.19"/>

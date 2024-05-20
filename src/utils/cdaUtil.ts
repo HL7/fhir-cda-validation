@@ -118,7 +118,7 @@ export const ofType = (type: string): string => {
 export const cdaTypeFromDef = (element: fhir5.ElementDefinition): string[] => {
   if (!element.type || element.type.length === 0) return [];
   return element.type.map(t => {
-    const cdaType = t.code === 'code' ? t.profile?.[0] ?? '' : t.code;
+    const cdaType = ['code', 'dateTime'].includes(t.code) ? t.profile?.[0] ?? '' : t.code;
     return cdaType.startsWith(cdaRoot) ? cdaType.replace(cdaRoot, '') : '';
   }).filter(Boolean);
 }
@@ -231,4 +231,16 @@ export const templateIdContextFromProfile = (profile: string, silent = false): s
   }
 
   return templateIdContext(identifier);
+}
+
+
+/**
+ * Return the set of date rules attached to an element
+ * @param {fhir5.ElementDefinition} element
+ * @return {*}  {string[]}
+ */
+export const dateRules = (element: fhir5.ElementDefinition): string[] => {
+  const dateRulesUrl = 'http://hl7.org/fhir/tools/StructureDefinition/elementdefinition-date-rules';
+  const rules = element.extension?.find(e => e.url === dateRulesUrl)?.valueString;
+  return (rules || '').split(':');
 }
