@@ -9,7 +9,7 @@ import { voc } from "./terminology";
 import { ProfiledToSubProfile } from "../utils/errors";
 
 interface ProcessingResult {
-  unhandledInvariants: Record<string, fhir5.ElementDefinitionConstraint[]>;
+  unhandledInvariants?: Record<string, fhir5.ElementDefinitionConstraint[]>;
   subProfileContexts?: Record<string, string[]>;
   errorPattern?: Pattern;
   warningPattern?: Pattern;
@@ -72,7 +72,7 @@ export class StructureDefinition {
     rootEd.extension = Object.assign(rootEd.extension || [], this.sd.extension || []);
   }
 
-  process = async (xPathContext?: string) => {
+  process = async (xPathContext?: string): Promise<ProcessingResult> => {
     const sd = this.sd;
     const templateId = this.templateUri;
 
@@ -87,13 +87,13 @@ export class StructureDefinition {
       const templateRoot = this.xmlNodeName(this.root());
       if (!templateRoot) {
         logger.error(`Cannot determine root XML node of ${sd.name} ${JSON.stringify(sd.extension)}`);
-        return;
+        return {};
       }
 
       const templateIdContextExp = templateIdContext(templateId);
       if (!templateIdContextExp) {
         logger.error(`Unable to determine context for ${sd.name}`);
-        return;
+        return {};
       }
 
       xPathContext = `${templateRoot}[${templateIdContextExp}]`;
@@ -171,6 +171,7 @@ export class StructureDefinition {
           this.errorRule(element.id).assertions.push(invRule.Processed.Assertion);
         }
       } else if (invRule.Unsupported) {
+        if (!results.unhandledInvariants) results.unhandledInvariants = {};
         (results.unhandledInvariants[invRule.Unsupported] ||= []).push(constraint);
       }
     }
