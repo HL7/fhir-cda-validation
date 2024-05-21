@@ -132,7 +132,7 @@ async function main() {
 
   logger.info('Writing output files...');
   await mkdir('./output', {}).catch(e => { if (e.code !== 'EEXIST') throw e; });
-  await writeFile(`./output/${ig.name}.sch`, schematron.toString(), 'utf-8');
+  await writeFile(`./output/${ig.name}.sch`, schematron.toXml(), 'utf-8');
   await writeFile(`./output/${ig.name}-Bindings.json`, voc.bindings(), 'utf-8');
 
   // Generate results

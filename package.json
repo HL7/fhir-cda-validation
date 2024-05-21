@@ -15,7 +15,7 @@
     "url": "https://github.com/HL7/fhir-cda-validation/issues"
   },
   "repository": {
-    "url": "https://github.com/HL7/fhir-cda-validation.git"
+    "url": "https://github.com/HL7/fhir-cda-validation"
   },
   "engines": {
     "node": ">=18"
