@@ -54,20 +54,11 @@ updateConfigFromOptions(options);
 if (!inputIg) {
   logger.warn('No IG specified; using C-CDA 3.0 by default', { silent: true });
   inputIg = 'hl7.cda.us.ccda@3.0.0';
-  options.dependency = [
-    'hl7.terminology#5.2.0',
-    'us.nlm.vsac#0.17.0',
-    'us.cdc.phinvads#0.12.0',
-    'hl7.fhir.us.core#current'
-  ]
 }
 inputIg = inputIg.replace('@', '#');  // either works for loadDeps; but only # works for finding the IGs
 
 if (!Array.isArray(options.dependency)) {
   options.dependency = [];
-}
-if (!options.dependency.find((d: string) => d.startsWith('hl7.cda.uv.core'))) {
-  options.dependency.push('hl7.cda.uv.core@2.0.0-sd');
 }
 
 // TODO - need to load all deps if we want vocab
