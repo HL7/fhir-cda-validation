@@ -10369,6 +10369,9 @@ More information may be found at https://github.com/HL7/fhir-cda-validation
       <assert test="cda:text/cda:reference/@value">SHOULD contain text/reference/@value</assert>
       <assert test="cda:effectiveTime">SHOULD contain effectiveTime</assert>
     </rule>
+    <rule id="FamilyHistoryObservation-warnings-code" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.46' and @extension='2015-08-01']]/cda:code">
+      <assert test="@nullFlavor or contains($ProblemType, @code)">SHOULD be selected from ValueSet ProblemType</assert>
+    </rule>
     <rule id="FamilyHistoryObservation-warnings-entryRelationship-ageObservation.observation" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.46' and @extension='2015-08-01']]/cda:entryRelationship[cda:observation[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.31' and not(@extension)])] and (@typeCode = 'SUBJ')]/cda:observation">
       <assert test="cda:text/cda:reference/@value">SHOULD contain text/reference/@value</assert>
     </rule>
@@ -10665,6 +10668,9 @@ More information may be found at https://github.com/HL7/fhir-cda-validation
       <assert test="cda:text/cda:reference/@value">SHOULD contain text/reference/@value</assert>
       <assert test="cda:effectiveTime">SHOULD contain effectiveTime</assert>
     </rule>
+    <rule id="ImmunizationActivity-warnings-entryRelationship-indication.observation.code" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.52' and @extension='2015-08-01']]/cda:entryRelationship[not(cda:act) and cda:observation[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01'])] and not(cda:supply)]/cda:observation/cda:code">
+      <assert test="@nullFlavor or contains($ProblemType, @code)">SHOULD be selected from ValueSet ProblemType</assert>
+    </rule>
     <rule id="ImmunizationActivity-warnings-entryRelationship-instruction.act" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.52' and @extension='2015-08-01']]/cda:entryRelationship[cda:act[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.20' and @extension='2014-06-09'])] and not(cda:observation) and not(cda:supply)]/cda:act">
       <assert test="cda:text/cda:reference/@value">SHOULD contain text/reference/@value</assert>
     </rule>
@@ -10725,6 +10731,9 @@ More information may be found at https://github.com/HL7/fhir-cda-validation
     <rule id="Indication-warnings-root" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01']]">
       <assert test="cda:text/cda:reference/@value">SHOULD contain text/reference/@value</assert>
       <assert test="cda:effectiveTime">SHOULD contain effectiveTime</assert>
+    </rule>
+    <rule id="Indication-warnings-code" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.19' and @extension='2023-05-01']]/cda:code">
+      <assert test="@nullFlavor or contains($ProblemType, @code)">SHOULD be selected from ValueSet ProblemType</assert>
     </rule>
   </pattern>
   <pattern id="Instruction-warnings">
@@ -10816,6 +10825,9 @@ More information may be found at https://github.com/HL7/fhir-cda-validation
   </pattern>
   <pattern id="LongitudinalCareWoundObservation-warnings">
     <!--urn:hl7ii:2.16.840.1.113883.10.20.22.4.114:2015-08-01-->
+    <rule id="LongitudinalCareWoundObservation-warnings-code" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.114' and @extension='2015-08-01']]/cda:code">
+      <assert test="@nullFlavor or contains($ProblemType, @code)">SHOULD be selected from ValueSet ProblemType</assert>
+    </rule>
     <rule id="LongitudinalCareWoundObservation-warnings-value" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.114' and @extension='2015-08-01']]/cda:value">
       <assert test="@nullFlavor or contains($WoundType, @code)">SHOULD be selected from ValueSet WoundType</assert>
     </rule>
@@ -11686,6 +11698,9 @@ More information may be found at https://github.com/HL7/fhir-cda-validation
     <rule id="ProblemObservation-warnings-root" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.4' and @extension='2024-05-01']]">
       <assert test="cda:text/cda:reference/@value">SHOULD contain text/reference/@value</assert>
       <assert test="cda:author">SHOULD contain author</assert>
+    </rule>
+    <rule id="ProblemObservation-warnings-code" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.4' and @extension='2024-05-01']]/cda:code">
+      <assert test="@nullFlavor or contains($ProblemType, @code)">SHOULD be selected from ValueSet ProblemType</assert>
     </rule>
     <rule id="ProblemObservation-warnings-entryRelationship-age.observation" context="cda:observation[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.4' and @extension='2024-05-01']]/cda:entryRelationship[cda:observation[(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.31' and not(@extension)])] and not(cda:act)]/cda:observation">
       <assert test="cda:text/cda:reference/@value">SHOULD contain text/reference/@value</assert>
@@ -12885,6 +12900,7 @@ More information may be found at https://github.com/HL7/fhir-cda-validation
   <let name="DischargeSummaryDocumentTypeCode" value="'11490-0 18842-5 28655-9 29761-4 34105-7 34106-5 34745-0 59258-4 59259-2 68558-6 68572-7 68578-4 68591-7 68612-1 68626-1 68642-8 68653-5 68663-4 68674-1 68688-1 68697-2 68709-5 68719-4 68733-5 68738-4 68749-1 68768-1 68773-1 68779-8 68795-4 68805-1 68815-0 68823-4 68831-7 68841-6 68856-4 77409-1 77417-4 78263-1 78264-9 78418-1 78419-9 78420-7 78421-5 78585-7 80811-3 83523-1 83551-2 83712-0 83810-2 83898-7 83921-7 83932-4 83956-3 83961-3 83968-8 83993-6 84013-2 84017-3 84018-1 84024-9 84040-5 84132-0 84139-5 84179-1 84248-4 84254-2 84257-5 84262-5 84278-1 84310-2 84321-9 84328-4 84331-8 84367-2 84393-8 85154-3 85176-6 85192-3 85200-4 85223-6 85240-0 85243-4 85433-1 85434-9 85440-6 85442-2 85514-8 85520-5 85849-8 85875-3 85878-7 87235-8 87256-4 88641-6 88645-7 88693-7 89214-1 89218-2 93903-3 94464-5 94465-2 94515-4 94516-2 94517-0 94519-6 94520-4 94521-2 94522-0 94523-8 94524-6 94525-3 94526-1 94527-9 94529-5 94530-3 95133-5 96378-5 97663-9 97690-2 97700-9 97701-7 97702-5 97703-3 97704-1 97714-0 97719-9 97725-6 99483-0 99488-9 99489-7 99490-5'"/>
   <let name="CDARoleClassAssociative" value="'LIC NOT PROV CON ECON NOK ASSIGNED COMPAR SGNOFF AGNT GUARD EMP MIL INVSBJ RESBJ CIT COVPTY CRINV CRSPNSR GUAR PAT PAYEE PAYOR POLHOLD QUAL SPNSR STD UNDWRT CAREGIVER PRS DST RET MANU THER SDLOC DSDLOC ISDLOC ACCESS BIRTHPL EXPR HLD HLTHCHRT IDENT MNT OWN RGPR TERR WRTE'"/>
   <let name="EncounterTypeCode" value="'1013649 1013652 1013757 1013760 1013766 1013771 1013796 1020434 1036687 98966 98967 98968 99091 99202 99203 99204 99205 99211 99212 99213 99214 99215 99221 99222 99223 99231 99232 99233 99234 99235 99236 99238 99239 99242 99243 99244 99245 99252 99253 99254 99255 99281 99282 99283 99284 99285 99288 99291 99292 99304 99305 99306 99307 99308 99309 99310 99315 99316 99341 99342 99344 99345 99347 99348 99349 99350 99358 99359 99360 99366 99367 99368 99374 99375 99377 99378 99379 99380 99381 99382 99383 99384 99385 99386 99387 99391 99392 99393 99394 99395 99396 99397 99401 99402 99403 99404 99406 99407 99408 99409 99411 99412 99415 99416 99417 99418 99421 99422 99423 99424 99425 99426 99427 99429 99437 99439 99441 99442 99443 99446 99447 99448 99449 99450 99451 99452 99453 99454 99455 99456 99457 99458 99459 99460 99461 99462 99463 99464 99465 99466 99467 99468 99469 99471 99472 99473 99474 99475 99476 99477 99478 99479 99480 99483 99484 99485 99486 99487 99489 99490 99491 99492 99493 99494 99495 99496 99497 99498 99499 99500 99501 99502 99503 99504 99505 99506 99507 99509 99510 99511 99512 99600 99601 99602 99605 99606 99607'"/>
+  <let name="ProblemType" value="'248536006 282291009 29308-4 373930000 404684003 418799008 55607006 64572001 75275-8 75312-9 75313-7 75314-5 75315-2 75316-0 75317-8 75318-6 75319-4 75321-0 75322-8 75323-6 75325-1 75326-9'"/>
   <let name="FamilyMemberValue" value="'AUNT BRO BROINLAW CHILD CHLDADOPT CHLDFOST CHLDINLAW COUSN DAU DAUADOPT DAUFOST DAUINLAW DOMPART FAMMEMB FTH FTHINLAW GGRFTH GGRMTH GGRPRN GRFTH GRMTH GRNDCHILD GRNDDAU GRNDSON GRPRN HBRO HSIB HSIS HUSB MAUNT MCOUSN MGGRFTH MGGRMTH MGGRPRN MGRFTH MGRMTH MGRPRN MTH MTHINLAW MUNCLE NBRO NCHILD NEPHEW NFTH NIECE NIENEPH NMTH NPRN NSIB NSIS PAUNT PCOUSN PGGRFTH PGGRMTH PGGRPRN PGRFTH PGRMTH PGRPRN PRN PRNINLAW PUNCLE ROOM SIB SIBINLAW SIGOTHR SIS SISINLAW SON SONADOPT SONFOST SONINLAW SPS STPBRO STPCHLD STPDAU STPFTH STPMTH STPPRN STPSIB STPSIS STPSON UNCLE WIFE'"/>
   <let name="AdministrativeGenderHL7V3" value="'F M UN'"/>
   <let name="GenderIdentity" value="'33791000087105 407376001 407377005 446131000124102 446141000124107 446151000124109 OTH UNK asked-declined'"/>

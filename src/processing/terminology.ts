@@ -204,7 +204,16 @@ class TerminologyPool {
 
     if (this.loadedValueSets[valueSetId]) return this.loadedValueSets[valueSetId].name;
 
-    const vs: fhir5.ValueSet = defs.fishForFHIR(valueSetId, Type.ValueSet);
+    let vs: fhir5.ValueSet = defs.fishForFHIR(valueSetId, Type.ValueSet);
+
+    // Fix bug in C-CDA 3.0 (might occur elsewhere)
+    if (!vs && valueSetId.startsWith('http')) {
+      const repl = valueSetId.startsWith('https') ? valueSetId.replace('https:', 'http:') : valueSetId.replace('http:', 'https');
+      vs = defs.fishForFHIR(repl, Type.ValueSet);
+      if (vs) {
+        logger.warn(`$Using ${repl} instead of ${valueSetId} which was not found`);
+      }
+    }
     if (!vs) {
       return this.unsupportedValueSet(valueSetId, 'not-found');
     }
