@@ -1,5 +1,6 @@
 import { createLogger, format, transports } from "winston";
 import chalk from 'chalk';
+import { config } from "../processing/config";
 
 const { combine, printf } = format;
 
@@ -38,3 +39,10 @@ export const logMessage = (level: string, message: string): void => {
 
 export const errorLogs: string[] = [];
 export const noticeLogs: string[] = [];
+
+export const knownTemplateIds = new Set<string>();
+export const logTemplateId = (root: string, extension?: string) => {
+  if (root.startsWith(config.commonTemplateIdRoot)) {
+    knownTemplateIds.add(`${root.replace(config.commonTemplateIdRoot, '')};${extension || ''}`);
+  }
+}

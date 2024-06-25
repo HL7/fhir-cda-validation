@@ -35,8 +35,8 @@ export class Rule {
     return ruleXml;
   }
 
-  public assert = (test: string, text: string, id?: string) => {
-    this.assertions.push(new Assert(test, text, id));
+  public assert = (test: string, text: string, id?: string, comment?: string) => {
+    this.assertions.push(new Assert(test, text, id, comment));
     return this;
   }
 

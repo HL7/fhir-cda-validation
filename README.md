@@ -43,14 +43,16 @@ Arguments:
 
 Options:
   -d, --dependency <dependency...>  additional dependencies to be loaded using format dependencyId@version
-  -t, --terminology-server <url>    terminology server to use for expanding value sets (set to x to disable)
-                                    (default: "https://tx.fhir.org/r5/")
-  -l, --value-set-limit <number>    maximum number of values to include in value set lookups (default: 200)
+  -t, --terminology-server <url>    terminology server to use for expanding value sets (set to x to disable) (default: "https://tx.fhir.org/r5/")
+  -l, --value-set-limit <number>    maximum number of values to include in value set lookups (default: 500)
+  -tId --template-id <oid>          templateId root for unrecognized templateId warning
   -p --profile <string>             process only a single profile (useful for testing)
   -h, --help                        display help for command
 ```
 
-By default, the converter will load and convert the current build of C-CDA R3.0, but you can convert other CDA IG's by specifying the IG in the startup parameter.
+By default, the converter will load and convert the current build of C-CDA R3.0, but you can convert other CDA IG's by specifying the IG in the startup parameter. Some of the other parameters:
+
+- `tId` - A warning will be created for any templateId encountered not found in the IG. To prevent false positives, this is limited to templateIds corresponding to the target IG only, which can often be identified via a substring of all templateIds. For example, C-CDA defaults to `2.16.840.1.113883.10.20.22`. Any templateIds which start with that substring but which are not found in the IG will be logged as a warning.
 
 ## Output
 While the converter runs, progress will be displayed on the console. Additionally, an `/output` folder will be created with the following artifacts generated:

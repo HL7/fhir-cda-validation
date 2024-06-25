@@ -3,6 +3,8 @@ import { Pattern } from "./pattern";
 import { ns } from ".";
 import { voc } from "../processing/terminology";
 import {version, name, repository } from '../../package.json';
+import { config } from "../processing/config";
+import { knownTemplateIds } from "../utils/logger";
 
 export class Schematron {
   public errors: Pattern[] = [];
@@ -25,6 +27,21 @@ export class Schematron {
   public addWarningPatterns = (patterns?: Pattern[]): Pattern[] => Array.isArray(patterns) ? patterns.map(this.addWarningPattern) : [];
   public addErrorPatterns = (patterns?: Pattern[]): Pattern[] => Array.isArray(patterns) ? patterns.map(this.addErrorPattern) : [];
 
+  private addTemplateIdPattern = () => {
+    if (knownTemplateIds.size === 0) return;
+
+    const knownTemplates = Array.from(knownTemplateIds).join(' ');
+
+    this.addWarningPattern('UnknownTemplateIds')
+      .addRule('unknown-template-ids', `cda:templateId[@root[starts-with(., '${config.commonTemplateIdRoot}')]]`)
+      .assert(
+        `contains(' ${knownTemplates} ', concat(' ', substring-after(@root, '${config.commonTemplateIdRoot}'), ';', @extension, ' '))`, 
+        `Unrecognized templateId <value-of select="string(concat(@root, ';', @extension, substring('no-extension', 1 div not(@extension))))" /> Please ensure this is the correct templateId.`,
+        undefined,
+        `The substring('no-extension'...) logic tells XPath 1.0 to only output the string if extension does not exist. XPath is weird.`
+      );
+  }
+
   public toXml = () => {
     const schematronXml = create({
       encoding: 'UTF-8',
@@ -39,6 +56,8 @@ export class Schematron {
     for (const prefix of Object.keys(ns)) {
       schematronXml.ele(ns.sch, 'ns', { prefix, uri: ns[prefix as keyof typeof ns] });
     }
+
+    this.addTemplateIdPattern();
 
     if (this.errors.length > 0) {
       const phase = schematronXml.ele(ns.sch, 'phase', { id: 'errors' });

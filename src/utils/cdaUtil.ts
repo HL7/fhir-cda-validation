@@ -2,6 +2,7 @@ import { Type } from "fhir-package-loader";
 import { StructureDefinition } from "../processing/structureDefinition";
 import { defs } from "./definitions";
 import { ProfiledToSubProfile } from "./errors";
+import { logTemplateId } from "./logger";
 
 const cdaRoot = 'http://hl7.org/cda/stds/core/StructureDefinition/';
 
@@ -201,6 +202,7 @@ export const profileFromDef = (element: fhir5.ElementDefinition) => {
 export const templateIdContext = (identifier: string) => {
   const matches = identifier.match(/^urn:(?:oid|hl7ii):(\d(?:\.\d+)+)(?::([^:]+))?$/);
   if (matches) {
+    logTemplateId(matches[1], matches[2]);
     return matches[2] ? `cda:templateId[@root='${matches[1]}' and @extension='${matches[2]}']`
         : `cda:templateId[@root='${matches[1]}' and not(@extension)]`;
   }

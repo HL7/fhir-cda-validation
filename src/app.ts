@@ -41,6 +41,10 @@ program
     500
   )
   .option(
+    '-tId --template-id <oid>',
+    'templateId root for unrecognized templateId warning',
+  )
+  .option(
     '-p --profile <string>',
     'process only a single profile (useful for testing)'
   )
@@ -48,13 +52,16 @@ program
   .parse();
 
 const options = program.opts();
-updateConfigFromOptions(options);
-
 
 if (!inputIg) {
   logger.warn('No IG specified; using C-CDA 3.0 by default', { silent: true });
   inputIg = 'hl7.cda.us.ccda@3.0.0';
+  if (!options.templateId) {
+    options.templateId = '2.16.840.1.113883.10.20.22';
+  }
 }
+
+updateConfigFromOptions(options);
 inputIg = inputIg.replace('@', '#');  // either works for loadDeps; but only # works for finding the IGs
 
 if (!Array.isArray(options.dependency)) {
