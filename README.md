@@ -3,9 +3,6 @@ A standalone tool that can be used to convert any CDA implementation guide from 
 
 For more information on the tool and how it converts SD to schematron, see the [FHIR-CDA-Validation Confluence Documentation](https://confluence.hl7.org/display/SD/FHIR-CDA-Validation).
 
-> [!WARNING]
-> This software is currently under-development and may change significantly. It is not intended to be used for production CDA validation.
-
 # Installation
 The converter is a [TypeScript](https://www.typescriptlang.org/) project. At a minimum, it requires [Node.js](https://nodejs.org/) to build, test, and run the CLI. Users should install Node.js 18. Although previous versions of Node.js may work, they are not officially supported.
 
@@ -59,8 +56,8 @@ While the converter runs, progress will be displayed on the console. Additionall
 
 - `[IG].sch` - The generated Schematron file (where [IG] is the name of the IG, like `CCDA`)
 - `[IG]-Bindings.json` - A report of all value set bindings along with XPath for their location
+- `[IG]-Results.json` - Summarization of conversion results
 - `ValueSet-expansions.json` - Cached response to TX server's $expand calls - saves network calls between runs
-- `[IG]-Results.json` (coming soon) - Summarization of conversion results
 
 ## Validating the Generated Schematron
 The converter has its own internal test suite to verify conversion functions, but the generated `.sch` file should be examined for validity and appropriateness, as well. It should be run against known CDA samples to ensure it properly identifies errors and does not throw false-positives for valid examples.
