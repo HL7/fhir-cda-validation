@@ -2,10 +2,13 @@
   "extends": "@tsconfig/node20/tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
+    "rootDir": "src",
     // "module": "ESNext",
     // "moduleResolution":"NodeNext",
     "resolveJsonModule": true
   },
+  "include": ["src"],
+  "exclude": ["src/test"],
   "ts-node": {
     "esm": true,
     "experimentalSpecifierResolution": "node",

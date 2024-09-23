@@ -7,7 +7,11 @@ For more information on the tool and how it converts SD to schematron, see the [
 The converter is a [TypeScript](https://www.typescriptlang.org/) project. At a minimum, it requires [Node.js](https://nodejs.org/) to build, test, and run the CLI. Users should install Node.js 18. Although previous versions of Node.js may work, they are not officially supported.
 
 ## From npm
-// Coming soon ... npm!
+Once Node.js is installed, run the following command to install or update the converter:
+
+```sh
+npm install -g @hl7/fhir-cda-validation
+```
 
 ## From source
 
@@ -19,12 +23,18 @@ cd fhir-cda-validation                                   # navigate into the fol
 npm install                                              # install dependencies
 ```
 
+When running from source, start the converter and pass parameters using:
+
+```sh
+npm start -- --help
+```
+
 # Running the converter
 
 Run the following to see the help and possible options:
 
 ```sh
-npm start -- --help
+fhir-cda --help
 ```
 
 Something like the following will display (note - the following is an example; run the latest version with `--help` to see all available options:
