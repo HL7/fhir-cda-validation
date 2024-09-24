@@ -1,6 +1,6 @@
 {
   "name": "@hl7/fhir-cda-validation",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Validation assistance for CDA IGs written in FHIR StructureDefinition format",
   "main": "app.ts",
   "scripts": {
