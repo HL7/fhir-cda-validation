@@ -46,7 +46,7 @@ Usage: fhir-cda <ig> [options]
 FHIR/CDA Schematron Generator
 
 Arguments:
-  ig                                implementation guide to process
+  ig                                implementation guide to process (pass . to generate schematron for IG in the current directory)
 
 Options:
   -d, --dependency <dependency...>  additional dependencies to be loaded using format dependencyId@version
@@ -59,15 +59,24 @@ Options:
 
 By default, the converter will load and convert the current build of C-CDA R3.0, but you can convert other CDA IG's by specifying the IG in the startup parameter. Some of the other parameters:
 
-- `tId` - A warning will be created for any templateId encountered not found in the IG. To prevent false positives, this is limited to templateIds corresponding to the target IG only, which can often be identified via a substring of all templateIds. For example, C-CDA defaults to `2.16.840.1.113883.10.20.22`. Any templateIds which start with that substring but which are not found in the IG will be logged as a warning.
+- `tId`: A warning will be created for any templateId encountered not found in the IG. To prevent false positives, this is limited to templateIds corresponding to the target IG only, which can often be identified via a substring of all templateIds. For example, C-CDA defaults to `2.16.840.1.113883.10.20.22`. Any templateIds which start with that substring but which are not found in the IG will be logged as a warning.
 
 ## Output
 While the converter runs, progress will be displayed on the console. Additionally, an `/output` folder will be created with the following artifacts generated:
 
-- `[IG].sch` - The generated Schematron file (where [IG] is the name of the IG, like `CCDA`)
-- `[IG]-Bindings.json` - A report of all value set bindings along with XPath for their location
-- `[IG]-Results.json` - Summarization of conversion results
-- `ValueSet-expansions.json` - Cached response to TX server's $expand calls - saves network calls between runs
+- `[IG].sch`: The generated Schematron file (where [IG] is the name of the IG, like `CCDA`)
+- `[IG]-Bindings.json`: A report of all value set bindings along with XPath for their location
+- `[IG]-Results.json`: Summarization of conversion results
+- `ValueSet-expansions.json`: Cached response to TX server's $expand calls - saves network calls between runs
+
+### [IG]-Results.json Output File
+This file summarizes the conversion results. Here are detailed explanations for each field:
+
+- **errors**: Severe errors encountered during conversion. These typically indicate an issue within the converter itself. Please log a bug in GitHub if you encounter these.
+- **notices**: Alerts that may indicate issues with the implementation guide (e.g., incorrectly formatted ValueSet URLs).
+- **skippedTemplates**: Profiles/templates not included in the Schematron. CDA Schematron uses templateId to identify fragments to validate. All profiles need to either contain a templateId field & identifier or be used by other templates that include them.
+- **unhandledInvariants**: Invariants that the conversion could not handle. Rewriting the FHIRPath or enhancing the conversion tool may be necessary.
+- **nonLoadedValueSets**: Value Sets that could not be loaded, categorized by a code returned by either the terminology service or the converter.
 
 ## Validating the Generated Schematron
 The converter has its own internal test suite to verify conversion functions, but the generated `.sch` file should be examined for validity and appropriateness, as well. It should be run against known CDA samples to ensure it properly identifies errors and does not throw false-positives for valid examples.

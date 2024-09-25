@@ -17,7 +17,7 @@ program
   .usage('<ig> [options]')
   .argument(
     '[ig]',
-    'implementation guide to process'
+    'implementation guide to process (pass . to generate schematron for IG in the current directory)'
   )
   .option(
     '-d, --dependency <dependency...>',
@@ -68,7 +68,6 @@ if (!Array.isArray(options.dependency)) {
   options.dependency = [];
 }
 
-// TODO - need to load all deps if we want vocab
 if (options['terminologyServer'] && options['terminologyServer'].toLowerCase() !== 'x') {
   voc.setServerUrl(options['terminologyServer']);
 } else {
@@ -76,10 +75,16 @@ if (options['terminologyServer'] && options['terminologyServer'].toLowerCase() !
 }
 
 const printFailingInvariants = false;
+let processedTemplates = false;
+const excludedProfiles: fhir5.StructureDefinition[] = [];
 
 const dependencies = [inputIg, ...options.dependency];
 async function main() {
   const deps = await loadDefs(dependencies);
+
+  if (inputIg === '.') {
+    inputIg = deps.package;
+  }
 
   const ig: fhir5.ImplementationGuide = deps.allImplementationGuides(inputIg)[0];
 
@@ -105,16 +110,25 @@ async function main() {
       subProfiles.push(sd);
       continue;
     }
+    processedTemplates = true;
     if (processingResult.errorPattern) schematron.addErrorPattern(processingResult.errorPattern);
     if (processingResult.warningPattern) schematron.addWarningPattern(processingResult.warningPattern);
     mergeWith(unhandledInvariants, processingResult.unhandledInvariants, (o, s) => Array.isArray(o) ? o.concat(s) : o);
     mergeWith(subProfileContexts, processingResult.subProfileContexts, (o, s) => Array.isArray(o) ? o.concat(s) : o);
   };
 
+  if (!processedTemplates) {
+    logger.error('No CDA templates with templateId fields and identifiers found in the IG.');
+    process.exit(0);
+  }
+
   logger.info('Processing sub-profiles');
   for (const sd of subProfiles) {
     const context = subProfileContexts[sd.url];
-    if (!context) continue;  // Profiled to something we don't recognize (or to something like a datatype)
+    if (!context) {    // Profiled to something we don't recognize (or to something like a datatype)
+      excludedProfiles.push(sd);
+      continue;
+    }
 
     const processingResult = await new StructureDefinition(sd).process(context.join(' | '));
     if (processingResult.errorPattern) schematron.addErrorPattern(processingResult.errorPattern);
@@ -137,6 +151,7 @@ async function main() {
   const results = {
     errors,
     notices,
+    skippedTemplates: excludedProfiles.map(p => p.url),
     unhandledInvariants,
     nonLoadedValueSets: voc.nonLoadedValueSets
   };
