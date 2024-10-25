@@ -64,6 +64,6 @@ export const valueSetOrCodeSystemToOID = (vsOrCs: fhir5.ValueSet | fhir5.CodeSys
 }
 
 export function isOID(value: string): boolean {
-  const oidRegex = /^urn:oid:\d+(\.\d+)*$/;
+  const oidRegex = /^\d+(\.\d+)*$/;
   return oidRegex.test(value);
 }
