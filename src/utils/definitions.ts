@@ -3,6 +3,7 @@ import { logMessage, logger } from "./logger";
 import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
 import { ImplementationGuide } from "fhir/r5";
+import { updateConfigFromIG } from "../processing/config";
 
 export let defs = new FHIRDefinitions();
 
@@ -22,8 +23,10 @@ async function loadLocalIG() {
   if (!ig) {
     throw new Error('No ImplementationGuide found in output directory');
   }
-  defs.package = ig.id!;
-  logger.info(`Loaded ImplementationGuide ${ig.packageId}@${ig.version}`);
+  updateConfigFromIG(ig);
+  const packageId = `${ig.packageId}#${ig.version}`;
+  logger.info(`Loaded ImplementationGuide ${packageId}`);
+  return packageId;
 }
 
 export async function loadDefs(
@@ -31,13 +34,14 @@ export async function loadDefs(
 ) {
   const octoDeps = dependencies.map(d => d.replace('@', '#'));
   if (dependencies.length > 0 && dependencies[0] === '.') {
-    loadLocalIG();
+    const packageId = await loadLocalIG();
     dependencies.shift();
     for (const dep of dependencies) {
       const [packageId, version] = dep.split('@');
       defs = await loadDependency(packageId, version, defs);
       octoDeps.push(`${packageId}#${version}`);
     }
+    defs.package = packageId;
   } else {
     defs = await loadDependencies(octoDeps, undefined, logMessage);
   }

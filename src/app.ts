@@ -7,7 +7,7 @@ import { mkdir, writeFile } from "fs/promises";
 import { isEqual, merge, mergeWith, uniqWith } from "lodash";
 import { voc } from "./processing/terminology";
 import { InvalidOptionArgumentError, program } from "commander";
-import { updateConfigFromOptions } from "./processing/config";
+import { config, updateConfigFromOptions } from "./processing/config";
 
 let inputIg: string = '';
 
@@ -61,8 +61,8 @@ if (!inputIg) {
   }
 }
 
-updateConfigFromOptions(options);
 inputIg = inputIg.replace('@', '#');  // either works for loadDeps; but only # works for finding the IGs
+updateConfigFromOptions(options, inputIg);
 
 if (!Array.isArray(options.dependency)) {
   options.dependency = [];
@@ -82,21 +82,17 @@ const dependencies = [inputIg, ...options.dependency];
 async function main() {
   const deps = await loadDefs(dependencies);
 
-  if (inputIg === '.') {
-    inputIg = deps.package;
-  }
-
-  const ig: fhir5.ImplementationGuide = deps.allImplementationGuides(inputIg)[0];
+  const packageId = config.igPackage;
+  const ig: fhir5.ImplementationGuide = deps.allImplementationGuides(packageId)[0];
 
   const unhandledInvariants: Record<string, fhir5.ElementDefinitionConstraint[]> = {};
-
   const schematron = new sch.Schematron();
 
-  const profiles = deps.allProfiles(inputIg.replace('@', '#')) // allProfiles only wants #
+  const profiles = deps.allProfiles(packageId.replace('@', '#')) // allProfiles only wants #
     .filter((p) => options.profile ? p.name === options.profile : true);
   
   if (profiles.length === 0) {
-    logger.error(options.profile ? `Profile ${options.profile} not found in ${inputIg}` : 'No profiles found to process');
+    logger.error(options.profile ? `Profile ${options.profile} not found in ${packageId}` : 'No profiles found to process');
     process.exit(0);
   }
 
