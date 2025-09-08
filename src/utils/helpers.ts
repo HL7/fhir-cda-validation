@@ -52,6 +52,10 @@ export const flattenConcepts = (concepts: fhir5.ValueSetExpansionContains[]): fh
   return concepts.flatMap((c) => c.contains ? [omit(c, 'contains'), ...flattenConcepts(c.contains)] : c);
 }
 
+export const flattenCSConcepts = (concepts: fhir5.CodeSystemConcept[]): fhir5.CodeSystemConcept[] => {
+  return concepts.flatMap((c) => c.concept ? [omit(c, 'concept'), ...flattenCSConcepts(c.concept)] : c);
+}
+
 export const filterConcept = (concept: fhir5.ValueSetExpansionContains): boolean => {
   if (concept.property?.find(p => p.code === 'notSelectable')?.valueBoolean) return false;
 

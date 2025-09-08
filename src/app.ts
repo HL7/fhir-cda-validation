@@ -26,7 +26,7 @@ program
   .option(
     '-t, --terminology-server <url>',
     'terminology server to use for expanding value sets (set to x to disable)',
-    'https://tx.fhir.org/r5/'
+    'https://tx.fhir.org/r5'
   )
   .option(
     '-l, --value-set-limit <number>',
@@ -38,7 +38,7 @@ program
       }
       return parsedInt;
     },
-    500
+    1000
   )
   .option(
     '-tId --template-id <oid>',
@@ -53,33 +53,33 @@ program
 
 const options = program.opts();
 
-if (!inputIg) {
-  logger.warn('No IG specified; using C-CDA 3.0 by default', { silent: true });
-  inputIg = 'hl7.cda.us.ccda@3.0.0';
-  if (!options.templateId) {
-    options.templateId = '2.16.840.1.113883.10.20.22';
-  }
-}
-
-inputIg = inputIg.replace('@', '#');  // either works for loadDeps; but only # works for finding the IGs
-updateConfigFromOptions(options, inputIg);
-
-if (!Array.isArray(options.dependency)) {
-  options.dependency = [];
-}
-
-if (options['terminologyServer'] && options['terminologyServer'].toLowerCase() !== 'x') {
-  voc.setServerUrl(options['terminologyServer']);
-} else {
-  logger.warn('No terminology server provided; external value sets will not be expanded');
-}
-
-const printFailingInvariants = false;
-let processedTemplates = false;
-const excludedProfiles: fhir5.StructureDefinition[] = [];
-
-const dependencies = [inputIg, ...options.dependency];
 async function main() {
+  if (!inputIg) {
+    logger.warn('No IG specified; using C-CDA 3.0 by default', { silent: true });
+    inputIg = 'hl7.cda.us.ccda@3.0.0';
+    if (!options.templateId) {
+      options.templateId = '2.16.840.1.113883.10.20.22';
+    }
+  }
+
+  inputIg = inputIg.replace('@', '#');  // either works for loadDeps; but only # works for finding the IGs
+  updateConfigFromOptions(options, inputIg);
+
+  if (!Array.isArray(options.dependency)) {
+    options.dependency = [];
+  }
+
+  if (options['terminologyServer'] && options['terminologyServer'].toLowerCase() !== 'x') {
+    await voc.setServerUrl(options['terminologyServer']);
+  } else {
+    logger.warn('No terminology server provided; external value sets will not be expanded');
+  }
+
+  const printFailingInvariants = false;
+  let processedTemplates = false;
+  const excludedProfiles: fhir5.StructureDefinition[] = [];
+
+  const dependencies = [inputIg, ...options.dependency];
   const deps = await loadDefs(dependencies);
 
   const packageId = config.igPackage;
@@ -141,7 +141,9 @@ async function main() {
   logger.info('Writing output files...');
   await mkdir('./output', {}).catch(e => { if (e.code !== 'EEXIST') throw e; });
   await writeFile(`./output/${ig.name}.sch`, schematron.toXml(), 'utf-8');
+  logger.info(`output/${ig.name}.sch written`);
   await writeFile(`./output/${ig.name}-Bindings.json`, voc.bindings(), 'utf-8');
+  logger.info(`output/${ig.name}-Bindings.json written`);
 
   // Generate results
   const results = {
@@ -152,6 +154,7 @@ async function main() {
     nonLoadedValueSets: voc.nonLoadedValueSets
   };
   await writeFile(`./output/${ig.name}-Results.json`, JSON.stringify(results, null, 2), 'utf-8');
+  logger.info(`output/${ig.name}-Results.json written`);
 
   voc.saveCache();
   logger.info('Complete');

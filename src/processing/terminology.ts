@@ -4,7 +4,7 @@ import { AxiosResponse, get, post } from "axios";
 import { logger } from "../utils/logger";
 import { create, fragment } from "xmlbuilder2";
 import { ns } from "../model";
-import { filterConcept, flattenConcepts, getErrorMessage, valueSetOrCodeSystemToOID, vsUrlToNCName } from "../utils/helpers";
+import { filterConcept, flattenConcepts, flattenCSConcepts, getErrorMessage, valueSetOrCodeSystemToOID, vsUrlToNCName } from "../utils/helpers";
 import { groupBy } from "lodash";
 import { config } from "./config";
 import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "fs";
@@ -76,10 +76,20 @@ class TerminologyPool {
     }
   }
 
-  public setServerUrl = (url: string): boolean => {
-    // TODO - ping!
-    this.serverUrl = url;
-    return true;
+  public setServerUrl = async (url: string) => {
+    // this.serverUrl = url;
+    const errorPS = this.serverUrl ? ` - falling back to original server: ${this.serverUrl}` : '';
+    try {
+      const response = await get('CapabilityStatement', { baseURL: url });
+      if (response.status === 200) {
+        logger.info(`Tx server set to ${url}`);
+        this.serverUrl = url;
+      } else {
+        logger.warn(`Tx server ${url} failed: ${response.status}${errorPS}`);
+      }
+    } catch (e) {
+      logger.warn(`Tx server ${url} failed: ${getErrorMessage(e)}${errorPS}`);
+    }
   }
 
   /**
@@ -220,7 +230,7 @@ class TerminologyPool {
     if (!vs.url) {
       return this.unsupportedValueSet(valueSetId, 'missing-url');
     }
-    if (vs.expansion?.contains) {
+    if (this.primitiveExpand(vs) || vs.expansion?.contains) {
       return this.saveValueSetToCache(vs, valueSetId);
     }
     if (this.apiCache[valueSetId]) {
@@ -262,6 +272,68 @@ class TerminologyPool {
     };
      
   }
+
+  /**
+   * Uber-basic function to expand extensional (enumerated) value sets,
+   * setting expansion.contains to the codes from compose.include.concept
+   * 
+   * Will not work for filtered or excluded value sets or for value sets 
+   * which are the "entire code system" (i.e. no compose.include.concept).
+   * @param vs 
+   * @returns 
+   */
+  public primitiveExpand = (vs: fhir5.ValueSet): boolean => {
+    // No need to expand if already expanded
+    // And we're only supporting specifically-included codes
+    if (vs.expansion?.contains || vs.compose?.exclude?.length || vs.compose?.include.find(i => i.filter?.length)) return false;
+
+    if (!vs.compose?.include.find(i => i.concept?.length)) return false;
+
+    try {
+      vs.expansion = {
+        timestamp: new Date().toISOString(),
+        contains: vs.compose?.include.flatMap(include => {
+          if (include.filter?.length) throw new Error(`Cannot expand value set ${vs.id} with filters in compose.include: ${include.filter.map(f => f.property).join(', ')}`);
+          // Include full other value set
+          if (include.valueSet?.length) {
+            if (include.system) throw new Error(`include.valueSet + include.system not supported yet`);
+            return include.valueSet.flatMap(subVs => this.primitiveValueSetExpandConcepts(subVs));
+          }
+          if (!include.system) throw new Error(`Cannot expand value set ${vs.id} with no system in compose.include: ${JSON.stringify(include)}`);
+
+          const concepts = include.concept?.length ? include.concept : this.primitiveCodeSystemExpandConcepts(include.system);
+
+          return concepts.map(concept => ({
+            code: concept.code,
+            display: concept.display,
+            system: include.system,
+            version: include.version,
+          }));
+        })
+      }
+      return true;
+    } catch (e) {
+      logger.error(`Failed to expand value set ${vs.id}: ${getErrorMessage(e)}`);
+      return false;
+    }
+  }
+
+  private primitiveValueSetExpandConcepts = (vs: string): fhir5.ValueSetExpansionContains[] => {
+    const valueSet: fhir5.ValueSet = defs.fishForFHIR(vs, Type.ValueSet);
+    if (this.primitiveExpand(valueSet)) {
+      return valueSet.expansion!.contains!;
+    }
+    throw new Error(`Unable to expand dependeent value set ${vs}`);
+  }
+
+  private primitiveCodeSystemExpandConcepts = (systemUri: string): fhir5.CodeSystemConcept[] => {
+    const cs: fhir5.CodeSystem = defs.fishForFHIR(systemUri, Type.CodeSystem);
+    if (!cs) throw new Error(`System ${systemUri} is not loaded`);
+    if (!cs.concept || cs.concept.length === 0)  throw new Error(`System ${systemUri} has no concepts`);
+
+    return flattenCSConcepts(cs.concept);
+  }
+
 
   public saveBinding = (xpath: string, valueSetId: string, strength: fhir5.ElementDefinitionBinding['strength']) => {
     const { name, oid } = this.loadedValueSets[valueSetId] ?? {};
