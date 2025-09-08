@@ -74,7 +74,7 @@ w: precise to at least the minute
                 <birthTime value="19750501"/>
                 <maritalStatusCode code="M" displayName="Married" codeSystem="2.16.840.1.113883.5.2" codeSystemName="MaritalStatusCode"/>
                 <religiousAffiliationCode code="1013" displayName="Christian (non-Catholic, non-specific)" codeSystem="2.16.840.1.113883.5.1076" codeSystemName="HL7 Religious Affiliation"/>
-                <!-- e: SHALL be selected from ValueSet RaceCategoryExcludingNulls -->
+                <!-- e: SHALL be selected from ValueSet -->
                 <raceCode code="xx" displayName="Native Hawaiian or Other Pacific Islander" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC"/>
                 <sdtc:raceCode code="2079-2" displayName="Native Hawaiian" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC"/>
                 <sdtc:raceCode code="1074-4" displayName="Spanish American Indian" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC"/>
@@ -926,6 +926,11 @@ w: precise to at least the minute
                                     <statusCode code="completed" />
                                     <effectiveTime value="20130512120000-0700" />
                                     <targetSiteCode code="28273000" displayName="bile duct" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" />
+                                    <specimen>
+                                        <specimenRole>
+                                            <id root="b204d8d9-3de4-4a3b-a28f-ff6d70b113c1" />
+                                        </specimenRole>
+                                    </specimen>
                                     <entryRelationship typeCode="SUBJ">
                                         <act classCode="ACT" moodCode="EVN">
                                             <templateId root="2.16.840.1.113883.10.20.22.4.122" />

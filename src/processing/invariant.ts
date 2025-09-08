@@ -117,8 +117,9 @@ export const convertExpression = (originalExpression: string, originalSd: Struct
       // Matches 
       // ^:    field.where()  - [1] = field
       // ).    (parenth).field.where() - [1] = field
-      const contextMatch = expression.slice(0, parenPos + 1).match(/(?:^|\s|\)\.)(%?\w+(?:\.\w+)*)\.(?:exists|where)\($/i)
-        || expression.slice(0, parenPos + 1).match(/(?:^|\s)\((\w+)\)\.(?:exists|where)\($/i);
+      const preParen = expression.slice(0, parenPos).replace(/\.(?:exists|where)\(tt\d+\)/g,''); // remove any previously-tokenized where's
+      const contextMatch = preParen.match(/(?:^|\s|\)\.)(%?\w+(?:\.\w+)*)\.(?:exists|where)$/i)
+        || preParen.match(/(?:^|\s)\((\w+)\)\.(?:exists|where)$/i);
       // TODO - need to grab context from nested where's (just getting lucky on PolicyActivity)
       if (contextMatch) {
         newSubContext = contextMatch[1];
@@ -351,7 +352,7 @@ export const convertExpression = (originalExpression: string, originalSd: Struct
     let xpath;
     // TODO - this is a mess - if there's a subcontext, this might throw an error, but we want to ignore it
     try {
-      xpath = sd.pathToXpath(context, unwrapParens(expression)) || xmlNameFromDefs(sd.elementDefAtId(context)!, expression);
+      xpath = subContext ? '' : sd.pathToXpath(context, unwrapParens(expression)) || xmlNameFromDefs(sd.elementDefAtId(context)!, expression);
     } catch (e) {
       if (!subContext) throw e;
     }
