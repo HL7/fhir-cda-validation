@@ -323,7 +323,7 @@ class TerminologyPool {
     if (this.primitiveExpand(valueSet)) {
       return valueSet.expansion!.contains!;
     }
-    throw new Error(`Unable to expand dependeent value set ${vs}`);
+    throw new Error(`Unable to expand dependent value set ${vs}`);
   }
 
   private primitiveCodeSystemExpandConcepts = (systemUri: string): fhir5.CodeSystemConcept[] => {
